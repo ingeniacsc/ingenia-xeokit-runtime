@@ -172,10 +172,13 @@ jobs:
             printf 'status=PRE_RELEASE_PREFLIGHT_ONLY\n'
             printf 'deployment=NONE\n'
             printf 'release_tag=NONE\n'
+            printf 'cleanup_required=MANUAL_AFTER_EVIDENCE_ACCEPTED\n'
             printf 'version=%s\n' "$RELEASE_VERSION"
             printf 'revision=%s\n' "$RELEASE_REVISION"
             printf 'source=%s\n' "$RELEASE_SOURCE_URL"
             printf 'allowed_parent_origins=%s\n' "$RELEASE_ALLOWED_PARENT_ORIGINS"
+            printf 'viewer_tag=ghcr.io/ingeniacsc/ingenia-xeokit-viewer:%s\n' "$PREFLIGHT_IMAGE_TAG"
+            printf 'converter_tag=ghcr.io/ingeniacsc/ingenia-xeokit-converter:%s\n' "$PREFLIGHT_IMAGE_TAG"
             printf 'viewer_digest=%s\n' "$VIEWER_DIGEST"
             printf 'converter_digest=%s\n' "$CONVERTER_DIGEST"
           } > release-preflight-binding.txt

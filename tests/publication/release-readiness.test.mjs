@@ -152,7 +152,11 @@ test("release paths require real conversion and the reviewed dual-origin image",
 });
 
 test("manual publication preflight proves registry push and provenance without a release tag", async () => {
-  const preflight = await source(".github/workflows/release-preflight.yml");
+  const [preflight, release, readme] = await Promise.all([
+    source(".github/workflows/release-preflight.yml"),
+    source(".github/workflows/release.yml"),
+    source("README.md"),
+  ]);
   assert.match(preflight, /workflow_dispatch:/);
   assert.match(preflight, /packages: write/);
   assert.match(preflight, /id-token: write/);
@@ -161,7 +165,13 @@ test("manual publication preflight proves registry push and provenance without a
   assert.match(preflight, /status=PRE_RELEASE_PREFLIGHT_ONLY/);
   assert.match(preflight, /deployment=NONE/);
   assert.match(preflight, /release_tag=NONE/);
+  assert.match(preflight, /cleanup_required=MANUAL_AFTER_EVIDENCE_ACCEPTED/);
+  assert.match(preflight, /viewer_tag=ghcr\.io\/ingeniacsc\/ingenia-xeokit-viewer:%s/);
+  assert.match(preflight, /converter_tag=ghcr\.io\/ingeniacsc\/ingenia-xeokit-converter:%s/);
   assert.doesNotMatch(preflight, /^\s*tags:\s*\[?"?v\*/m);
+  assert.match(release, /^\s*tags:\s*\["v\*"\]/m);
+  assert.match(readme, /creating and pushing a tag such as\s+`v0\.2\.0-rc\.1` is the real release action/);
+  assert.match(readme, /delete only the two package versions carrying that run's exact\s+`preflight-\*` tag/);
 });
 
 test("publication scanner passes the candidate and blocks high-risk examples", async () => {

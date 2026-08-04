@@ -46,6 +46,22 @@ pulls the images, so the preflight also fails until both container packages are
 actually public. A passing preflight is required evidence, not authorization
 to release.
 
+There is no separate dormant-tag step in this repository. `release.yml` is
+triggered by every pushed `v*` tag, so creating and pushing a tag such as
+`v0.2.0-rc.1` is the real release action: it immediately starts the GHCR image
+publication and provenance workflow. Tag authority must therefore be obtained
+only after preflight evidence has been accepted.
+
+Each preflight run creates one clearly labelled package version under each of
+`ingenia-xeokit-viewer` and `ingenia-xeokit-converter`. The uploaded
+`release-preflight-binding.txt` records the exact tag and digest. Retain those
+versions until the run evidence and anonymous digest pulls have been accepted;
+then delete only the two package versions carrying that run's exact
+`preflight-*` tag through GitHub Packages administration. Never delete the
+package namespace, and never delete a digest referenced by a canary or audit
+record. Cleanup is deliberately manual and is not a release or deployment
+step.
+
 ## Publication gate
 
 The root includes the complete AGPLv3 text copied from the exact pinned xeokit
