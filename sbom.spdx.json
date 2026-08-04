@@ -1,0 +1,4873 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "ingenia-xeokit-runtime-0.2.0-dev",
+  "documentNamespace": "https://github.com/ingeniacsc/ingenia-xeokit-runtime/sbom/0000000000000000000000000000000000000000/0.2.0-dev",
+  "creationInfo": {
+    "created": "2026-08-03T00:00:00.000Z",
+    "creators": [
+      "Tool: npm/cli-11.8.0"
+    ],
+    "comment": "Corresponding Source: https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000"
+  },
+  "documentDescribes": [
+    "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev"
+  ],
+  "packages": [
+    {
+      "name": "ingenia-xeokit-runtime",
+      "SPDXID": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "versionInfo": "0.2.0-dev",
+      "packageFileName": "",
+      "primaryPackagePurpose": "LIBRARY",
+      "downloadLocation": "https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "AGPL-3.0-only",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ingenia-xeokit-runtime@0.2.0-dev"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/core",
+      "SPDXID": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/core",
+      "description": "The core API for working with loaders.gl loaders and writers",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/core/-/core-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/core@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "706d02e5f319d63c96e960ac7f82e81c6bda20024211503f8a8a8aa18470a127d790e7fed7b2aea4ad4e510c940b0e57a119fea1603516e94940e6255e76fd1b"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/crypto",
+      "SPDXID": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/crypto",
+      "description": "Cryptographic/hashing plugins for loaders.gl",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/crypto/-/crypto-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/crypto@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "dd54b9160078e272ce94007d43cd953909d3d4896dc1f45ad66884d26a4709ed69ad8bb533f74c9c4cb29eeb1baeca7e783b3710a6f1a60b884bd1d4b05bb975"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/draco",
+      "SPDXID": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/draco",
+      "description": "Framework-independent loader and writer for Draco compressed meshes and point clouds",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/draco/-/draco-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/draco@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e0bc74aca99810d1aca6f7205795c3a450fda3e35a997a1acd24a5f4e6b7a635558e8f8726ecc282bc534180ffdc9bd1ae8956fd045e8597960ff2ff7040ba9b"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/gis",
+      "SPDXID": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/gis",
+      "description": "Helpers for GIS category data",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/gis/-/gis-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/gis@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "f31b9bdfc952596efe6575ae51c82093b6a0447254cba45d8a92cd299f74784d19ccb3460ecb460f5aa207092fa87d00906faecf807b2a48a9b7297bc3639aea"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/gltf",
+      "SPDXID": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/gltf",
+      "description": "Framework-independent loader for the glTF format",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/gltf/-/gltf-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/gltf@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "12251388b18c7ee90b77d5bdf303292a6c3e855461434749dfbc1d9572bdf173de18607ecd343109c418fbf05a321b12a58b7f38e2657878537f036bf1183346"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/images",
+      "SPDXID": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/images",
+      "description": "Framework-independent loaders and writers for images (PNG, JPG, ...)",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/images/-/images-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/images@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "aa0737dc168db2a37d7166bfc6f706bd0e74c060ce3604107731c22830ca855db0feea6d6684798a87c97ee1bc514576bd430c77cd9493dcdba29471dab4b802"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/json",
+      "SPDXID": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/json",
+      "description": "Framework-independent loader for JSON and streaming JSON formats",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/json/-/json-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/json@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3cd4d218641d2753bceecf2b78ecd6c70414cbf5b6936c9e0c038d759967caa11330d73fcffd66139fad09423e2b4916745d6d809da86df3054b5a4b8a1ba216"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/las",
+      "SPDXID": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/las",
+      "description": "Framework-independent loader for the LAS and LAZ formats",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/las/-/las-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/las@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "286c95b92430a6754efd1087605f084e40ddec3a579e100f0e980630206ba56bc1b9b01b218dfca0fd2e19e70d3bf1d57d1540a2f0c4a1b64808ddee431d967a"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/loader-utils",
+      "SPDXID": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/loader-utils",
+      "description": "Framework-independent loaders for 3D graphics formats",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/loader-utils/-/loader-utils-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/loader-utils@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b63319be529049a325daa9984c0c60fb2491eb377a8509f99f75da53cf84869f744c3dd6cf1bc328e30d0ea39aef67c598857e2a03e17262094e9ab8940742e1"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/obj",
+      "SPDXID": "SPDXRef-Package-loaders.gl.obj-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/obj",
+      "description": "Framework-independent loader for the OBJ format",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/obj/-/obj-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/obj@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "45d9fe3478cb2348ca62b28d89c26e409a219c787b400bf8b330a38bc79a7d860cad5b522289cda3305751f7bf73857b1cbfc556fbc70a47c2ebaaef2ef6b269"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/ply",
+      "SPDXID": "SPDXRef-Package-loaders.gl.ply-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/ply",
+      "description": "Framework-independent loader for the PLY format",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/ply/-/ply-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/ply@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "f7f8a37082b6c4fd1c812337066a12e495df4577ba3cab8818736d7aa24786b4399f0c7552bba99ac60f5e3e7c172918559c7a3d306c84cb3d3a6217bcf1ddbb"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/polyfills",
+      "SPDXID": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/polyfills",
+      "description": "Polyfills for TextEncoder/TextDecoder",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/polyfills/-/polyfills-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/polyfills@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "acbee6b73c98d582c545b0f0ecd0235c90ffcd0b93e81321206408fd49ce723ff0f48fdd0caabe964f7f2ecc9148d754abaf2000fb47fcf4d5a653c901a5bce4"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/schema",
+      "SPDXID": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/schema",
+      "description": "Table format APIs for JSON, CSV, etc...",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/schema/-/schema-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/schema@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d584d8a1ab60cebffa253c6a04bc03883dc0546c10661798890c008a659d441541d09033c9c87bb35c81b84d02544ce3e090cf28ecd5033f0a9d4d53881bc91b"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/textures",
+      "SPDXID": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/textures",
+      "description": "Framework-independent loaders for compressed and super compressed (basis) textures ",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/textures/-/textures-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/textures@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "6ab5880e3944ec96834babfd6f2ee3b8b7f13c61a78d3f498e579a5f1df0abf3d3a7ea6c2cea46532c075e6dfc04d102a2cdcc14440adff1854a1588fbf7563f"
+        }
+      ]
+    },
+    {
+      "name": "@loaders.gl/worker-utils",
+      "SPDXID": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "versionInfo": "4.3.4",
+      "packageFileName": "node_modules/@loaders.gl/worker-utils",
+      "description": "Utilities for running tasks on worker threads",
+      "downloadLocation": "https://registry.npmjs.org/@loaders.gl/worker-utils/-/worker-utils-4.3.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40loaders.gl/worker-utils@4.3.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "11bb2cceb012813f39187dc1ee3931ed85df432218a3fae5a1bc0cc7a5777b01136a93d4c1d480227bfef3d7e59e4e67d9ebb62e975e87edb34ba3efa9b2f644"
+        }
+      ]
+    },
+    {
+      "name": "@mapbox/point-geometry",
+      "SPDXID": "SPDXRef-Package-mapbox.point-geometry-0.1.0",
+      "versionInfo": "0.1.0",
+      "packageFileName": "node_modules/@mapbox/point-geometry",
+      "description": "a point geometry with transforms",
+      "downloadLocation": "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/mapbox/point-geometry",
+      "licenseDeclared": "ISC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40mapbox/point-geometry@0.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "ea3e7a1dd2d3c1618ed1f24f96b66d754fc1d77abc5309a8d7c0a4d869c680df4f085c8a4d9dd46d7784751161d7c8bd5d0f76787d9576da491e9043ddaae2a5"
+        }
+      ]
+    },
+    {
+      "name": "@mapbox/vector-tile",
+      "SPDXID": "SPDXRef-Package-mapbox.vector-tile-1.3.1",
+      "versionInfo": "1.3.1",
+      "packageFileName": "node_modules/@mapbox/vector-tile",
+      "description": "Parses vector tiles",
+      "downloadLocation": "https://registry.npmjs.org/@mapbox/vector-tile/-/vector-tile-1.3.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40mapbox/vector-tile@1.3.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "30211d75bf2ee38ff17d0de80fe4ab97fb4d710a2a4f0de0a06936a0bb2b171393737754a7e9009dbcb73ef01e7816123128d23c3d6777500903a5b8f569e853"
+        }
+      ]
+    },
+    {
+      "name": "@math.gl/core",
+      "SPDXID": "SPDXRef-Package-math.gl.core-4.1.0",
+      "versionInfo": "4.1.0",
+      "packageFileName": "node_modules/@math.gl/core",
+      "description": "Array-based 3D Math Classes optimized for WebGL applications",
+      "downloadLocation": "https://registry.npmjs.org/@math.gl/core/-/core-4.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40math.gl/core@4.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "16b747042546dd076bc28af0ad44b35c868afbff4e0912ec731236394cbab0b387c878013327e7106b3df7f9b728dbecfbde41b2740b5a49557e929f4337f028"
+        }
+      ]
+    },
+    {
+      "name": "@math.gl/polygon",
+      "SPDXID": "SPDXRef-Package-math.gl.polygon-4.1.0",
+      "versionInfo": "4.1.0",
+      "packageFileName": "node_modules/@math.gl/polygon",
+      "description": "Polygon/polyline processing utilities",
+      "downloadLocation": "https://registry.npmjs.org/@math.gl/polygon/-/polygon-4.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40math.gl/polygon@4.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "600ffd3f36824476c83f9ff413db9362ba9efa3b184d0a2aa035a17fafdbd08c73f1b3d905a18311a7cb837cfb7df0689992da714b72f54dd394f8ea32dccf8c"
+        }
+      ]
+    },
+    {
+      "name": "@math.gl/types",
+      "SPDXID": "SPDXRef-Package-math.gl.types-4.1.0",
+      "versionInfo": "4.1.0",
+      "packageFileName": "node_modules/@math.gl/types",
+      "description": "TypeScript types for math.gl",
+      "downloadLocation": "https://registry.npmjs.org/@math.gl/types/-/types-4.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40math.gl/types@4.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "72561974772646f33354ae5f8de0e44251d4cd741235d67bb38c4ea82de724f833e02fd366451e713a3d612e0faee66ab4375afda8387ab9dd3f43089f8d1d18"
+        }
+      ]
+    },
+    {
+      "name": "@probe.gl/env",
+      "SPDXID": "SPDXRef-Package-probe.gl.env-4.1.1",
+      "versionInfo": "4.1.1",
+      "packageFileName": "node_modules/@probe.gl/env",
+      "description": "JavaScript environment detection for browser and Node",
+      "downloadLocation": "https://registry.npmjs.org/@probe.gl/env/-/env-4.1.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40probe.gl/env@4.1.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "fbaf2c78d0cc56c11e811078ee9140fd6b35163cbc6a0705617c73a2b293a323dc0facddfa0679ba1c282dded3cec4b0e98767b3fff6284b335a7f849cd1d36c"
+        }
+      ]
+    },
+    {
+      "name": "@probe.gl/log",
+      "SPDXID": "SPDXRef-Package-probe.gl.log-4.1.1",
+      "versionInfo": "4.1.1",
+      "packageFileName": "node_modules/@probe.gl/log",
+      "description": "JavaScript debug logging for browser and Node",
+      "downloadLocation": "https://registry.npmjs.org/@probe.gl/log/-/log-4.1.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40probe.gl/log@4.1.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "91c66cf414f8e292fb852d4e91118a6115c8fd237d29e8d494f0fe058e340e0b912f3742e6d2c6ff6f1618cc9f29d9ffe75193e1ad29fb43fcc6f0e7d44cfe2a"
+        }
+      ]
+    },
+    {
+      "name": "@probe.gl/stats",
+      "SPDXID": "SPDXRef-Package-probe.gl.stats-4.1.1",
+      "versionInfo": "4.1.1",
+      "packageFileName": "node_modules/@probe.gl/stats",
+      "description": "Stats object for reporting performance statistics",
+      "downloadLocation": "https://registry.npmjs.org/@probe.gl/stats/-/stats-4.1.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40probe.gl/stats@4.1.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e15a40c8c1ceab2752bcf944c87c17684f80908751d379d7f90865c6c9360ff216e0e5660d9808b2f241d5c0f3c8412d71f29c9da11b7d77a23e07a305c793ea"
+        }
+      ]
+    },
+    {
+      "name": "@types/crypto-js",
+      "SPDXID": "SPDXRef-Package-types.crypto-js-4.2.2",
+      "versionInfo": "4.2.2",
+      "packageFileName": "node_modules/@types/crypto-js",
+      "description": "TypeScript definitions for crypto-js",
+      "downloadLocation": "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.2.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/crypto-js",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40types/crypto-js@4.2.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b0338b9556c7857a405002f46070d45300d97f788de01c22e16e9ad16d1bf907007b351b46d1f81556fef49e21f9714f5bb97f810f45f2a0bb3fe11ce24f1055"
+        }
+      ]
+    },
+    {
+      "name": "@types/geojson",
+      "SPDXID": "SPDXRef-Package-types.geojson-7946.0.16",
+      "versionInfo": "7946.0.16",
+      "packageFileName": "node_modules/@types/geojson",
+      "description": "TypeScript definitions for geojson",
+      "downloadLocation": "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/geojson",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40types/geojson@7946.0.16"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e82f27a96babde3f7c53afa55c37d351621f82f654f84ba6be91ca7188ee8ca1fbc286322e3dac5267dfd2d461aea33b068854c3b3f3dd90758e3da05bd16f9a"
+        }
+      ]
+    },
+    {
+      "name": "@xeokit/xeokit-convert",
+      "SPDXID": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "versionInfo": "1.3.2",
+      "packageFileName": "node_modules/@xeokit/xeokit-convert",
+      "description": "JavaScript utilities to create .XKT files",
+      "downloadLocation": "https://registry.npmjs.org/@xeokit/xeokit-convert/-/xeokit-convert-1.3.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/xeokit/xeokit-convert#readme",
+      "licenseDeclared": "LICENSE",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40xeokit/xeokit-convert@1.3.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "32013c7834dfa0ad9d12026c6241178b55b3c36141884dd0a615ba91bdaccee007c260c991bb7a2014b9053f88fca6c200c196cd66c7356f78d83022cbf4727b"
+        }
+      ]
+    },
+    {
+      "name": "@xeokit/xeokit-sdk",
+      "SPDXID": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "versionInfo": "2.6.107",
+      "packageFileName": "node_modules/@xeokit/xeokit-sdk",
+      "description": "3D BIM IFC Viewer SDK for AEC engineering applications. Open Source JavaScript Toolkit based on pure WebGL for top performance, real-world coordinates and full double precision",
+      "downloadLocation": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-2.6.107.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://xeokit.io",
+      "licenseDeclared": "AGPL-3.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40xeokit/xeokit-sdk@2.6.107"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "9c0b0c55deb1f658688c31ed89b8ae40d62509b100fe74989c3638e954fb8da4c0ee0c4fcf4d2cfd4bcc1b0fa2e195602369f88a89ecb235bad0ae54c1952c81"
+        }
+      ]
+    },
+    {
+      "name": "ajv",
+      "SPDXID": "SPDXRef-Package-ajv-6.15.0",
+      "versionInfo": "6.15.0",
+      "packageFileName": "node_modules/ajv",
+      "description": "Another JSON Schema Validator",
+      "downloadLocation": "https://registry.npmjs.org/ajv/-/ajv-6.15.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ajv-validator/ajv",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ajv@6.15.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7e0171ec77e8abad32b4ad9cec386717c8c8bf362038cc5fba08cb3923078cb20f81e9ea6bb4bba1a6a001352af7d995e8862f376b51982d309d3617ea23db33"
+        }
+      ]
+    },
+    {
+      "name": "argparse",
+      "SPDXID": "SPDXRef-Package-argparse-1.0.10",
+      "versionInfo": "1.0.10",
+      "packageFileName": "node_modules/argparse",
+      "description": "Very powerful CLI arguments parser. Native port of argparse - python's options parsing library",
+      "downloadLocation": "https://registry.npmjs.org/argparse/-/argparse-1.0.10.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/argparse@1.0.10"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "a39468cbab4d1b848bfc53a408037a4738e26a4652db944b605adc32db49a9b75df015ab9c0f9f1b3e7b88de4f6f4ea9bc11af979810d01e3c74996c957be84e"
+        }
+      ]
+    },
+    {
+      "name": "asn1",
+      "SPDXID": "SPDXRef-Package-asn1-0.2.6",
+      "versionInfo": "0.2.6",
+      "packageFileName": "node_modules/asn1",
+      "description": "Contains parsers and serializers for ASN.1 (currently BER only)",
+      "downloadLocation": "https://registry.npmjs.org/asn1/-/asn1-0.2.6.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/asn1@0.2.6"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "8b1fc5c4f9f43038dec89ee2ff2a07185b7f117e8bc8d6f148484f3d73833cbf8a07454f93ce9461f2f494c772f8a0a7bfe7e6bc8cf24b068ae423b0a956d64d"
+        }
+      ]
+    },
+    {
+      "name": "assert-plus",
+      "SPDXID": "SPDXRef-Package-assert-plus-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/assert-plus",
+      "description": "Extra assertions on top of node's assert module",
+      "downloadLocation": "https://registry.npmjs.org/assert-plus/-/assert-plus-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/assert-plus@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "35f27853304271018b0e542aee71f11feb6fde4c99d211d0a85e413ba27bb4d25e3f9768d6594fafc759f331e89df840bb43c701d3244a8fbca34c3183d9595b"
+        }
+      ]
+    },
+    {
+      "name": "asynckit",
+      "SPDXID": "SPDXRef-Package-asynckit-0.4.0",
+      "versionInfo": "0.4.0",
+      "packageFileName": "node_modules/asynckit",
+      "description": "Minimal async jobs utility library, with streams support",
+      "downloadLocation": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/alexindigo/asynckit#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/asynckit@0.4.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "39e8bd387e2d461d18a94dc6c615fbf5d33f9b0560bdb64969235a464f9bb21923d12e5c7c772061a92b7818eb1f06ad5ca6f3f88a087582f1aca8a6d8c8d6d1"
+        }
+      ]
+    },
+    {
+      "name": "aws-sign2",
+      "SPDXID": "SPDXRef-Package-aws-sign2-0.7.0",
+      "versionInfo": "0.7.0",
+      "packageFileName": "node_modules/aws-sign2",
+      "description": "AWS signing. Originally pulled from LearnBoost/knox, maintained as vendor in request, now a standalone module.",
+      "downloadLocation": "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.7.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/aws-sign2@0.7.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d3c91c1aa9d87ff6268e84617f1caef822f106352d1cb5cb5d7fef51fc7d9762d8cc6ddcd66eb59eba72154648eb3792f8b8bfc1630c89d0fd2a0aeab46ab798"
+        }
+      ]
+    },
+    {
+      "name": "aws4",
+      "SPDXID": "SPDXRef-Package-aws4-1.13.2",
+      "versionInfo": "1.13.2",
+      "packageFileName": "node_modules/aws4",
+      "description": "Signs and prepares requests using AWS Signature Version 4",
+      "downloadLocation": "https://registry.npmjs.org/aws4/-/aws4-1.13.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/aws4@1.13.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "9477badb3bdb4c1e5e100054562fc0c1587464a63dacc3038669be79ecaeb9441b437f89f9f38d550399ca3f8376bbc3e01637dee6278b2449e142486922807f"
+        }
+      ]
+    },
+    {
+      "name": "base64-arraybuffer",
+      "SPDXID": "SPDXRef-Package-base64-arraybuffer-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/base64-arraybuffer",
+      "description": "Encode/decode base64 data into ArrayBuffers",
+      "downloadLocation": "https://registry.npmjs.org/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/niklasvh/base64-arraybuffer",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/base64-arraybuffer@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "237ca5e2bf500796516375ee25510f7dcd978593ba6307853c8f94a2f0339fef3f85bde827a967cac6857235699023df5561540efa19f249950cfed6c91b58b5"
+        }
+      ]
+    },
+    {
+      "name": "base64-js",
+      "SPDXID": "SPDXRef-Package-base64-js-1.5.1",
+      "versionInfo": "1.5.1",
+      "packageFileName": "node_modules/base64-js",
+      "description": "Base64 encoding/decoding in pure JS",
+      "downloadLocation": "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/beatgammit/base64-js",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/base64-js@1.5.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "00aa5a6251e7f2de1255b3870b2f9be7e28a82f478bebb03f2f6efadb890269b3b7ca0d3923903af2ea38b4ad42630b49336cd78f2f0cf1abc8b2a68e35a9e58"
+        }
+      ]
+    },
+    {
+      "name": "bcrypt-pbkdf",
+      "SPDXID": "SPDXRef-Package-bcrypt-pbkdf-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/bcrypt-pbkdf",
+      "description": "Port of the OpenBSD bcrypt_pbkdf function to pure JS",
+      "downloadLocation": "https://registry.npmjs.org/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/bcrypt-pbkdf@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "a9e1485ed3f8312a22e8d2ea3b5d967ea011596b822a2d919fff6124b126b41e724cdafd0ea1569094427f6a92856ccf7803119ce802aead2c83f28bbf9112f7"
+        }
+      ]
+    },
+    {
+      "name": "buffer",
+      "SPDXID": "SPDXRef-Package-buffer-6.0.3",
+      "versionInfo": "6.0.3",
+      "packageFileName": "node_modules/buffer",
+      "description": "Node.js Buffer API, for the browser",
+      "downloadLocation": "https://registry.npmjs.org/buffer/-/buffer-6.0.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/feross/buffer",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/buffer@6.0.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "153882a4dc6dc226591c465b71b4c87198c44552029fdcaafe90c591397de7f031cc3d6768172d37b60eebcae233f80b48363bb1dacc6f2f21a1f00362ebaa38"
+        }
+      ]
+    },
+    {
+      "name": "call-bind-apply-helpers",
+      "SPDXID": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/call-bind-apply-helpers",
+      "description": "Helper functions around Function call/apply/bind, for use in `call-bind`",
+      "downloadLocation": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/call-bind-apply-helpers#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/call-bind-apply-helpers@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "4a9d5a6e52748af0e44b38dc68977112e9cde7f5ef92c149dac30115fabac74af285057fd9bfcac057b6d5c329987b4f3928a3f0af7dff049fa04b9339b9ae31"
+        }
+      ]
+    },
+    {
+      "name": "call-bound",
+      "SPDXID": "SPDXRef-Package-call-bound-1.0.4",
+      "versionInfo": "1.0.4",
+      "packageFileName": "node_modules/call-bound",
+      "description": "Robust call-bound JavaScript intrinsics, using `call-bind` and `get-intrinsic`.",
+      "downloadLocation": "https://registry.npmjs.org/call-bound/-/call-bound-1.0.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/call-bound#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/call-bound@1.0.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "fb2b3df7b53dea9a382b1fc0069042aa103d12ec49690583420ef6f791f8841a61bf72198346e804abb0629b78617a7a319e4099942753fb72313951a5a49e8e"
+        }
+      ]
+    },
+    {
+      "name": "caseless",
+      "SPDXID": "SPDXRef-Package-caseless-0.12.0",
+      "versionInfo": "0.12.0",
+      "packageFileName": "node_modules/caseless",
+      "description": "Caseless object set/get/has, very useful when working with HTTP headers.",
+      "downloadLocation": "https://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/caseless@0.12.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e2d605ca27da15f19a72888e6e325e828964c12538c503466d581488d6155316d0db1da552c16f638855815cc68887ba58b38fab27165c0e3497e3d6b31b6153"
+        }
+      ]
+    },
+    {
+      "name": "combined-stream",
+      "SPDXID": "SPDXRef-Package-combined-stream-1.0.8",
+      "versionInfo": "1.0.8",
+      "packageFileName": "node_modules/combined-stream",
+      "description": "A stream that emits multiple other streams one after another.",
+      "downloadLocation": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/felixge/node-combined-stream",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/combined-stream@1.0.8"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1503783117ee25e1dfedc05b04c2455e12920eafb690002b06599106f72f144e410751d9297b5214048385d973f73398c3187c943767be630e7bffb971da0476"
+        }
+      ]
+    },
+    {
+      "name": "commander",
+      "SPDXID": "SPDXRef-Package-commander-11.1.0",
+      "versionInfo": "11.1.0",
+      "packageFileName": "node_modules/commander",
+      "description": "the complete solution for node.js command-line programs",
+      "downloadLocation": "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/commander@11.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c8f55abdfc82711866a2b0bbad69641e7d796f8c03560566040ee457841506c17b92fffd4ca2406c05d54f1bd39f03fc1c72a34422430a529b7228984bba740d"
+        }
+      ]
+    },
+    {
+      "name": "contentstream",
+      "SPDXID": "SPDXRef-Package-contentstream-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/contentstream",
+      "description": "Make a readable stream by input content, content could be `String`, `Buffer`, `Object`, `Number` and so on.",
+      "downloadLocation": "https://registry.npmjs.org/contentstream/-/contentstream-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/stream-utils/contentstream",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/contentstream@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "8ea59b7c56451bdb596dd7a3efe4f35c8e246a700187704bb53598e8dc6a4cae73a3a89321ea396aae224557d8b0b434cbc71c42a98947f27835e32611d9d1db"
+        }
+      ]
+    },
+    {
+      "name": "core-util-is",
+      "SPDXID": "SPDXRef-Package-core-util-is-1.0.3",
+      "versionInfo": "1.0.3",
+      "packageFileName": "node_modules/core-util-is",
+      "description": "The `util.is*` functions introduced in Node v0.12.",
+      "downloadLocation": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/core-util-is@1.0.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "65006f8b50dca49e060ea6a78ee719d878f7c043b9a590d2f3d0566e472bbddc64b09a2bc140c365a997f65745929f5ac369660432e090e6c40380d6349f4561"
+        }
+      ]
+    },
+    {
+      "name": "css-line-break",
+      "SPDXID": "SPDXRef-Package-css-line-break-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/css-line-break",
+      "downloadLocation": "https://registry.npmjs.org/css-line-break/-/css-line-break-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/niklasvh/css-line-break#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/css-line-break@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "14770a14265c0216b72f07d50610906d6da708d6e46579fb29550972c4f9fcff1899fb158dad0530f26bd01f74de3fc4ebd1d4a612a257d89002b5fc483600e3"
+        }
+      ]
+    },
+    {
+      "name": "cwise-compiler",
+      "SPDXID": "SPDXRef-Package-cwise-compiler-1.1.3",
+      "versionInfo": "1.1.3",
+      "packageFileName": "node_modules/cwise-compiler",
+      "description": "cwise's internal compiler",
+      "downloadLocation": "https://registry.npmjs.org/cwise-compiler/-/cwise-compiler-1.1.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/cwise-compiler@1.1.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "59794afe6f838bc0cc31c0a3716af88be5f3710adaf5e09d5c826b821e13520874a484bfc8976e2f14bd26079fb0727f6152dd80fb579bdafad96f7632f6a711"
+        }
+      ]
+    },
+    {
+      "name": "dashdash",
+      "SPDXID": "SPDXRef-Package-dashdash-1.14.1",
+      "versionInfo": "1.14.1",
+      "packageFileName": "node_modules/dashdash",
+      "description": "A light, featureful and explicit option parsing library.",
+      "downloadLocation": "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/dashdash@1.14.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "8d1162f140c6a3a8fea1d6621298dacd9696a846a5df0fdb6ac163407404c15b592460e9c5b1f531e625bb0092f17ab9c262c9a280e5320bd56ab9967c6338e2"
+        }
+      ]
+    },
+    {
+      "name": "data-uri-to-buffer",
+      "SPDXID": "SPDXRef-Package-data-uri-to-buffer-0.0.3",
+      "versionInfo": "0.0.3",
+      "packageFileName": "node_modules/data-uri-to-buffer",
+      "description": "Generate a Buffer instance from a Data URI string",
+      "downloadLocation": "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-0.0.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/TooTallNate/node-data-uri-to-buffer",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/data-uri-to-buffer@0.0.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "0a9fa339af1025e7f99d74b9854eccd435b35cf108a1547791b574750b951b044e660f1b19fd437029e499a8c14e7be0853b5234c51d46b3e381a4fa650b9c6f"
+        }
+      ]
+    },
+    {
+      "name": "delayed-stream",
+      "SPDXID": "SPDXRef-Package-delayed-stream-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/delayed-stream",
+      "description": "Buffers events from a stream until you are ready to handle them.",
+      "downloadLocation": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/felixge/node-delayed-stream",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/delayed-stream@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "672483ecd7fdd5a2c1d11c4be0a1ab28705797b11db350c098475ca156b05e72c3ed20e1a4d82db88236680920edaed04b8d63c4f499d7ba7855d1a730793731"
+        }
+      ]
+    },
+    {
+      "name": "draco3d",
+      "SPDXID": "SPDXRef-Package-draco3d-1.5.7",
+      "versionInfo": "1.5.7",
+      "packageFileName": "node_modules/draco3d",
+      "description": "Draco is a library for compressing and decompressing 3D geometric meshes and point clouds. It is intended to improve the storage and transmission of 3D graphics.",
+      "downloadLocation": "https://registry.npmjs.org/draco3d/-/draco3d-1.5.7.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/draco3d@1.5.7"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "9ba5822adfdeac35dcc3eef42095e71bb3376b0c103c0b19bc9197e7363b6de06aa442f0e910c6918554d16e37005c727b8a436798b62dbc9cfcd346ab08d455"
+        }
+      ]
+    },
+    {
+      "name": "dunder-proto",
+      "SPDXID": "SPDXRef-Package-dunder-proto-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/dunder-proto",
+      "description": "If available, the `Object.prototype.__proto__` accessor and mutator, call-bound",
+      "downloadLocation": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/es-shims/dunder-proto#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/dunder-proto@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "28837f9c3241411717c3430b561644f62407986ebca80548060f42aa65188e64088608a3f54e4c16faea9142f915bb72cb366e39e3add3375e45ee1463b72df8"
+        }
+      ]
+    },
+    {
+      "name": "ecc-jsbn",
+      "SPDXID": "SPDXRef-Package-ecc-jsbn-0.1.2",
+      "versionInfo": "0.1.2",
+      "packageFileName": "node_modules/ecc-jsbn",
+      "description": "ECC JS code based on JSBN",
+      "downloadLocation": "https://registry.npmjs.org/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/quartzjer/ecc-jsbn",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ecc-jsbn@0.1.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7a1f4efa1c111cd6c6e012d38c49779f0d38e029069b95fa2e86827fb2cfa7b514f10aede3b258362ea73d7f318d6f7b4ca18a9b5a2e72d834412a597bdaab9f"
+        }
+      ]
+    },
+    {
+      "name": "es-define-property",
+      "SPDXID": "SPDXRef-Package-es-define-property-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/es-define-property",
+      "description": "`Object.defineProperty`, but not IE 8's broken one.",
+      "downloadLocation": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/es-define-property#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/es-define-property@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7b79d17e07d4678acd18bdb7da05205f4e90372c9ecf4e0a76316b17e2d34683979ab3a014a0e0e0109db235bc1274faf5ea9d606991a49c223d560dac2696de"
+        }
+      ]
+    },
+    {
+      "name": "es-errors",
+      "SPDXID": "SPDXRef-Package-es-errors-1.3.0",
+      "versionInfo": "1.3.0",
+      "packageFileName": "node_modules/es-errors",
+      "description": "A simple cache for a few of the JS Error constructors.",
+      "downloadLocation": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/es-errors#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/es-errors@1.3.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "65fe47d8ac6ddb18d3bdb26f3f66562c4202c40ea3fa1026333225ca9cb8c5c060d6f2959f1f3d5b2d066d2fa47f9730095145cdd0858765d20853542d2e9cb3"
+        }
+      ]
+    },
+    {
+      "name": "es-object-atoms",
+      "SPDXID": "SPDXRef-Package-es-object-atoms-1.1.2",
+      "versionInfo": "1.1.2",
+      "packageFileName": "node_modules/es-object-atoms",
+      "description": "ES Object-related atoms: Object, ToObject, RequireObjectCoercible",
+      "downloadLocation": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/es-object-atoms#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/es-object-atoms@1.1.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1d6701a0de8d8a57aab52c9d2b616a1db4bf2e80ddda9aab9d01cbc89cc18f890ea7f932d8c58c37af78c4e7e42bcfd29d4b16d831fb11fc9597274a0ac9b567"
+        }
+      ]
+    },
+    {
+      "name": "es-set-tostringtag",
+      "SPDXID": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/es-set-tostringtag",
+      "description": "A helper to optimistically set Symbol.toStringTag, when possible.",
+      "downloadLocation": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/es-shims/es-set-tostringtag#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/es-set-tostringtag@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "8fabd6cdfac655fc97c607be3b4c79b21e9cbf10288346bfe1175dd8adfacc2315e5e27effeb4e0278113bc70e0cc3566d545d5659866502f6612df247c6c850"
+        }
+      ]
+    },
+    {
+      "name": "extend",
+      "SPDXID": "SPDXRef-Package-extend-3.0.2",
+      "versionInfo": "3.0.2",
+      "packageFileName": "node_modules/extend",
+      "description": "Port of jQuery.extend for node.js and the browser",
+      "downloadLocation": "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/extend@3.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7e3aae0b9f5c0fb0b25babab3572b4141b9f9197288861bcd304ee3ee8d7e7dd1c0794ed967db4136501e12fd601156a8577df665d8b3604be81074f2088a6fe"
+        }
+      ]
+    },
+    {
+      "name": "extsprintf",
+      "SPDXID": "SPDXRef-Package-extsprintf-1.3.0",
+      "versionInfo": "1.3.0",
+      "packageFileName": "node_modules/extsprintf",
+      "description": "extended POSIX-style sprintf",
+      "downloadLocation": "https://registry.npmjs.org/extsprintf/-/extsprintf-1.3.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/extsprintf@1.3.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d7535dcfb36ffa6bc00b58f492d4daedf01bd2f2f21865feacc1cd05842f8900c65341f0ee585cb4900da9b3e1bbd9d5f7f8b34ff227b53819ec89bff4b26cf6"
+        }
+      ]
+    },
+    {
+      "name": "fast-deep-equal",
+      "SPDXID": "SPDXRef-Package-fast-deep-equal-3.1.3",
+      "versionInfo": "3.1.3",
+      "packageFileName": "node_modules/fast-deep-equal",
+      "description": "Fast deep equal",
+      "downloadLocation": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/epoberezkin/fast-deep-equal#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/fast-deep-equal@3.1.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7f7a90f68432f63d808417bf1fd542f75c0b98a042094fe00ce9ca340606e61b303bb04b2a3d3d1dce4760dcfd70623efb19690c22200da8ad56cd3701347ce1"
+        }
+      ]
+    },
+    {
+      "name": "fast-json-stable-stringify",
+      "SPDXID": "SPDXRef-Package-fast-json-stable-stringify-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/fast-json-stable-stringify",
+      "description": "deterministic `JSON.stringify()` - a faster version of substack's json-stable-strigify without jsonify",
+      "downloadLocation": "https://registry.npmjs.org/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/epoberezkin/fast-json-stable-stringify",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/fast-json-stable-stringify@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "96177fc05f8b93df076684c2b6556b687b5f8795d88a32236a55dc93bb1a52db9a9d20f22ccc671e149710326a1f10fb9ac47c0f4b829aa964c23095f31bf01f"
+        }
+      ]
+    },
+    {
+      "name": "forever-agent",
+      "SPDXID": "SPDXRef-Package-forever-agent-0.6.1",
+      "versionInfo": "0.6.1",
+      "packageFileName": "node_modules/forever-agent",
+      "description": "HTTP Agent that keeps socket connections alive between keep-alive requests. Formerly part of mikeal/request, now a standalone module.",
+      "downloadLocation": "https://registry.npmjs.org/forever-agent/-/forever-agent-0.6.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/forever-agent@0.6.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "8f428b60f866eb379a738973de8277a3ae6abe040270fb9b8b2a2d66b5ea11a1b884d6a03583bca9d954ad7e6fc2abfda21a9e4ff6778fafb25b4ebbc9659d53"
+        }
+      ]
+    },
+    {
+      "name": "form-data",
+      "SPDXID": "SPDXRef-Package-form-data-2.5.6",
+      "versionInfo": "2.5.6",
+      "packageFileName": "node_modules/form-data",
+      "description": "A library to create readable \"multipart/form-data\" streams. Can be used to submit forms and file uploads to other web applications.",
+      "downloadLocation": "https://registry.npmjs.org/form-data/-/form-data-2.5.6.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/form-data@2.5.6"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3a0cff13ce61f6d95f273a48e93b85a4670764584badbf46c3cc2af6fe340b14823e7bfb6a12abe9782d927d0a6020d027c0cd9f956830ef045ebf55e4f69dc8"
+        }
+      ]
+    },
+    {
+      "name": "function-bind",
+      "SPDXID": "SPDXRef-Package-function-bind-1.1.2",
+      "versionInfo": "1.1.2",
+      "packageFileName": "node_modules/function-bind",
+      "description": "Implementation of Function.prototype.bind",
+      "downloadLocation": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/Raynos/function-bind",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/function-bind@1.1.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "ed71cdc47eea5fdc46e66230c6486e993a31fcc21135c3a00ebc56b0cb76a40af6dd61e9e8cad194dec50521690a9afea153b417be38894811f369c931f1b648"
+        }
+      ]
+    },
+    {
+      "name": "get-intrinsic",
+      "SPDXID": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "versionInfo": "1.3.0",
+      "packageFileName": "node_modules/get-intrinsic",
+      "description": "Get and robustly cache all JS language-level intrinsics at first require time",
+      "downloadLocation": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/get-intrinsic#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/get-intrinsic@1.3.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "f5f4a349aa2cfdf448548a7ec5226513a95fc21112ecb36d29a08121a987b23af69dad418800493e8d263a38f3f062435116ab9823c6a9a89583999f8dbf7c09"
+        }
+      ]
+    },
+    {
+      "name": "get-pixels",
+      "SPDXID": "SPDXRef-Package-get-pixels-3.3.3",
+      "versionInfo": "3.3.3",
+      "packageFileName": "node_modules/get-pixels",
+      "description": "Reads the pixels of an image as an ndarray",
+      "downloadLocation": "https://registry.npmjs.org/get-pixels/-/get-pixels-3.3.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/get-pixels@3.3.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e64c86067f748bdb523145474ea920087b285a847efe519b978c82f3719e7f2af41cb221812584c7fd85ff7620b19ed4a5836e33aa438432bbcde6eb509e675e"
+        }
+      ]
+    },
+    {
+      "name": "get-proto",
+      "SPDXID": "SPDXRef-Package-get-proto-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/get-proto",
+      "description": "Robustly get the [[Prototype]] of an object",
+      "downloadLocation": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/get-proto#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/get-proto@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b1349f063a17069f3d26f20a21e7eac3b53608279bb1cef892263a6b0886a202ada1219b823604fc6ffe97db05dcc5853cd73d21ca0e0b83837ca1dfc459a9d2"
+        }
+      ]
+    },
+    {
+      "name": "getpass",
+      "SPDXID": "SPDXRef-Package-getpass-0.1.7",
+      "versionInfo": "0.1.7",
+      "packageFileName": "node_modules/getpass",
+      "description": "getpass for node.js",
+      "downloadLocation": "https://registry.npmjs.org/getpass/-/getpass-0.1.7.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/getpass@0.1.7"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d1fce3f49c4e2df27e5c62e147ccdedee9cdd0a642819c224920f3d7af151118caf1697c91549d72eda4b29778b38c2d01ad72feaad5462000d1672556cbb49e"
+        }
+      ]
+    },
+    {
+      "name": "gif-encoder",
+      "SPDXID": "SPDXRef-Package-gif-encoder-0.4.3",
+      "versionInfo": "0.4.3",
+      "packageFileName": "node_modules/gif-encoder",
+      "description": "Streaming GIF encoder",
+      "downloadLocation": "https://registry.npmjs.org/gif-encoder/-/gif-encoder-0.4.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/twolfson/gif-encoder",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/gif-encoder@0.4.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1cc7d26be1089e0eb635b0e133add0198a1ce3dfe6f03719f61841b70f825d7f6629ba12a5e155c6367658459a305675e0c5237c008aee3b2bc6b25f7c856b0a"
+        }
+      ]
+    },
+    {
+      "name": "readable-stream",
+      "SPDXID": "SPDXRef-Package-readable-stream-1.1.14",
+      "versionInfo": "1.1.14",
+      "packageFileName": "node_modules/gif-encoder/node_modules/readable-stream",
+      "description": "Streams3, a user-land copy of the stream library from Node.js v0.11.x",
+      "downloadLocation": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/readable-stream@1.1.14"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "f8c7958c57f82f8e1752484cd5e61b0fc7f212cc5c57cd69a8c491e606e57dc2c21df66f6ebab2e3fa981c4fbf4791e80544f5d565793b4f02af59f761791655"
+        }
+      ]
+    },
+    {
+      "name": "gopd",
+      "SPDXID": "SPDXRef-Package-gopd-1.2.0",
+      "versionInfo": "1.2.0",
+      "packageFileName": "node_modules/gopd",
+      "description": "`Object.getOwnPropertyDescriptor`, but accounts for IE's broken implementation.",
+      "downloadLocation": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/gopd#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/gopd@1.2.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "65429187afe4505a0089302d4d83d9277870f70371c7e04804e8a39e51bd3e7ac9b027128ecd70cb20fabc9a5a62d827cc3aca6114aa7f738ee917daf77c6c46"
+        }
+      ]
+    },
+    {
+      "name": "har-schema",
+      "SPDXID": "SPDXRef-Package-har-schema-2.0.0",
+      "versionInfo": "2.0.0",
+      "packageFileName": "node_modules/har-schema",
+      "description": "JSON Schema for HTTP Archive (HAR)",
+      "downloadLocation": "https://registry.npmjs.org/har-schema/-/har-schema-2.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ahmadnassri/har-schema",
+      "licenseDeclared": "ISC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/har-schema@2.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3aa96ecface1197f1cc9169342514c3f0f346d22551b6c7f7056fc64f85420b1a01e46bd4aca24082390829bde78f7abaa27593ab4f5e22a6a7c96fb20b716e5"
+        }
+      ]
+    },
+    {
+      "name": "har-validator",
+      "SPDXID": "SPDXRef-Package-har-validator-5.1.5",
+      "versionInfo": "5.1.5",
+      "packageFileName": "node_modules/har-validator",
+      "description": "Extremely fast HTTP Archive (HAR) validator using JSON Schema",
+      "downloadLocation": "https://registry.npmjs.org/har-validator/-/har-validator-5.1.5.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ahmadnassri/node-har-validator",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/har-validator@5.1.5"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "9e64f64f49658dbc5d4197eca6c9e8f6182b1b7522afa2ace5a7e2b26eb6a68c6a04ceac0e7304b8f9b34eaf17374384c2a28b2dd8758d0237ab213ae8dcdbdf"
+        }
+      ]
+    },
+    {
+      "name": "has-symbols",
+      "SPDXID": "SPDXRef-Package-has-symbols-1.1.0",
+      "versionInfo": "1.1.0",
+      "packageFileName": "node_modules/has-symbols",
+      "description": "Determine if the JS environment has Symbol support. Supports spec, or shams.",
+      "downloadLocation": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/has-symbols#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/has-symbols@1.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d5c0cd77027625aa2199bdec8383a629a301c2e0b8f2c6278b91d4c360efb02f0b8c64cb2bd87e79bd57e91cae3877b8853d142c25baf22a26863528294aa53d"
+        }
+      ]
+    },
+    {
+      "name": "has-tostringtag",
+      "SPDXID": "SPDXRef-Package-has-tostringtag-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/has-tostringtag",
+      "description": "Determine if the JS environment has `Symbol.toStringTag` support. Supports spec, or shams.",
+      "downloadLocation": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/inspect-js/has-tostringtag#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/has-tostringtag@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "36a00307c5633c52ccd95d15bc751ec30c2cc3465605a21d828fa2787b4ade16ac2f3e2a78246361ca9f07a010ac182044aa69285f0be76fd5a9d56c3b8ec397"
+        }
+      ]
+    },
+    {
+      "name": "hasown",
+      "SPDXID": "SPDXRef-Package-hasown-2.0.4",
+      "versionInfo": "2.0.4",
+      "packageFileName": "node_modules/hasown",
+      "description": "A robust, ES3 compatible, \"has own property\" predicate.",
+      "downloadLocation": "https://registry.npmjs.org/hasown/-/hasown-2.0.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/inspect-js/hasOwn#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/hasown@2.0.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "4f651b7db044177db089ea5722c3254d6f7e743602eb0321fedfef600e2db8e30aa96cff9f7bebd4d152c508b23fece4da65eca0c03f8bfeea57a2cabadd6dd4"
+        }
+      ]
+    },
+    {
+      "name": "html2canvas",
+      "SPDXID": "SPDXRef-Package-html2canvas-1.4.1",
+      "versionInfo": "1.4.1",
+      "packageFileName": "node_modules/html2canvas",
+      "description": "Screenshots with JavaScript",
+      "downloadLocation": "https://registry.npmjs.org/html2canvas/-/html2canvas-1.4.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://html2canvas.hertzen.com",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/html2canvas@1.4.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7cf53a047369b32221afccb23294cb2f101b91a2bc02b20172664846204b8838637aabd7a256849831a610b16e5fd238c4371a28a70997e4ca64baabb816e658"
+        }
+      ]
+    },
+    {
+      "name": "http-signature",
+      "SPDXID": "SPDXRef-Package-http-signature-1.2.0",
+      "versionInfo": "1.2.0",
+      "packageFileName": "node_modules/http-signature",
+      "description": "Reference implementation of Joyent's HTTP Signature scheme.",
+      "downloadLocation": "https://registry.npmjs.org/http-signature/-/http-signature-1.2.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/joyent/node-http-signature/",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/http-signature@1.2.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "0806e7afa473e0261090b614b52357c503d41f680af1fde259ec5596c9cc783f868e5b10d17b32d5c397fa637776dc58a26472db50a23b353c521c3a3b09dc11"
+        }
+      ]
+    },
+    {
+      "name": "ieee754",
+      "SPDXID": "SPDXRef-Package-ieee754-1.2.1",
+      "versionInfo": "1.2.1",
+      "packageFileName": "node_modules/ieee754",
+      "description": "Read/write IEEE754 floating point numbers from/to a Buffer or array-like object",
+      "downloadLocation": "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ieee754@1.2.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "75ccaa843bd7d42e3a95765c56a0a92be16d31141574830debf0dfe63b36ce8b94b2a1bb23ab05c62b480beeca60adbd29d5ce2c776ef732f8b059e85509ea68"
+        }
+      ]
+    },
+    {
+      "name": "image-size",
+      "SPDXID": "SPDXRef-Package-image-size-0.7.5",
+      "versionInfo": "0.7.5",
+      "packageFileName": "node_modules/image-size",
+      "description": "get dimensions of any image file",
+      "downloadLocation": "https://registry.npmjs.org/image-size/-/image-size-0.7.5.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/image-size@0.7.5"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1e2caffa65c77c510fecbcd42ff96583d470171c58fa8f4ddc954b21e1b913b88520501a971bd153d519b6105d6031159f31cc8239ca24f3e96b2e4159fd60f6"
+        }
+      ]
+    },
+    {
+      "name": "inherits",
+      "SPDXID": "SPDXRef-Package-inherits-2.0.4",
+      "versionInfo": "2.0.4",
+      "packageFileName": "node_modules/inherits",
+      "description": "Browser-friendly inheritance fully compatible with standard node.js inherits()",
+      "downloadLocation": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "ISC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/inherits@2.0.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "93fbc6697e3f6256b75b3c8c0af4d039761e207bea38ab67a8176ecd31e9ce9419cc0b2428c859d8af849c189233dcc64a820578ca572b16b8758799210a9ec1"
+        }
+      ]
+    },
+    {
+      "name": "iota-array",
+      "SPDXID": "SPDXRef-Package-iota-array-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/iota-array",
+      "description": "Generates an array of consecutive integers starting at 0",
+      "downloadLocation": "https://registry.npmjs.org/iota-array/-/iota-array-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/iota-array@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "a59db14fe2ce1dc9026ad190dc3706fdaf90b84aafa31aa488beedbc4f279f7baebbe7fa8b54eda41e7f16d5856f152e56be4f642c7c2ac92e19ab5b2435ce58"
+        }
+      ]
+    },
+    {
+      "name": "is-buffer",
+      "SPDXID": "SPDXRef-Package-is-buffer-1.1.6",
+      "versionInfo": "1.1.6",
+      "packageFileName": "node_modules/is-buffer",
+      "description": "Determine if an object is a Buffer",
+      "downloadLocation": "https://registry.npmjs.org/is-buffer/-/is-buffer-1.1.6.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/is-buffer@1.1.6"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "35c7402f0a579139b966fbdb93ba303944af56f04a0e028fe7f7b07d71339e64057ece194666a739e2814e34558e46b7405a0de9727ef45dd44aa7c7a93694e7"
+        }
+      ]
+    },
+    {
+      "name": "is-typedarray",
+      "SPDXID": "SPDXRef-Package-is-typedarray-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/is-typedarray",
+      "description": "Detect whether or not an object is a Typed Array",
+      "downloadLocation": "https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/hughsk/is-typedarray",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/is-typedarray@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "732039ea208c1c087909dce32486b86a8849c9e3b561bc0b8b725cdf9326454ea9a2ba058c8199cd4ceea468913ce8e01e0f532eee37c5ba705e4e76ddf33128"
+        }
+      ]
+    },
+    {
+      "name": "isarray",
+      "SPDXID": "SPDXRef-Package-isarray-0.0.1",
+      "versionInfo": "0.0.1",
+      "packageFileName": "node_modules/isarray",
+      "description": "Array#isArray for older browsers",
+      "downloadLocation": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/juliangruber/isarray",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/isarray@0.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "0f64bedc62f1587fae86b34472887f7e799878ff04f3fcc797ae3877f8dd034836bb25efcb7b1bd2ac68b44fa77b42ed71c1e49d0cd6c1913385a93ba09d0239"
+        }
+      ]
+    },
+    {
+      "name": "isstream",
+      "SPDXID": "SPDXRef-Package-isstream-0.1.2",
+      "versionInfo": "0.1.2",
+      "packageFileName": "node_modules/isstream",
+      "description": "Determine if an object is a Stream",
+      "downloadLocation": "https://registry.npmjs.org/isstream/-/isstream-0.1.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/rvagg/isstream",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/isstream@0.1.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "6258f3edf7f23dbacba4b9e0accb59ecd76e52056f8bac06f5127d21473209de7d610f75d4f049a6138351c6ce55ba987f17b5c2e61ffcb27c3dab8c470b0cfe"
+        }
+      ]
+    },
+    {
+      "name": "jpeg-js",
+      "SPDXID": "SPDXRef-Package-jpeg-js-0.4.4",
+      "versionInfo": "0.4.4",
+      "packageFileName": "node_modules/jpeg-js",
+      "description": "A pure javascript JPEG encoder and decoder",
+      "downloadLocation": "https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.4.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/jpeg-js@0.4.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "599cde0ce12d4ce04ae0c76c6abd08a84539b0caf7bd257646a9002335045760479d47ca1b2b305853c5c0ae44783a3ddcadc5a214876cb0238f4b355b377e76"
+        }
+      ]
+    },
+    {
+      "name": "jsbn",
+      "SPDXID": "SPDXRef-Package-jsbn-0.1.1",
+      "versionInfo": "0.1.1",
+      "packageFileName": "node_modules/jsbn",
+      "description": "The jsbn library is a fast, portable implementation of large-number math in pure JavaScript, enabling public-key crypto and other applications on desktop and mobile browsers.",
+      "downloadLocation": "https://registry.npmjs.org/jsbn/-/jsbn-0.1.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/jsbn@0.1.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "51553d7626ead897055b140f03a282aa3e4ee3654e980637cd051f10ac54d0aa53197c0da028e45f57b5dde1cdbf0ff13f29edea9534ad9d61b63593353497b2"
+        }
+      ]
+    },
+    {
+      "name": "json-schema",
+      "SPDXID": "SPDXRef-Package-json-schema-0.4.0",
+      "versionInfo": "0.4.0",
+      "packageFileName": "node_modules/json-schema",
+      "description": "JSON Schema validation and specifications",
+      "downloadLocation": "https://registry.npmjs.org/json-schema/-/json-schema-0.4.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "(AFL-2.1 OR BSD-3-Clause)",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/json-schema@0.4.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7acf783379d321fb043e2b1169f6a4f870cb7c75e7281855def5397aa3dc4b77e5216a9cc495a05c75e27b2dd8ae968db1a9d8e5e8b55686046cece28eeabd04"
+        }
+      ]
+    },
+    {
+      "name": "json-schema-traverse",
+      "SPDXID": "SPDXRef-Package-json-schema-traverse-0.4.1",
+      "versionInfo": "0.4.1",
+      "packageFileName": "node_modules/json-schema-traverse",
+      "description": "Traverse JSON Schema passing each schema object to callback",
+      "downloadLocation": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/epoberezkin/json-schema-traverse#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/json-schema-traverse@0.4.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c5b6c21f9742614e53f0b704861ba1ec727cf075ee5b7aac237634cce64529f6441dca5688753f271ce4eb6f41aec69bfe63221d0b62f7030ffbce3944f7b756"
+        }
+      ]
+    },
+    {
+      "name": "json-stringify-safe",
+      "SPDXID": "SPDXRef-Package-json-stringify-safe-5.0.1",
+      "versionInfo": "5.0.1",
+      "packageFileName": "node_modules/json-stringify-safe",
+      "description": "Like JSON.stringify, but doesn't blow up on circular refs.",
+      "downloadLocation": "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/isaacs/json-stringify-safe",
+      "licenseDeclared": "ISC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/json-stringify-safe@5.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "642960e80698bda9af60413cd9ddc8c9ddef49222343ea1d823693cd1b8edeceeda0274529cce86f68b4cc287b244f245a7d7bcaf016854571bea1b051a96c44"
+        }
+      ]
+    },
+    {
+      "name": "jsprim",
+      "SPDXID": "SPDXRef-Package-jsprim-1.4.2",
+      "versionInfo": "1.4.2",
+      "packageFileName": "node_modules/jsprim",
+      "description": "utilities for primitive JavaScript types",
+      "downloadLocation": "https://registry.npmjs.org/jsprim/-/jsprim-1.4.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/jsprim@1.4.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3f66d238c01cfdc88bcfa0f38235651893fdf81ac95aee540c62bbd02da2c1e0b940121e15fd195d1bc68c48f6b9882b63632400086c4961c35a516d12ba195b"
+        }
+      ]
+    },
+    {
+      "name": "ktx-parse",
+      "SPDXID": "SPDXRef-Package-ktx-parse-0.7.1",
+      "versionInfo": "0.7.1",
+      "packageFileName": "node_modules/ktx-parse",
+      "description": "KTX 2.0 (.ktx2) parser and serializer.",
+      "downloadLocation": "https://registry.npmjs.org/ktx-parse/-/ktx-parse-0.7.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ktx-parse@0.7.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "15e037839ea4b1d14dc235c926c73508273b728f802580e9ea2a48a7cefccd9d9b53c91644e6ad2d87f7f53404778fd745252f057a2f43c81a54a58f5ec08b11"
+        }
+      ]
+    },
+    {
+      "name": "laz-perf",
+      "SPDXID": "SPDXRef-Package-laz-perf-0.0.6",
+      "versionInfo": "0.0.6",
+      "packageFileName": "node_modules/laz-perf",
+      "description": "LAZ implementation compiled to WASM via Emscripten for LAZ support in a browser",
+      "downloadLocation": "https://registry.npmjs.org/laz-perf/-/laz-perf-0.0.6.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/hobuinc/laz-perf",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/laz-perf@0.0.6"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "641a82f81065a1fce70c863749f8d70c155d22161fcfb6eaf07007ced970e173a7bbefa71e25ad0863e0ce975e0213e407273af0368a372dc4deb6385eb751b5"
+        }
+      ]
+    },
+    {
+      "name": "math-intrinsics",
+      "SPDXID": "SPDXRef-Package-math-intrinsics-1.1.0",
+      "versionInfo": "1.1.0",
+      "packageFileName": "node_modules/math-intrinsics",
+      "description": "ES Math-related intrinsics and helpers, robustly cached.",
+      "downloadLocation": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/es-shims/math-intrinsics#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/math-intrinsics@1.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "fc85ed6f0124e474cfc84c32297ea11a4617c4cf676e3eb807e8a55499c2fd1e81d291f91b85776f4a556cbec3063e2d921040a696d05257fa17a5e5f4b1eed6"
+        }
+      ]
+    },
+    {
+      "name": "mime-db",
+      "SPDXID": "SPDXRef-Package-mime-db-1.52.0",
+      "versionInfo": "1.52.0",
+      "packageFileName": "node_modules/mime-db",
+      "description": "Media Type Database",
+      "downloadLocation": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/mime-db@1.52.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b0f538b95edd625bed589c70c311c3d0fba285536213b4f201b439496c43081f66518bce82ba103b061040e28f27c0886c4fb51135653a82b5502da7537818be"
+        }
+      ]
+    },
+    {
+      "name": "mime-types",
+      "SPDXID": "SPDXRef-Package-mime-types-2.1.35",
+      "versionInfo": "2.1.35",
+      "packageFileName": "node_modules/mime-types",
+      "description": "The ultimate javascript content-type utility.",
+      "downloadLocation": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/mime-types@2.1.35"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "64363e6cf9b9cd34c5f98a42ac053d9cad148080983d3d10b53d4d65616fe2cfbe4cd91c815693d20ebee11dae238323423cf2b07075cf1b962f9d21cda7978b"
+        }
+      ]
+    },
+    {
+      "name": "ndarray",
+      "SPDXID": "SPDXRef-Package-ndarray-1.0.19",
+      "versionInfo": "1.0.19",
+      "packageFileName": "node_modules/ndarray",
+      "description": "Multidimensional Arrays",
+      "downloadLocation": "https://registry.npmjs.org/ndarray/-/ndarray-1.0.19.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ndarray@1.0.19"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "078247038bddc99537d042c1c3783bfe9f5b66ea727b0e5aeed5f563f806785da169facf69066182b1907ecbe07d86e0745663630b847276a86de33f58c5be1d"
+        }
+      ]
+    },
+    {
+      "name": "ndarray-ops",
+      "SPDXID": "SPDXRef-Package-ndarray-ops-1.2.2",
+      "versionInfo": "1.2.2",
+      "packageFileName": "node_modules/ndarray-ops",
+      "description": "Common operations for ndarray arrays",
+      "downloadLocation": "https://registry.npmjs.org/ndarray-ops/-/ndarray-ops-1.2.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ndarray-ops@1.2.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "069a5600546331817b37fafa21ee75aba0f87ecd2288699e5c8002298eba7cba67c08ba2dd6737097883ff7d2680b6c38cfa522ebb2a729dd9eb6f8870766c0f"
+        }
+      ]
+    },
+    {
+      "name": "ndarray-pack",
+      "SPDXID": "SPDXRef-Package-ndarray-pack-1.2.1",
+      "versionInfo": "1.2.1",
+      "packageFileName": "node_modules/ndarray-pack",
+      "description": "Packs an array-of-arrays into a single ndarray",
+      "downloadLocation": "https://registry.npmjs.org/ndarray-pack/-/ndarray-pack-1.2.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ndarray-pack@1.2.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e7570409424c4f4ad464d41ad3d1282ac9c57832f8c76747453d154795361f966011c9bde590d670c03925286ba178c739e8e6003fdf83cf87f8ebd49d55f3da"
+        }
+      ]
+    },
+    {
+      "name": "node-bitmap",
+      "SPDXID": "SPDXRef-Package-node-bitmap-0.0.1",
+      "versionInfo": "0.0.1",
+      "packageFileName": "node_modules/node-bitmap",
+      "description": "pure javascript Bitmap library",
+      "downloadLocation": "https://registry.npmjs.org/node-bitmap/-/node-bitmap-0.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/nowelium/node-bitmap",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/node-bitmap@0.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "271e653da68b74868eb23da654b58c5ae95717a19055dc8bbcd4b19a2602bd9f0c6b685f297d0f3a847692028eab3fa816c46b7aad326198d0db08c4f5537308"
+        }
+      ]
+    },
+    {
+      "name": "oauth-sign",
+      "SPDXID": "SPDXRef-Package-oauth-sign-0.9.0",
+      "versionInfo": "0.9.0",
+      "packageFileName": "node_modules/oauth-sign",
+      "description": "OAuth 1 signing. Formerly a vendor lib in mikeal/request, now a standalone module.",
+      "downloadLocation": "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.9.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/oauth-sign@0.9.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7dec6150514f4c657cc9b02d48819b57a80e912bfc52d45b0c19c0c8b430e103ca920365b07d81c8f1ad314a9d5a4a2ce98091980a958b0819ac973f9910f365"
+        }
+      ]
+    },
+    {
+      "name": "object-inspect",
+      "SPDXID": "SPDXRef-Package-object-inspect-1.13.4",
+      "versionInfo": "1.13.4",
+      "packageFileName": "node_modules/object-inspect",
+      "description": "string representations of objects in node and the browser",
+      "downloadLocation": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/inspect-js/object-inspect",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/object-inspect@1.13.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "5baee22e5e09d845c41936df78709f7eb8c37e2b6f2c0360d14957df01545124f1f762974457a0307515812a84fb0be101b8b85aa8c683d733cac4d5d84a5b7b"
+        }
+      ]
+    },
+    {
+      "name": "omggif",
+      "SPDXID": "SPDXRef-Package-omggif-1.0.10",
+      "versionInfo": "1.0.10",
+      "packageFileName": "node_modules/omggif",
+      "downloadLocation": "https://registry.npmjs.org/omggif/-/omggif-1.0.10.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/omggif@1.0.10"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "2cc253b6f81cfe7ba05e3d1572baecebc327d83d6bd337fadf454db6ab692351443bb7be3bd14fe20aacf4072705a4847a81c83e6dbcbbaaa03d1d28c84a464b"
+        }
+      ]
+    },
+    {
+      "name": "pako",
+      "SPDXID": "SPDXRef-Package-pako-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/pako",
+      "description": "zlib port to javascript - fast, modularized, with browser support",
+      "downloadLocation": "https://registry.npmjs.org/pako/-/pako-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "(MIT AND Zlib)",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/pako@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c3e7ae7e26755ae25880f5db57f3cedcd08c11cdf1ab2964287ce9f1bc69d6e5b8a9a48d41493098b2c473790ab1fcfc96957517c1eddd4d429bef52ae8836ba"
+        }
+      ]
+    },
+    {
+      "name": "parse-data-uri",
+      "SPDXID": "SPDXRef-Package-parse-data-uri-0.2.0",
+      "versionInfo": "0.2.0",
+      "packageFileName": "node_modules/parse-data-uri",
+      "description": "parse a data uri into mime type and buffer",
+      "downloadLocation": "https://registry.npmjs.org/parse-data-uri/-/parse-data-uri-0.2.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "ISC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/parse-data-uri@0.2.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b8eb6db3c36a0dc682b75ac8b0edd514346c01f804e1cea8b06e1df73de5e1d081971605ce78ba0e2fe8354dbbd120eb8e47d9b94bcb671d6bc4ccaa878e98f7"
+        }
+      ]
+    },
+    {
+      "name": "pbf",
+      "SPDXID": "SPDXRef-Package-pbf-3.3.0",
+      "versionInfo": "3.3.0",
+      "packageFileName": "node_modules/pbf",
+      "description": "a low-level, lightweight protocol buffers implementation in JavaScript",
+      "downloadLocation": "https://registry.npmjs.org/pbf/-/pbf-3.3.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/mapbox/pbf",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/pbf@3.3.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "5c3177f16087df3e4e57f3956bc18a50db4b0329debb36c28acc7b414085f10e8dbadc745a726b41ee4efa43ad0652df44d530b3df18e7c2db969f8d246e53e1"
+        }
+      ]
+    },
+    {
+      "name": "performance-now",
+      "SPDXID": "SPDXRef-Package-performance-now-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/performance-now",
+      "description": "Implements performance.now (based on process.hrtime).",
+      "downloadLocation": "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/braveg1rl/performance-now",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/performance-now@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "ec40079722c7239e9510874ae7bbb01dd1ca21a0066e75cf8b0d3259b6ab41938a68aa6f508816d2359154b89ab6733e5d7952c2c6a72011ff87318c26e94ca3"
+        }
+      ]
+    },
+    {
+      "name": "pngjs",
+      "SPDXID": "SPDXRef-Package-pngjs-3.4.0",
+      "versionInfo": "3.4.0",
+      "packageFileName": "node_modules/pngjs",
+      "description": "PNG encoder/decoder in pure JS, supporting any bit size & interlace, async & sync with full test suite.",
+      "downloadLocation": "https://registry.npmjs.org/pngjs/-/pngjs-3.4.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/lukeapage/pngjs",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/pngjs@3.4.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "342ac21e15a69d09257c7e0cb493118d9d9af1cf34a9778c95032fdae569f48489313b79eb649b19dea7da8ab43da3e02a6ed9ea92fd1365252c8842f921cbdf"
+        }
+      ]
+    },
+    {
+      "name": "pngjs-nozlib",
+      "SPDXID": "SPDXRef-Package-pngjs-nozlib-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/pngjs-nozlib",
+      "description": "PNG encoder/decoder in pure JS, supporting any bit size & interlace, async & sync with full test suite.",
+      "downloadLocation": "https://registry.npmjs.org/pngjs-nozlib/-/pngjs-nozlib-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/lukeapage/pngjs",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/pngjs-nozlib@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3753e082a2e9f710eac00a0abc6a21999de6e3f37dc696349c3662bc5a902dca4b1e69621e70a9f41b8d0ac39ea8758cb84120163a446aaf5d66ae91672cb47c"
+        }
+      ]
+    },
+    {
+      "name": "protocol-buffers-schema",
+      "SPDXID": "SPDXRef-Package-protocol-buffers-schema-3.6.1",
+      "versionInfo": "3.6.1",
+      "packageFileName": "node_modules/protocol-buffers-schema",
+      "description": "No nonsense protocol buffers schema parser written in Javascript",
+      "downloadLocation": "https://registry.npmjs.org/protocol-buffers-schema/-/protocol-buffers-schema-3.6.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/mafintosh/protocol-buffers-schema",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/protocol-buffers-schema@3.6.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "546d8aeb7220922bfda7bead93596295ccc42b5713fa40a32ad91d870d5d41957793721725b777a3a1e8f1bf732596874a74f684a7b823e39b997f70ea6e5299"
+        }
+      ]
+    },
+    {
+      "name": "psl",
+      "SPDXID": "SPDXRef-Package-psl-1.15.0",
+      "versionInfo": "1.15.0",
+      "packageFileName": "node_modules/psl",
+      "description": "Domain name parser based on the Public Suffix List",
+      "downloadLocation": "https://registry.npmjs.org/psl/-/psl-1.15.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/psl@1.15.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "25977780c5410154244ace8774d668f52768d0b35c41e30d3f70a8cc125bdc9602fd05186539cac4ff9ff285915f8ac73f912ead6c6a0074d2c140a394d29ad7"
+        }
+      ]
+    },
+    {
+      "name": "punycode",
+      "SPDXID": "SPDXRef-Package-punycode-2.3.1",
+      "versionInfo": "2.3.1",
+      "packageFileName": "node_modules/punycode",
+      "description": "A robust Punycode converter that fully complies to RFC 3492 and RFC 5891, and works on nearly all JavaScript platforms.",
+      "downloadLocation": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://mths.be/punycode",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/punycode@2.3.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "bd8b7b503d54f5683ad77f2c84bb4b3af740bbef03b02fe2945b44547707fb0c9d712a4d136d007d239db9fe8c91115a84be4563b5f5a14ee7295645b5fabc16"
+        }
+      ]
+    },
+    {
+      "name": "qs",
+      "SPDXID": "SPDXRef-Package-qs-6.15.3",
+      "versionInfo": "6.15.3",
+      "packageFileName": "node_modules/qs",
+      "description": "A querystring parser that supports nesting and arrays, with a depth limit",
+      "downloadLocation": "https://registry.npmjs.org/qs/-/qs-6.15.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/qs",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/qs@6.15.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3bd825df30a5e61e5b970d4a194cd02a1039a145d297caf0508339a344b79c25cc9624afcb90f3c7bfc325c23e4b08080aff889de499c21061d684b210703bd4"
+        }
+      ]
+    },
+    {
+      "name": "querystringify",
+      "SPDXID": "SPDXRef-Package-querystringify-2.2.0",
+      "versionInfo": "2.2.0",
+      "packageFileName": "node_modules/querystringify",
+      "description": "Querystringify - Small, simple but powerful query string parser.",
+      "downloadLocation": "https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/unshiftio/querystringify",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/querystringify@2.2.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "148aa08f6114bd36bb479d2ed2b1acc937edce3626bff6b784edf8e5b64daea69b36a8ed8220cc826a389a452377e9f3539a05ddd0a52aa1483d42b26d4caaa1"
+        }
+      ]
+    },
+    {
+      "name": "readable-stream",
+      "SPDXID": "SPDXRef-Package-readable-stream-1.0.34",
+      "versionInfo": "1.0.34",
+      "packageFileName": "node_modules/readable-stream",
+      "description": "Streams2, a user-land copy of the stream library from Node.js v0.10.x",
+      "downloadLocation": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.0.34.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/readable-stream@1.0.34"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "a24d6a54226e464366bde6d88a4963c4903f504b0ac0b9769c8d4e99aa80bb8fd413e874c0a087a24e1790bfe0be2dfd39a717bf0e7d44950e15490389bdab1e"
+        }
+      ]
+    },
+    {
+      "name": "request",
+      "SPDXID": "SPDXRef-Package-request-2.88.2",
+      "versionInfo": "2.88.2",
+      "packageFileName": "node_modules/request",
+      "description": "Simplified HTTP request client.",
+      "downloadLocation": "https://registry.npmjs.org/request/-/request-2.88.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/request@2.88.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "32cbed3ab7c6f5972b3b0016f908be17a1db0f40965c487da2eefbb8e6fb14cd963e1c13eec98cf37dcfcda9e124bb205e337cf48afa5763dccd7367329c0a87"
+        }
+      ]
+    },
+    {
+      "name": "requires-port",
+      "SPDXID": "SPDXRef-Package-requires-port-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/requires-port",
+      "description": "Check if a protocol requires a certain port number to be added to an URL.",
+      "downloadLocation": "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/unshiftio/requires-port",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/requires-port@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "2a280e087728714dd7383271b2ef22fe3f13f6dcd3e1a74789e730391450d19645729eda8705ee454d66fb2b8ef740b9654c867867e87070c8d783372f7c8301"
+        }
+      ]
+    },
+    {
+      "name": "resolve-protobuf-schema",
+      "SPDXID": "SPDXRef-Package-resolve-protobuf-schema-2.1.0",
+      "versionInfo": "2.1.0",
+      "packageFileName": "node_modules/resolve-protobuf-schema",
+      "description": "Read a protobuf schema from the disk, parse it and resolve all imports",
+      "downloadLocation": "https://registry.npmjs.org/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/mafintosh/resolve-protobuf-schema",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/resolve-protobuf-schema@2.1.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "908e5f7d38995a625a4bf86e33cc197c431eaf579177ba094210eec5e08b7b7b7b37b997df3f7808dd313f1050c456104d2373f53d22fafea29caa9274af31ad"
+        }
+      ]
+    },
+    {
+      "name": "safe-buffer",
+      "SPDXID": "SPDXRef-Package-safe-buffer-5.2.1",
+      "versionInfo": "5.2.1",
+      "packageFileName": "node_modules/safe-buffer",
+      "description": "Safer Node.js Buffer API",
+      "downloadLocation": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/feross/safe-buffer",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/safe-buffer@5.2.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "ae9dd2a34eca71d9a629b1af81a37141226bedb1954959394bd12ad45fa9a5b468ef4f9879a0f1930e4377c34f37e183e9b8e7626d95b8fb825e6a6e62f9825d"
+        }
+      ]
+    },
+    {
+      "name": "safer-buffer",
+      "SPDXID": "SPDXRef-Package-safer-buffer-2.1.2",
+      "versionInfo": "2.1.2",
+      "packageFileName": "node_modules/safer-buffer",
+      "description": "Modern Buffer API polyfill without footguns",
+      "downloadLocation": "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/safer-buffer@2.1.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "619a372bcd920fb462ca2d04d4440fa232f3ee4a5ea6749023d2323db1c78355d75debdbe5d248eeda72376003c467106c71bbbdcc911e4d1c6f0a9c42b894b6"
+        }
+      ]
+    },
+    {
+      "name": "save-pixels",
+      "SPDXID": "SPDXRef-Package-save-pixels-2.3.6",
+      "versionInfo": "2.3.6",
+      "packageFileName": "node_modules/save-pixels",
+      "description": "Saves an ndarray as an image to a file",
+      "downloadLocation": "https://registry.npmjs.org/save-pixels/-/save-pixels-2.3.6.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/save-pixels@2.3.6"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "fdac9f116071b74b45a5fe65c525354b4fbf4c19fb122693643fba18bfa6c22cc79b704a081cac9f34fa26cec1bac0d455c3552e478924a2d970181da4cda579"
+        }
+      ]
+    },
+    {
+      "name": "side-channel",
+      "SPDXID": "SPDXRef-Package-side-channel-1.1.1",
+      "versionInfo": "1.1.1",
+      "packageFileName": "node_modules/side-channel",
+      "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
+      "downloadLocation": "https://registry.npmjs.org/side-channel/-/side-channel-1.1.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/side-channel#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/side-channel@1.1.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "eb1e9d2bacc97694f3178b1078d631c2dbc1cdfe848381ad95eb12f781cebd3b9d51ec8ad965c06887e60e0b32b2562b441785225b22e78018b05194ba19afad"
+        }
+      ]
+    },
+    {
+      "name": "side-channel-list",
+      "SPDXID": "SPDXRef-Package-side-channel-list-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/side-channel-list",
+      "description": "Store information about any JS value in a side channel, using a linked list",
+      "downloadLocation": "https://registry.npmjs.org/side-channel-list/-/side-channel-list-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/side-channel-list#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/side-channel-list@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "9a39ffd1b8bfa145118dce5797b21a5a2fce24926e9aea0915025f0c3c8ee3afa1056b1f69533ae53047ab67a864187397d11c8713a28e991b442f12541414d3"
+        }
+      ]
+    },
+    {
+      "name": "side-channel-map",
+      "SPDXID": "SPDXRef-Package-side-channel-map-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/side-channel-map",
+      "description": "Store information about any JS value in a side channel, using a Map",
+      "downloadLocation": "https://registry.npmjs.org/side-channel-map/-/side-channel-map-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/side-channel-map#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/side-channel-map@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "5428c235f80cb1bcb7b53768d369db8ed33f7b0adaea33c79a94e17a7913621f291bdb9c67fd4ff12a38bb814605e93f063a4e56c0c23282c0fe2b8128815744"
+        }
+      ]
+    },
+    {
+      "name": "side-channel-weakmap",
+      "SPDXID": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/side-channel-weakmap",
+      "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
+      "downloadLocation": "https://registry.npmjs.org/side-channel-weakmap/-/side-channel-weakmap-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ljharb/side-channel-weakmap#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/side-channel-weakmap@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "58f4bf1ef1d04d89c78ac2e8f4c72a0473899361641cefed969be5772ae77a6e1a790a7885a8b7832b61b3083aa74d684a84e5e7cadca621408c5d9baf6024d8"
+        }
+      ]
+    },
+    {
+      "name": "sprintf-js",
+      "SPDXID": "SPDXRef-Package-sprintf-js-1.0.3",
+      "versionInfo": "1.0.3",
+      "packageFileName": "node_modules/sprintf-js",
+      "description": "JavaScript sprintf implementation",
+      "downloadLocation": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/sprintf-js@1.0.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "0fd70f824bcb955deddc8ccbd03d182ef180f40864e0f72f57051b3747521abd5a3f436bb780049d351bb86beab840b4980eb81aab757f38ab951b3989b5f1f2"
+        }
+      ]
+    },
+    {
+      "name": "sshpk",
+      "SPDXID": "SPDXRef-Package-sshpk-1.18.0",
+      "versionInfo": "1.18.0",
+      "packageFileName": "node_modules/sshpk",
+      "description": "A library for finding and using SSH public keys",
+      "downloadLocation": "https://registry.npmjs.org/sshpk/-/sshpk-1.18.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/arekinath/node-sshpk#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/sshpk@1.18.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "da9d8a2594d2a90fc8dfe1d7e3612960e6b69777fc12bbfc3162accb623db9fe3003bc852245d17df61db31f3acbacf8bc7b55f2eee0fa93e5afcff8a2e031b1"
+        }
+      ]
+    },
+    {
+      "name": "stream-to-async-iterator",
+      "SPDXID": "SPDXRef-Package-stream-to-async-iterator-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/stream-to-async-iterator",
+      "description": "ES async interator wrapper for node streams",
+      "downloadLocation": "https://registry.npmjs.org/stream-to-async-iterator/-/stream-to-async-iterator-1.0.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/basicdays/node-stream-to-async-iterator#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/stream-to-async-iterator@1.0.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "cbb210512b41da93a6ab7e8a68e9cb85ac485e311890aab3231456ee0ac2dc1c95296ef20dff3cbd7c3d912d70c5d5f906b26fc3fba1e4de76359f02385cbcb4"
+        }
+      ]
+    },
+    {
+      "name": "string_decoder",
+      "SPDXID": "SPDXRef-Package-string_decoder-0.10.31",
+      "versionInfo": "0.10.31",
+      "packageFileName": "node_modules/string_decoder",
+      "description": "The string_decoder module from Node core",
+      "downloadLocation": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/rvagg/string_decoder",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/string_decoder@0.10.31"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "7afd90cd2cd63d89b2f46baa7c856295d03839d7062de15942bab9cace91b62b85f914108995abf1364dc8072e557c904587c43be32ca01ff506e41584e26ea1"
+        }
+      ]
+    },
+    {
+      "name": "text-segmentation",
+      "SPDXID": "SPDXRef-Package-text-segmentation-1.0.3",
+      "versionInfo": "1.0.3",
+      "packageFileName": "node_modules/text-segmentation",
+      "downloadLocation": "https://registry.npmjs.org/text-segmentation/-/text-segmentation-1.0.3.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/niklasvh/text-segmentation",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/text-segmentation@1.0.3"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "88e88f528fc11a767afb9e0eb16c5989d182b1d53c61b1383d2a5d3e29e9ec378cb5424d241a09fe8b944932631e48752a7b476a5b4797f803b36142e22e7e37"
+        }
+      ]
+    },
+    {
+      "name": "texture-compressor",
+      "SPDXID": "SPDXRef-Package-texture-compressor-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/texture-compressor",
+      "description": "CLI tool for texture compression using ASTC, ETC, PVRTC and S3TC in a KTX container.",
+      "downloadLocation": "https://registry.npmjs.org/texture-compressor/-/texture-compressor-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/texture-compressor@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "752b55828690d75980e61b49f91cd9e75671219a8d3a058a008bed8cbad6d409624102c29ab0ea373419f0987dd5879a950f790d7b7830476e2f32666ecea58a"
+        }
+      ]
+    },
+    {
+      "name": "through",
+      "SPDXID": "SPDXRef-Package-through-2.3.8",
+      "versionInfo": "2.3.8",
+      "packageFileName": "node_modules/through",
+      "description": "simplified stream construction",
+      "downloadLocation": "https://registry.npmjs.org/through/-/through-2.3.8.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/dominictarr/through",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/through@2.3.8"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "c3cf6a83b3c8f3001dbd7eb46cc0cff9b1680f90ef866f682e1785a793b86b6405d1c4811ac057e2a66669d3ccbd5aa52c9041722f96a8618e00fbdc0de35256"
+        }
+      ]
+    },
+    {
+      "name": "tough-cookie",
+      "SPDXID": "SPDXRef-Package-tough-cookie-4.1.4",
+      "versionInfo": "4.1.4",
+      "packageFileName": "node_modules/tough-cookie",
+      "description": "RFC6265 Cookies and Cookie Jar for node.js",
+      "downloadLocation": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-4.1.4.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/salesforce/tough-cookie",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/tough-cookie@4.1.4"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "2e8a39514bcb0fd49c67a8e1f1b797d53eac3b5c36fcca4246910fed5dbcd0628c5544342736abd94dd424fb2b75bce22c430c86edd48e7abffeb86216e21e6a"
+        }
+      ]
+    },
+    {
+      "name": "tunnel-agent",
+      "SPDXID": "SPDXRef-Package-tunnel-agent-0.6.0",
+      "versionInfo": "0.6.0",
+      "packageFileName": "node_modules/tunnel-agent",
+      "description": "HTTP proxy tunneling agent. Formerly part of mikeal/request, now a standalone module.",
+      "downloadLocation": "https://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/tunnel-agent@0.6.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "31c9cd895d65f1161e63cb41804a6ea1d082d662d475b48df826012fb909b093489ce3fc5230c3130764e8cc3ad2f74b2ebaf934729984c00e4ab476359b90fb"
+        }
+      ]
+    },
+    {
+      "name": "tweetnacl",
+      "SPDXID": "SPDXRef-Package-tweetnacl-0.14.5",
+      "versionInfo": "0.14.5",
+      "packageFileName": "node_modules/tweetnacl",
+      "description": "Port of TweetNaCl cryptographic library to JavaScript",
+      "downloadLocation": "https://registry.npmjs.org/tweetnacl/-/tweetnacl-0.14.5.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://tweetnacl.js.org",
+      "licenseDeclared": "Unlicense",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/tweetnacl@0.14.5"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "2975c515d01b15763881e148c28c8d2be7f96756fbb307d70017cbec75c29a821630a5377664b6ebaef603811e42d0f32cacbb49799f06ee7526896f10ac2d18"
+        }
+      ]
+    },
+    {
+      "name": "uniq",
+      "SPDXID": "SPDXRef-Package-uniq-1.0.1",
+      "versionInfo": "1.0.1",
+      "packageFileName": "node_modules/uniq",
+      "description": "Removes duplicates from a sorted array in place",
+      "downloadLocation": "https://registry.npmjs.org/uniq/-/uniq-1.0.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/uniq@1.0.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1b0fb3cf9d1834a3c3297b3ef5df9a2808d5c298cdc2acef3692e2808aee4f81c0f6531935d32ab3dc74ee428707f2fd591ceaa78f83953539b38c06d9eb1da0"
+        }
+      ]
+    },
+    {
+      "name": "universalify",
+      "SPDXID": "SPDXRef-Package-universalify-0.2.0",
+      "versionInfo": "0.2.0",
+      "packageFileName": "node_modules/universalify",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "downloadLocation": "https://registry.npmjs.org/universalify/-/universalify-0.2.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/RyanZim/universalify#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/universalify@0.2.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "089d5080a98d8370b0bc0bff90e166b6710dd397f40ff727f509ed80d39095017d760bd54c78f7b7ef093dd8ea6b008793b57f280f9f6d4ab367d5d685ca8f52"
+        }
+      ]
+    },
+    {
+      "name": "uri-js",
+      "SPDXID": "SPDXRef-Package-uri-js-4.4.1",
+      "versionInfo": "4.4.1",
+      "packageFileName": "node_modules/uri-js",
+      "description": "An RFC 3986/3987 compliant, scheme extendable URI/IRI parsing/validating/resolving library for JavaScript.",
+      "downloadLocation": "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/garycourt/uri-js",
+      "licenseDeclared": "BSD-2-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/uri-js@4.4.1"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "eeb294cb2df7435c9cf7ca50d430262edc17d74f45ed321f5a55b561da3c5a5d628b549e1e279e8741c77cf78bd9f3172bacf4b3c79c2acf5fac2b8b26f9dd06"
+        }
+      ]
+    },
+    {
+      "name": "url-parse",
+      "SPDXID": "SPDXRef-Package-url-parse-1.5.10",
+      "versionInfo": "1.5.10",
+      "packageFileName": "node_modules/url-parse",
+      "description": "Small footprint URL parser that works seamlessly across Node.js and browser environments",
+      "downloadLocation": "https://registry.npmjs.org/url-parse/-/url-parse-1.5.10.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/url-parse@1.5.10"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "5b2a5c7e24617de50ff6fbc5d23eabc3427786b5abc3a899bf7fb6da1ea244c27ff33d538fa5df2cfe03b148b1e4c84c3e75e98870e82b2a19fdb74293004289"
+        }
+      ]
+    },
+    {
+      "name": "utrie",
+      "SPDXID": "SPDXRef-Package-utrie-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/utrie",
+      "description": "Unicode Trie",
+      "downloadLocation": "https://registry.npmjs.org/utrie/-/utrie-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/niklasvh/utrie",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/utrie@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "d4c2dae68b9988e990cd46e36eef559a32f39f540b5c1870a546bb91d2d440af8a439280f48d6f9395386077bf5f60a1ecf62725f5ae593f956eec5b1b096387"
+        }
+      ]
+    },
+    {
+      "name": "uuid",
+      "SPDXID": "SPDXRef-Package-uuid-3.4.0",
+      "versionInfo": "3.4.0",
+      "packageFileName": "node_modules/uuid",
+      "description": "RFC4122 (v1, v4, and v5) UUIDs",
+      "downloadLocation": "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/uuid@3.4.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "1e3483470ea0644e4932081cb4705c8d56a4d3cf8a1158522220f31674fd4bd69e826a7ce52fdb45e0554dbe104c5691369b49f64b9868d8676cd10e91b29bfc"
+        }
+      ]
+    },
+    {
+      "name": "verror",
+      "SPDXID": "SPDXRef-Package-verror-1.10.0",
+      "versionInfo": "1.10.0",
+      "packageFileName": "node_modules/verror",
+      "description": "richer JavaScript errors",
+      "downloadLocation": "https://registry.npmjs.org/verror/-/verror-1.10.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/verror@1.10.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "65929298300414e8a311104b92661f27ebe6937c3eee138b603364442b91b8c246126a9834234bc81045c162953217f068417758e774665c3ce94fd60bffa763"
+        }
+      ]
+    },
+    {
+      "name": "core-util-is",
+      "SPDXID": "SPDXRef-Package-core-util-is-1.0.2",
+      "versionInfo": "1.0.2",
+      "packageFileName": "node_modules/verror/node_modules/core-util-is",
+      "description": "The `util.is*` functions introduced in Node v0.12.",
+      "downloadLocation": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/core-util-is@1.0.2"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "de5ab3e588d64d89d6e9d9436b94cb69309c4a17daaf57b8d2b99c255c020490ba996945ba3d1e0872049661b5839932b89fc60fef169f814509ccf88093df69"
+        }
+      ]
+    },
+    {
+      "name": "web-ifc",
+      "SPDXID": "SPDXRef-Package-web-ifc-0.0.70",
+      "versionInfo": "0.0.70",
+      "packageFileName": "node_modules/web-ifc",
+      "description": "ifc loading on the web",
+      "downloadLocation": "https://registry.npmjs.org/web-ifc/-/web-ifc-0.0.70.tgz",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MPL-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/web-ifc@0.0.70"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b807aaef1d30ecdbf4c7659469426b5a8b23bbf01f1e42d75219963bd4ffd106d7107b22dcaef297f801b093373ccf403e5d583dada7c4a60d05cd5bf2b45636"
+        }
+      ]
+    },
+    {
+      "name": "web-streams-polyfill",
+      "SPDXID": "SPDXRef-Package-web-streams-polyfill-4.3.0",
+      "versionInfo": "4.3.0",
+      "packageFileName": "node_modules/web-streams-polyfill",
+      "description": "Web Streams, based on the WHATWG spec reference implementation",
+      "downloadLocation": "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-4.3.0.tgz",
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/MattiasBuelens/web-streams-polyfill#readme",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/web-streams-polyfill@4.3.0"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "fc69e082f8fda12ac4bc96c3cb23ed027c41b797c640cda258e29036eee27b53b10e02b8d22669c95dd329a462133563d680355312a7132f573d787a3d6dde57"
+        }
+      ]
+    },
+    {
+      "name": "@ingenia/xeokit-converter",
+      "SPDXID": "SPDXRef-Package-ingenia.xeokit-converter-0.2.0-dev",
+      "versionInfo": "0.2.0-dev",
+      "packageFileName": "node_modules/@ingenia/xeokit-converter",
+      "description": "Neutral CLI/file boundary for the INGENIA xeokit converter program",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "AGPL-3.0-only",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40ingenia/xeokit-converter@0.2.0-dev"
+        }
+      ]
+    },
+    {
+      "name": "@ingenia/generic-bim-viewport-protocol",
+      "SPDXID": "SPDXRef-Package-ingenia.generic-bim-viewport-protocol-1.0.0",
+      "versionInfo": "1.0.0",
+      "packageFileName": "node_modules/@ingenia/generic-bim-viewport-protocol",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40ingenia/generic-bim-viewport-protocol@1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "@ingenia/xeokit-viewer",
+      "SPDXID": "SPDXRef-Package-ingenia.xeokit-viewer-0.2.0-dev",
+      "versionInfo": "0.2.0-dev",
+      "packageFileName": "node_modules/@ingenia/xeokit-viewer",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "homepage": "NOASSERTION",
+      "licenseDeclared": "AGPL-3.0-only",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40ingenia/xeokit-viewer@0.2.0-dev"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "relationshipType": "DESCRIBES"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ingenia.xeokit-converter-0.2.0-dev",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ingenia.generic-bim-viewport-protocol-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ingenia.xeokit-viewer-0.2.0-dev",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia-xeokit-runtime-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia.xeokit-converter-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ingenia.generic-bim-viewport-protocol-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia.xeokit-viewer-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "relatedSpdxElement": "SPDXRef-Package-ingenia.xeokit-viewer-0.2.0-dev",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-probe.gl.log-4.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-types.crypto-js-4.2.2",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-draco3d-1.5.7",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mapbox.vector-tile-1.3.1",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math.gl.polygon-4.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-pbf-3.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.draco-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math.gl.core-4.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.gis-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-laz-perf-0.0.6",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-probe.gl.log-4.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-probe.gl.stats-4.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.obj-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.obj-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.obj-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.ply-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.ply-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.ply-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.crypto-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-buffer-6.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-pixels-3.3.3",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-1.0.19",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-save-pixels-2.3.6",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-stream-to-async-iterator-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-through-2.3.8",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-web-streams-polyfill-4.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-types.geojson-7946.0.16",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.loader-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.schema-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math.gl.types-4.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ktx-parse-0.7.1",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-texture-compressor-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-loaders.gl.worker-utils-4.3.4",
+      "relationshipType": "PREREQUISITE_FOR"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mapbox.point-geometry-0.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-mapbox.vector-tile-1.3.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math.gl.types-4.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-math.gl.core-4.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math.gl.core-4.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-math.gl.polygon-4.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-probe.gl.env-4.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-probe.gl.log-4.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.images-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.json-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.obj-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.ply-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.polyfills-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.textures-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-commander-11.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-pako-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-web-ifc-0.0.70",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-convert-1.3.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.core-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.gltf-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-loaders.gl.las-4.3.4",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-html2canvas-1.4.1",
+      "relatedSpdxElement": "SPDXRef-Package-xeokit.xeokit-sdk-2.6.107",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-fast-deep-equal-3.1.3",
+      "relatedSpdxElement": "SPDXRef-Package-ajv-6.15.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-fast-json-stable-stringify-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-ajv-6.15.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-json-schema-traverse-0.4.1",
+      "relatedSpdxElement": "SPDXRef-Package-ajv-6.15.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-uri-js-4.4.1",
+      "relatedSpdxElement": "SPDXRef-Package-ajv-6.15.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-sprintf-js-1.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-argparse-1.0.10",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safer-buffer-2.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-asn1-0.2.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-tweetnacl-0.14.5",
+      "relatedSpdxElement": "SPDXRef-Package-bcrypt-pbkdf-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-base64-js-1.5.1",
+      "relatedSpdxElement": "SPDXRef-Package-buffer-6.0.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ieee754-1.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-buffer-6.0.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-function-bind-1.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-call-bound-1.0.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-call-bound-1.0.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-delayed-stream-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-combined-stream-1.0.8",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-readable-stream-1.0.34",
+      "relatedSpdxElement": "SPDXRef-Package-contentstream-1.0.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-utrie-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-css-line-break-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-uniq-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-cwise-compiler-1.1.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-dashdash-1.14.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-dunder-proto-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-dunder-proto-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-gopd-1.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-dunder-proto-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jsbn-0.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-ecc-jsbn-0.1.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safer-buffer-2.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-ecc-jsbn-0.1.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-es-object-atoms-1.1.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-has-tostringtag-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-hasown-2.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-asynckit-0.4.0",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-combined-stream-1.0.8",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-set-tostringtag-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-hasown-2.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mime-types-2.1.35",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safe-buffer-5.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-form-data-2.5.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-call-bind-apply-helpers-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-define-property-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-object-atoms-1.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-function-bind-1.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-proto-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-gopd-1.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-has-symbols-1.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-hasown-2.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-math-intrinsics-1.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-data-uri-to-buffer-0.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jpeg-js-0.4.4",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mime-types-2.1.35",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-1.0.19",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-pack-1.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-node-bitmap-0.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-omggif-1.0.10",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-parse-data-uri-0.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-pngjs-3.4.0",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-request-2.88.2",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-through-2.3.8",
+      "relatedSpdxElement": "SPDXRef-Package-get-pixels-3.3.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-dunder-proto-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-get-proto-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-object-atoms-1.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-get-proto-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-getpass-0.1.7",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-readable-stream-1.1.14",
+      "relatedSpdxElement": "SPDXRef-Package-gif-encoder-0.4.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-core-util-is-1.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.1.14",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-isarray-0.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.1.14",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-string_decoder-0.10.31",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.1.14",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-inherits-2.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.1.14",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ajv-6.15.0",
+      "relatedSpdxElement": "SPDXRef-Package-har-validator-5.1.5",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-har-schema-2.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-har-validator-5.1.5",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-has-symbols-1.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-has-tostringtag-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-function-bind-1.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-hasown-2.0.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-css-line-break-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-html2canvas-1.4.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-text-segmentation-1.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-html2canvas-1.4.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-http-signature-1.2.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jsprim-1.4.2",
+      "relatedSpdxElement": "SPDXRef-Package-http-signature-1.2.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-sshpk-1.18.0",
+      "relatedSpdxElement": "SPDXRef-Package-http-signature-1.2.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-jsprim-1.4.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-extsprintf-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-jsprim-1.4.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-json-schema-0.4.0",
+      "relatedSpdxElement": "SPDXRef-Package-jsprim-1.4.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-verror-1.10.0",
+      "relatedSpdxElement": "SPDXRef-Package-jsprim-1.4.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mime-db-1.52.0",
+      "relatedSpdxElement": "SPDXRef-Package-mime-types-2.1.35",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-iota-array-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-ndarray-1.0.19",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-is-buffer-1.1.6",
+      "relatedSpdxElement": "SPDXRef-Package-ndarray-1.0.19",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-cwise-compiler-1.1.3",
+      "relatedSpdxElement": "SPDXRef-Package-ndarray-ops-1.2.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-cwise-compiler-1.1.3",
+      "relatedSpdxElement": "SPDXRef-Package-ndarray-pack-1.2.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-1.0.19",
+      "relatedSpdxElement": "SPDXRef-Package-ndarray-pack-1.2.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-data-uri-to-buffer-0.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-parse-data-uri-0.2.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ieee754-1.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-pbf-3.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-resolve-protobuf-schema-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-pbf-3.3.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-punycode-2.3.1",
+      "relatedSpdxElement": "SPDXRef-Package-psl-1.15.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-define-property-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-qs-6.15.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-side-channel-1.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-qs-6.15.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-core-util-is-1.0.3",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.0.34",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-isarray-0.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.0.34",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-string_decoder-0.10.31",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.0.34",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-inherits-2.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-readable-stream-1.0.34",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-aws-sign2-0.7.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-aws4-1.13.2",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-caseless-0.12.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-combined-stream-1.0.8",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-extend-3.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-forever-agent-0.6.1",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-form-data-2.5.6",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-har-validator-5.1.5",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-http-signature-1.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-is-typedarray-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-isstream-0.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-json-stringify-safe-5.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-mime-types-2.1.35",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-oauth-sign-0.9.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-performance-now-2.1.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-qs-6.15.3",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safe-buffer-5.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-tough-cookie-4.1.4",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-tunnel-agent-0.6.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-uuid-3.4.0",
+      "relatedSpdxElement": "SPDXRef-Package-request-2.88.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-protocol-buffers-schema-3.6.1",
+      "relatedSpdxElement": "SPDXRef-Package-resolve-protobuf-schema-2.1.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-contentstream-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-gif-encoder-0.4.3",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jpeg-js-0.4.4",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-1.0.19",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ndarray-ops-1.2.2",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-pngjs-nozlib-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-through-2.3.8",
+      "relatedSpdxElement": "SPDXRef-Package-save-pixels-2.3.6",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-1.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-object-inspect-1.13.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-1.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-side-channel-list-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-1.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-1.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-1.1.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-list-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-object-inspect-1.13.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-list-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-call-bound-1.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-object-inspect-1.13.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-call-bound-1.0.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-es-errors-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-get-intrinsic-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-object-inspect-1.13.4",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-side-channel-map-1.0.1",
+      "relatedSpdxElement": "SPDXRef-Package-side-channel-weakmap-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-asn1-0.2.6",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-dashdash-1.14.1",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-getpass-0.1.7",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safer-buffer-2.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jsbn-0.1.1",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-tweetnacl-0.14.5",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ecc-jsbn-0.1.2",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bcrypt-pbkdf-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-sshpk-1.18.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-utrie-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-text-segmentation-1.0.3",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-argparse-1.0.10",
+      "relatedSpdxElement": "SPDXRef-Package-texture-compressor-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-image-size-0.7.5",
+      "relatedSpdxElement": "SPDXRef-Package-texture-compressor-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-psl-1.15.0",
+      "relatedSpdxElement": "SPDXRef-Package-tough-cookie-4.1.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-punycode-2.3.1",
+      "relatedSpdxElement": "SPDXRef-Package-tough-cookie-4.1.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-universalify-0.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-tough-cookie-4.1.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-url-parse-1.5.10",
+      "relatedSpdxElement": "SPDXRef-Package-tough-cookie-4.1.4",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-safe-buffer-5.2.1",
+      "relatedSpdxElement": "SPDXRef-Package-tunnel-agent-0.6.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-punycode-2.3.1",
+      "relatedSpdxElement": "SPDXRef-Package-uri-js-4.4.1",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-querystringify-2.2.0",
+      "relatedSpdxElement": "SPDXRef-Package-url-parse-1.5.10",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-requires-port-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-url-parse-1.5.10",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-base64-arraybuffer-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-utrie-1.0.2",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-assert-plus-1.0.0",
+      "relatedSpdxElement": "SPDXRef-Package-verror-1.10.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-core-util-is-1.0.2",
+      "relatedSpdxElement": "SPDXRef-Package-verror-1.10.0",
+      "relationshipType": "DEPENDENCY_OF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-extsprintf-1.3.0",
+      "relatedSpdxElement": "SPDXRef-Package-verror-1.10.0",
+      "relationshipType": "DEPENDENCY_OF"
+    }
+  ],
+  "comment": "Release version: 0.2.0-dev\nRelease revision: 0000000000000000000000000000000000000000\nCorresponding Source: https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000\nCandidate evidence only; all-zero revision is not releasable."
+}

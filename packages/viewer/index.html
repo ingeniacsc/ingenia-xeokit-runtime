@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" href="data:," />
+    <title>INGENIA Open BIM Viewport</title>
+  </head>
+  <body>
+    <main id="viewport-shell" aria-live="polite">
+      <canvas id="xeokit-canvas" aria-label="3D BIM viewport"></canvas>
+      <div id="xeokit-spinner" hidden aria-hidden="true"></div>
+      <section id="viewport-status" role="status">
+        <strong id="status-title">Preparing BIM viewport</strong>
+        <span id="status-detail">Waiting for the trusted host.</span>
+        <progress id="status-progress" max="100" value="0"></progress>
+      </section>
+      <a id="source-link" href="%VITE_SOURCE_URL%" rel="noreferrer" target="_blank">
+        Corresponding source
+      </a>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

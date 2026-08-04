@@ -1,0 +1,55 @@
+name: Public runtime CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up pinned Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.14.0
+          cache: npm
+
+      - name: Install exact dependency graph without lifecycle scripts
+        run: npm ci --ignore-scripts
+
+      - name: Apply and verify the published Converter patch
+        run: |
+          npm run converter:prepare
+          npm run converter:version
+
+      - name: Run contract, security and publication tests
+        run: npm test
+
+      - name: Reject High or Critical production dependency findings
+        run: npm run security:audit
+
+      - name: Reject private code, credentials and customer identifiers
+        run: npm run validate:publication
+
+      - name: Build isolated Viewer
+        run: npm run build
+
+      - name: Build candidate Viewer and Converter images
+        run: |
+          docker build --file docker/Dockerfile \
+            --build-arg ALLOW_CANDIDATE_REVISION=true \
+            --tag ingenia-xeokit-viewer:candidate .
+          docker build --file docker/Converter.Dockerfile \
+            --build-arg ALLOW_CANDIDATE_REVISION=true \
+            --tag ingenia-xeokit-converter:candidate .

@@ -1,0 +1,12 @@
+{
+  "name": "@ingenia/generic-bim-viewport-protocol",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "exports": "./src/index.js",
+  "files": [
+    "src",
+    "schemas",
+    "LICENSE"
+  ]
+}

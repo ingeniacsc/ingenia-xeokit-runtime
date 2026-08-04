@@ -1,0 +1,14 @@
+INGENIA xeokit Runtime
+Copyright (c) 2026 Nguyễn Thế Dương, operating under the INGENIA trademark.
+
+The standalone Viewer is licensed under GNU AGPL version 3 only.
+The neutral protocol package under packages/protocol is licensed under MIT.
+
+This distribution incorporates @xeokit/xeokit-sdk 2.6.107 and the separately
+executed @xeokit/xeokit-convert 1.3.2 program. Preserve the complete root
+LICENSE, THIRD_PARTY_NOTICES, SPDX SBOM and exact Corresponding Source link
+with every deployed object-code version.
+
+The INGENIA name and marks are not licensed for endorsement or
+misrepresentation of modified versions. No trademark permission is granted by
+the software licenses.

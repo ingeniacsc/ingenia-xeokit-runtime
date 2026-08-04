@@ -1,0 +1,22 @@
+services:
+  viewer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        ALLOW_CANDIDATE_REVISION: "true"
+        RELEASE_VERSION: 0.2.0-dev
+        SOURCE_REVISION: 0000000000000000000000000000000000000000
+        SOURCE_URL: https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    ports:
+      - "127.0.0.1:3100:8080"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
