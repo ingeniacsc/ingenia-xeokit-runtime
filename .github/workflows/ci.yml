@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read
 
+env:
+  RELEASE_ALLOWED_PARENT_ORIGINS: https://ingenia.vn,https://staging.ingenia.vn
+
 jobs:
   validate:
     runs-on: ubuntu-24.04
@@ -32,6 +35,7 @@ jobs:
         run: |
           npm run converter:prepare
           npm run converter:version
+          npm run converter:smoke
 
       - name: Run contract, security and publication tests
         run: npm test
@@ -43,13 +47,37 @@ jobs:
         run: npm run validate:publication
 
       - name: Build isolated Viewer
+        env:
+          VITE_ALLOWED_PARENT_ORIGINS: ${{ env.RELEASE_ALLOWED_PARENT_ORIGINS }}
         run: npm run build
 
       - name: Build candidate Viewer and Converter images
         run: |
           docker build --file docker/Dockerfile \
             --build-arg ALLOW_CANDIDATE_REVISION=true \
+            --build-arg VITE_ALLOWED_PARENT_ORIGINS="$RELEASE_ALLOWED_PARENT_ORIGINS" \
             --tag ingenia-xeokit-viewer:candidate .
           docker build --file docker/Converter.Dockerfile \
             --build-arg ALLOW_CANDIDATE_REVISION=true \
             --tag ingenia-xeokit-converter:candidate .
+
+      - name: Convert a real IFC through the candidate Converter image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          output="$RUNNER_TEMP/ingenia-converter-candidate"
+          install -d -m 0777 "$output"
+          docker run --rm \
+            --network none \
+            --read-only \
+            --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,size=64m \
+            --volume "$PWD/tests/fixtures:/fixtures:ro" \
+            --volume "$output:/out" \
+            ingenia-xeokit-converter:candidate \
+            --source /fixtures/ingenia-smoke-wall.ifc \
+            --format ifc \
+            --output /out/ingenia-smoke-wall.xkt
+          node scripts/verify-xkt-smoke-output.mjs \
+            "$output/ingenia-smoke-wall.xkt"

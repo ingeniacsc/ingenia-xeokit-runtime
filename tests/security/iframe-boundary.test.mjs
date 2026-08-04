@@ -8,9 +8,46 @@ const runtimeRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 
 test("nginx restricts iframe ancestors and sends no-referrer", async () => {
   const nginx = await readFile(path.join(runtimeRoot, "docker/nginx.conf"), "utf8");
-  assert.match(nginx, /frame-ancestors https:\/\/ingenia\.vn/);
+  assert.match(nginx, /frame-ancestors \$\{XEOKIT_FRAME_ANCESTORS\}/);
+  assert.match(nginx, /connect-src 'self' \$\{XEOKIT_CONNECT_SRC\}/);
   assert.match(nginx, /Referrer-Policy "no-referrer"/);
   assert.doesNotMatch(nginx, /Access-Control-Allow-Origin\s+\*/);
+});
+
+test("viewer image compiles an exact parent-origin allowlist", async () => {
+  const dockerfile = await readFile(path.join(runtimeRoot, "docker/Dockerfile"), "utf8");
+  assert.match(
+    dockerfile,
+    /ARG VITE_ALLOWED_PARENT_ORIGINS=https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/,
+  );
+  assert.match(dockerfile, /ENV VITE_ALLOWED_PARENT_ORIGINS=\$VITE_ALLOWED_PARENT_ORIGINS/);
+  assert.match(dockerfile, /XEOKIT_FRAME_ANCESTORS=https:\/\/ingenia\.vn/);
+  assert.match(dockerfile, /XEOKIT_CONNECT_SRC=https:\/\/ingenia\.vn/);
+  assert.match(dockerfile, /\/etc\/nginx\/templates\/default\.conf\.template/);
+});
+
+test("bootstrap accepts only the reviewed production and staging parents", async () => {
+  const { readBootstrapConfiguration } = await import(
+    "../../packages/viewer/src/protocol-bridge/bridge.js"
+  );
+  const allowlist = "https://ingenia.vn,https://staging.ingenia.vn";
+  const identifiers = "sessionId=session.1234567890&nonce=nonce.123456789012";
+  for (const origin of ["https://ingenia.vn", "https://staging.ingenia.vn"]) {
+    assert.equal(
+      readBootstrapConfiguration(
+        { search: `?parentOrigin=${encodeURIComponent(origin)}&${identifiers}` },
+        allowlist,
+      ).parentOrigin,
+      origin,
+    );
+  }
+  assert.throws(
+    () => readBootstrapConfiguration(
+      { search: `?parentOrigin=${encodeURIComponent("https://unreviewed.example")}&${identifiers}` },
+      allowlist,
+    ),
+    /not allowlisted/i,
+  );
 });
 
 test("public candidate contains no business API or credential vocabulary", async () => {

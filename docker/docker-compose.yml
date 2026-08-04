@@ -8,10 +8,12 @@ services:
         RELEASE_VERSION: 0.2.0-dev
         SOURCE_REVISION: 0000000000000000000000000000000000000000
         SOURCE_URL: https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
+        VITE_ALLOWED_PARENT_ORIGINS: https://ingenia.vn,https://staging.ingenia.vn
     read_only: true
     tmpfs:
-      - /var/cache/nginx
-      - /var/run
+      - /etc/nginx/conf.d:rw,noexec,nosuid,size=1m
+      - /var/cache/nginx:rw,noexec,nosuid,size=16m
+      - /var/run:rw,noexec,nosuid,size=1m
     ports:
       - "127.0.0.1:3100:8080"
     security_opt:
@@ -19,4 +21,7 @@ services:
     cap_drop:
       - ALL
     cap_add:
+      - CHOWN
       - NET_BIND_SERVICE
+      - SETGID
+      - SETUID

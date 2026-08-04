@@ -15,6 +15,7 @@ remain in the private parent application.
 ```sh
 npm ci
 npm run converter:prepare
+npm run converter:smoke
 npm test
 npm run build
 ```
@@ -27,9 +28,39 @@ npm run converter:prepare
 node packages/converter/bin/ingenia-xeokit-convert.mjs --help
 ```
 
-Set `VITE_ALLOWED_PARENT_ORIGINS` to an explicit comma-separated origin list.
-The viewport refuses to start when the parent origin, session, or nonce is not
-valid. Use only synthetic or independently licensed public XKT fixtures.
+The release Viewer is compiled with the reviewed first-party parent allowlist
+`https://ingenia.vn,https://staging.ingenia.vn`. This lets one immutable image
+digest pass staging canary and then be promoted to production without rebuild
+drift. Runtime CSP remains a separate, narrower control: set
+`XEOKIT_FRAME_ANCESTORS` and `XEOKIT_CONNECT_SRC` to only the active
+environment origin. The viewport refuses to start when the parent origin,
+session, or nonce is not valid. Use only synthetic or independently licensed
+public fixtures.
+
+Before a release tag, manually dispatch the release preflight workflow. It
+publishes clearly labelled preflight images, creates registry provenance,
+pulls both images by digest, runs the real IFC-to-XKT smoke through the
+Converter image, and verifies the Viewer at the staging parent origin. It does
+not deploy or create a release tag. The verifier logs out of GHCR before it
+pulls the images, so the preflight also fails until both container packages are
+actually public. A passing preflight is required evidence, not authorization
+to release.
+
+There is no separate dormant-tag step in this repository. `release.yml` is
+triggered by every pushed `v*` tag, so creating and pushing a tag such as
+`v0.2.0-rc.1` is the real release action: it immediately starts the GHCR image
+publication and provenance workflow. Tag authority must therefore be obtained
+only after preflight evidence has been accepted.
+
+Each preflight run creates one clearly labelled package version under each of
+`ingenia-xeokit-viewer` and `ingenia-xeokit-converter`. The uploaded
+`release-preflight-binding.txt` records the exact tag and digest. Retain those
+versions until the run evidence and anonymous digest pulls have been accepted;
+then delete only the two package versions carrying that run's exact
+`preflight-*` tag through GitHub Packages administration. Never delete the
+package namespace, and never delete a digest referenced by a canary or audit
+record. Cleanup is deliberately manual and is not a release or deployment
+step.
 
 ## Publication gate
 

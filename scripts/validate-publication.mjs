@@ -45,6 +45,8 @@ export function scanText(text, relativePath = "synthetic.txt") {
 
   const permitsLoopback = new Set([
     "docker/docker-compose.yml",
+    ".github/workflows/release-preflight.yml",
+    ".github/workflows/release.yml",
     "scripts/verify-running-image.mjs",
   ]).has(relativePath);
   if (!permitsLoopback) {
