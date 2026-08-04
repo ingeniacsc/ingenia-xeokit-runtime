@@ -4,7 +4,7 @@ ARG SOURCE_REVISION=0000000000000000000000000000000000000000
 ARG SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
 ARG RELEASE_VERSION=0.2.0-dev
 ARG ALLOW_CANDIDATE_REVISION=false
-ARG VITE_ALLOWED_PARENT_ORIGINS=https://ingenia.vn
+ARG VITE_ALLOWED_PARENT_ORIGINS=https://ingenia.vn,https://staging.ingenia.vn
 RUN node -e "const [r,u,v,a]=process.argv.slice(1); if(!/^[0-9a-f]{40}$/.test(r)||u!=='https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/'+r||!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(v)||(r==='0'.repeat(40)&&a!=='true')) process.exit(1)" "$SOURCE_REVISION" "$SOURCE_URL" "$RELEASE_VERSION" "$ALLOW_CANDIDATE_REVISION"
 ENV VITE_SOURCE_URL=$SOURCE_URL
 ENV VITE_ALLOWED_PARENT_ORIGINS=$VITE_ALLOWED_PARENT_ORIGINS

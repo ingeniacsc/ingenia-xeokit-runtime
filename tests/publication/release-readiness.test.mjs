@@ -36,7 +36,14 @@ test("root license preserves the pinned xeokit license across platform line endi
 test("publication scripts and legal evidence are wired into the package", async () => {
   const manifest = JSON.parse(await source("package.json"));
   assert.equal(manifest.license, "AGPL-3.0-only");
-  for (const name of ["sbom:generate", "validate:publication", "verify:image", "security:audit"]) {
+  for (const name of [
+    "converter:smoke",
+    "sbom:generate",
+    "validate:publication",
+    "verify:image",
+    "verify:xkt-smoke",
+    "security:audit",
+  ]) {
     assert.equal(typeof manifest.scripts[name], "string");
   }
   for (const relativePath of ["NOTICE", "THIRD_PARTY_NOTICES", "SOURCE_OFFER.md", "SBOM.md"]) {
@@ -93,6 +100,10 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.match(dockerfile, /source\.json/);
   assert.equal((dockerfile.match(/FROM .+@sha256:[0-9a-f]{64}/g) ?? []).length, 2);
   assert.match(dockerfile, /ALLOW_CANDIDATE_REVISION=false/);
+  assert.match(
+    dockerfile,
+    /VITE_ALLOWED_PARENT_ORIGINS=https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/,
+  );
   assert.match(converterDockerfile, /npm run converter:prepare/);
   assert.match(converterDockerfile, /org\.opencontainers\.image\.source/);
   assert.match(converterDockerfile, /ALLOW_CANDIDATE_REVISION=false/);
@@ -102,6 +113,55 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.match(index, /href="%VITE_SOURCE_URL%"/);
   assert.match(compose, new RegExp(zeroRevision));
   assert.match(compose, /ALLOW_CANDIDATE_REVISION: "true"/);
+  assert.match(
+    compose,
+    /VITE_ALLOWED_PARENT_ORIGINS: https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/,
+  );
+  assert.match(compose, /\/etc\/nginx\/conf\.d:rw,noexec,nosuid,size=1m/);
+  for (const capability of ["CHOWN", "NET_BIND_SERVICE", "SETGID", "SETUID"]) {
+    assert.match(compose, new RegExp(`- ${capability}`));
+  }
+});
+
+test("release paths require real conversion and the reviewed dual-origin image", async () => {
+  const [ci, release, preflight, fixture, smokeVerifier] = await Promise.all([
+    source(".github/workflows/ci.yml"),
+    source(".github/workflows/release.yml"),
+    source(".github/workflows/release-preflight.yml"),
+    source("tests/fixtures/ingenia-smoke-wall.ifc"),
+    source("scripts/verify-converter-smoke.mjs"),
+  ]);
+  for (const workflow of [ci, release, preflight]) {
+    assert.match(workflow, /RELEASE_ALLOWED_PARENT_ORIGINS: https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/);
+    assert.match(workflow, /ingenia-smoke-wall\.ifc/);
+    assert.match(workflow, /verify-xkt-smoke-output\.mjs/);
+  }
+  for (const workflow of [release, preflight]) {
+    assert.match(workflow, /VITE_ALLOWED_PARENT_ORIGINS=\$\{\{ env\.RELEASE_ALLOWED_PARENT_ORIGINS \}\}/);
+    assert.match(workflow, /ghcr\.io\/ingeniacsc\/ingenia-xeokit-converter@\$\{\{/);
+    assert.match(workflow, /VIEWER_PARENT_ORIGIN=https:\/\/staging\.ingenia\.vn/);
+    assert.match(workflow, /docker logout ghcr\.io/);
+    assert.match(workflow, /--tmpfs \/etc\/nginx\/conf\.d:rw,noexec,nosuid,size=1m/);
+    for (const capability of ["CHOWN", "NET_BIND_SERVICE", "SETGID", "SETUID"]) {
+      assert.match(workflow, new RegExp(`--cap-add ${capability}`));
+    }
+  }
+  assert.match(fixture, /FILE_SCHEMA\(\('IFC4'\)\)/);
+  assert.match(fixture, /IFCWALL\(/);
+  assert.match(smokeVerifier, /--format", "ifc"/);
+});
+
+test("manual publication preflight proves registry push and provenance without a release tag", async () => {
+  const preflight = await source(".github/workflows/release-preflight.yml");
+  assert.match(preflight, /workflow_dispatch:/);
+  assert.match(preflight, /packages: write/);
+  assert.match(preflight, /id-token: write/);
+  assert.equal((preflight.match(/push: true/g) ?? []).length, 2);
+  assert.equal((preflight.match(/push-to-registry: true/g) ?? []).length, 2);
+  assert.match(preflight, /status=PRE_RELEASE_PREFLIGHT_ONLY/);
+  assert.match(preflight, /deployment=NONE/);
+  assert.match(preflight, /release_tag=NONE/);
+  assert.doesNotMatch(preflight, /^\s*tags:\s*\[?"?v\*/m);
 });
 
 test("publication scanner passes the candidate and blocks high-risk examples", async () => {
@@ -117,6 +177,7 @@ test("public CI and release workflows pin every third-party action", async () =>
   const workflows = await Promise.all([
     source(".github/workflows/ci.yml"),
     source(".github/workflows/release.yml"),
+    source(".github/workflows/release-preflight.yml"),
   ]);
   for (const workflow of workflows) {
     const uses = [...workflow.matchAll(/^\s*uses:\s*([^\s]+)\s*$/gm)].map((match) => match[1]);

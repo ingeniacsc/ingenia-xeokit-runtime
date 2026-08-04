@@ -1,8 +1,7 @@
-name: Publish public xeokit runtime
+name: Preflight public xeokit runtime publication
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -10,15 +9,19 @@ permissions:
   id-token: write
   attestations: write
 
+concurrency:
+  group: xeokit-runtime-publication-preflight
+  cancel-in-progress: false
+
 env:
   RELEASE_ALLOWED_PARENT_ORIGINS: https://ingenia.vn,https://staging.ingenia.vn
 
 jobs:
-  release:
+  publish-preflight:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - name: Checkout exact tag revision
+      - name: Checkout exact public revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
@@ -29,18 +32,19 @@ jobs:
           node-version: 22.14.0
           cache: npm
 
-      - name: Resolve fail-closed release metadata
+      - name: Resolve fail-closed preflight metadata
         shell: bash
         run: |
           set -Eeuo pipefail
-          version="${GITHUB_REF_NAME#v}"
-          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]
+          version="0.2.0-preflight.${GITHUB_RUN_ID}"
+          tag="preflight-${GITHUB_RUN_ID}-${GITHUB_SHA::12}"
           printf 'RELEASE_VERSION=%s\n' "$version" >>"$GITHUB_ENV"
+          printf 'PREFLIGHT_IMAGE_TAG=%s\n' "$tag" >>"$GITHUB_ENV"
           printf 'RELEASE_REVISION=%s\n' "$GITHUB_SHA" >>"$GITHUB_ENV"
           printf 'RELEASE_SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/%s\n' "$GITHUB_SHA" >>"$GITHUB_ENV"
           printf 'SOURCE_DATE_EPOCH=%s\n' "$(git show -s --format=%ct "$GITHUB_SHA")" >>"$GITHUB_ENV"
 
-      - name: Install and validate exact source
+      - name: Validate exact source and real conversion
         run: |
           npm ci --ignore-scripts
           npm run converter:prepare
@@ -50,7 +54,7 @@ jobs:
           npm run security:audit
           npm run validate:publication
           npm run sbom:generate
-          npm run build
+          VITE_ALLOWED_PARENT_ORIGINS="$RELEASE_ALLOWED_PARENT_ORIGINS" npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
@@ -62,55 +66,55 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Viewer image
+      - name: Publish Viewer preflight image
         id: viewer
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
         with:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: ghcr.io/ingeniacsc/ingenia-xeokit-viewer:${{ env.RELEASE_VERSION }}
+          tags: ghcr.io/ingeniacsc/ingenia-xeokit-viewer:${{ env.PREFLIGHT_IMAGE_TAG }}
           build-args: |
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
             SOURCE_REVISION=${{ env.RELEASE_REVISION }}
             SOURCE_URL=${{ env.RELEASE_SOURCE_URL }}
             VITE_ALLOWED_PARENT_ORIGINS=${{ env.RELEASE_ALLOWED_PARENT_ORIGINS }}
 
-      - name: Publish Converter image
+      - name: Publish Converter preflight image
         id: converter
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
         with:
           context: .
           file: docker/Converter.Dockerfile
           push: true
-          tags: ghcr.io/ingeniacsc/ingenia-xeokit-converter:${{ env.RELEASE_VERSION }}
+          tags: ghcr.io/ingeniacsc/ingenia-xeokit-converter:${{ env.PREFLIGHT_IMAGE_TAG }}
           build-args: |
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
             SOURCE_REVISION=${{ env.RELEASE_REVISION }}
             SOURCE_URL=${{ env.RELEASE_SOURCE_URL }}
 
-      - name: Attest Viewer image provenance
+      - name: Attest Viewer preflight provenance
         uses: actions/attest-build-provenance@96b4a1ef7235a096b17240c259729fdd70c83d45
         with:
           subject-name: ghcr.io/ingeniacsc/ingenia-xeokit-viewer
           subject-digest: ${{ steps.viewer.outputs.digest }}
           push-to-registry: true
 
-      - name: Attest Converter image provenance
+      - name: Attest Converter preflight provenance
         uses: actions/attest-build-provenance@96b4a1ef7235a096b17240c259729fdd70c83d45
         with:
           subject-name: ghcr.io/ingeniacsc/ingenia-xeokit-converter
           subject-digest: ${{ steps.converter.outputs.digest }}
           push-to-registry: true
 
-      - name: Verify published images by immutable digest
+      - name: Pull and verify both preflight images by digest
         shell: bash
         env:
           VIEWER_IMAGE: ghcr.io/ingeniacsc/ingenia-xeokit-viewer@${{ steps.viewer.outputs.digest }}
           CONVERTER_IMAGE: ghcr.io/ingeniacsc/ingenia-xeokit-converter@${{ steps.converter.outputs.digest }}
         run: |
           set -Eeuo pipefail
-          output="$RUNNER_TEMP/ingenia-release-converter"
+          output="$RUNNER_TEMP/ingenia-preflight-converter"
           install -d -m 0777 "$output"
           docker logout ghcr.io
           docker pull "$VIEWER_IMAGE"
@@ -130,7 +134,7 @@ jobs:
           node scripts/verify-xkt-smoke-output.mjs \
             "$output/ingenia-smoke-wall.xkt"
 
-          viewer_container="ingenia-release-viewer-${GITHUB_RUN_ID}"
+          viewer_container="ingenia-preflight-viewer-${GITHUB_RUN_ID}"
           trap 'docker rm -f "$viewer_container" >/dev/null 2>&1 || true' EXIT
           docker run --detach --name "$viewer_container" \
             --read-only \
@@ -157,7 +161,7 @@ jobs:
           VIEWER_API_ORIGIN=https://staging.ingenia.vn \
             node scripts/verify-running-image.mjs
 
-      - name: Record release binding
+      - name: Record non-release preflight binding
         shell: bash
         env:
           VIEWER_DIGEST: ${{ steps.viewer.outputs.digest }}
@@ -165,20 +169,21 @@ jobs:
         run: |
           set -Eeuo pipefail
           {
+            printf 'status=PRE_RELEASE_PREFLIGHT_ONLY\n'
+            printf 'deployment=NONE\n'
+            printf 'release_tag=NONE\n'
             printf 'version=%s\n' "$RELEASE_VERSION"
             printf 'revision=%s\n' "$RELEASE_REVISION"
             printf 'source=%s\n' "$RELEASE_SOURCE_URL"
-            printf 'sbom_sha256=%s\n' "$(sha256sum sbom.spdx.json | awk '{print $1}')"
+            printf 'allowed_parent_origins=%s\n' "$RELEASE_ALLOWED_PARENT_ORIGINS"
             printf 'viewer_digest=%s\n' "$VIEWER_DIGEST"
             printf 'converter_digest=%s\n' "$CONVERTER_DIGEST"
-          } > release-binding.txt
+          } > release-preflight-binding.txt
 
-      - name: Upload public release evidence
+      - name: Upload public preflight evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: xeokit-runtime-${{ env.RELEASE_VERSION }}-evidence
-          path: |
-            sbom.spdx.json
-            release-binding.txt
+          name: xeokit-runtime-preflight-${{ github.run_id }}-evidence
+          path: release-preflight-binding.txt
           if-no-files-found: error
           retention-days: 90

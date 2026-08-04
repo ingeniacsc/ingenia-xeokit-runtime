@@ -14,3 +14,8 @@ fixture used only by the local cross-origin browser canary.
 
 This is not customer data. Do not replace it with an INGENIA project artifact,
 IFC, XKT, PDF, screenshot or metadata export.
+
+`ingenia-smoke-wall.ifc` is an original, minimal IFC4 fixture authored for
+INGENIA. It contains one synthetic project, site, building, storey and wall.
+The converter smoke test must turn it into a non-empty XKT v12 artifact. It
+contains no customer geometry, identifiers or metadata.

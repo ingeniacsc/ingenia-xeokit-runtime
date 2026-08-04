@@ -24,12 +24,14 @@
   "scripts": {
     "build": "npm run build -w @ingenia/xeokit-viewer",
     "converter:prepare": "npm run prepare:runtime -w @ingenia/xeokit-converter",
+    "converter:smoke": "node scripts/verify-converter-smoke.mjs",
     "converter:version": "npm run version:check -w @ingenia/xeokit-converter",
     "dev": "npm run dev -w @ingenia/xeokit-viewer",
     "sbom:generate": "node scripts/generate-release-sbom.mjs",
     "security:audit": "npm audit --omit=dev --audit-level=high",
     "test": "node --test tests/contract/*.test.mjs tests/security/*.test.mjs tests/publication/*.test.mjs",
     "validate:publication": "node scripts/validate-publication.mjs",
-    "verify:image": "node scripts/verify-running-image.mjs"
+    "verify:image": "node scripts/verify-running-image.mjs",
+    "verify:xkt-smoke": "node scripts/verify-xkt-smoke-output.mjs"
   }
 }
