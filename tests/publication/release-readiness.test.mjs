@@ -24,12 +24,13 @@ async function source(relativePath) {
   return readFile(path.join(runtimeRoot, relativePath), "utf8");
 }
 
-test("root license exactly preserves the pinned xeokit license", async () => {
+test("root license preserves the pinned xeokit license across platform line endings", async () => {
   const [rootLicense, dependencyLicense] = await Promise.all([
-    readFile(path.join(runtimeRoot, "LICENSE")),
-    readFile(path.join(runtimeRoot, "node_modules/@xeokit/xeokit-sdk/LICENSE")),
+    readFile(path.join(runtimeRoot, "LICENSE"), "utf8"),
+    readFile(path.join(runtimeRoot, "node_modules/@xeokit/xeokit-sdk/LICENSE"), "utf8"),
   ]);
-  assert.deepEqual(rootLicense, dependencyLicense);
+  const normalizeLineEndings = (value) => value.replace(/\r\n/g, "\n");
+  assert.equal(normalizeLineEndings(rootLicense), normalizeLineEndings(dependencyLicense));
 });
 
 test("publication scripts and legal evidence are wired into the package", async () => {
@@ -96,7 +97,8 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.match(converterDockerfile, /org\.opencontainers\.image\.source/);
   assert.match(converterDockerfile, /ALLOW_CANDIDATE_REVISION=false/);
   assert.match(nginx, /rel="source"/);
-  assert.match(nginx, /frame-ancestors https:\/\/ingenia\.vn/);
+  assert.match(nginx, /frame-ancestors \$\{XEOKIT_FRAME_ANCESTORS\}/);
+  assert.match(nginx, /connect-src 'self' \$\{XEOKIT_CONNECT_SRC\}/);
   assert.match(index, /href="%VITE_SOURCE_URL%"/);
   assert.match(compose, new RegExp(zeroRevision));
   assert.match(compose, /ALLOW_CANDIDATE_REVISION: "true"/);

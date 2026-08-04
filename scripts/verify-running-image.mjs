@@ -22,8 +22,13 @@ export async function verifyRunningImage(environment = process.env) {
   const indexResponse = await fetchRequired(baseUrl, "/");
   const headers = indexResponse.headers;
   const csp = headers.get("content-security-policy") ?? "";
-  if (!csp.includes("frame-ancestors https://ingenia.vn")) {
+  const expectedParentOrigin = environment.VIEWER_PARENT_ORIGIN || "https://ingenia.vn";
+  const expectedApiOrigin = environment.VIEWER_API_ORIGIN || "https://ingenia.vn";
+  if (!csp.includes(`frame-ancestors ${expectedParentOrigin}`)) {
     throw new Error("Reviewed frame-ancestors policy is missing");
+  }
+  if (!csp.includes(`connect-src 'self' ${expectedApiOrigin}`)) {
+    throw new Error("Reviewed API connect-src policy is missing");
   }
   if (headers.get("referrer-policy") !== "no-referrer") {
     throw new Error("Referrer-Policy must be no-referrer");
