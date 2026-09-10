@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +9,24 @@
   </head>
   <body>
     <main id="viewport-shell" aria-live="polite">
-      <canvas id="xeokit-canvas" aria-label="3D BIM viewport"></canvas>
+      <canvas id="xeokit-canvas" tabindex="0" aria-label="3D BIM viewport"></canvas>
+      <div id="xeokit-navcube" aria-label="Camera orientation">
+        <canvas id="navcube-canvas"></canvas>
+      </div>
       <div id="xeokit-spinner" hidden aria-hidden="true"></div>
-      <section id="viewport-status" role="status">
-        <strong id="status-title">Preparing BIM viewport</strong>
-        <span id="status-detail">Waiting for the trusted host.</span>
+      <div id="orbit-pivot-marker" aria-hidden="true" hidden></div>
+      <div id="section-axis-labels" aria-hidden="true" hidden>
+        <span data-axis-label="x">X</span>
+        <span data-axis-label="y">Y</span>
+        <span data-axis-label="z">Z</span>
+      </div>
+      <section id="viewport-status" role="status" hidden>
+        <strong id="status-title">Đang chuẩn bị trình xem BIM</strong>
+        <span id="status-detail">Đang thiết lập phiên xem bảo mật.</span>
         <progress id="status-progress" max="100" value="0"></progress>
       </section>
-      <a id="source-link" href="%VITE_SOURCE_URL%" rel="noreferrer" target="_blank">
+      <div id="selection-operation-status" role="status" aria-live="polite" hidden></div>
+      <a id="source-link" href="%VITE_SOURCE_URL%" rel="noreferrer" target="_blank" hidden aria-hidden="true" tabindex="-1">
         Corresponding source
       </a>
     </main>

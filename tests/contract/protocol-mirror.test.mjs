@@ -32,6 +32,7 @@ function context(overrides = {}) {
 test("public protocol inventory and transitions are self-contained", () => {
   assert.equal(BIM_VIEWPORT_PROTOCOL, "ingenia.generic-bim-viewport");
   assert.equal(new Set(BIM_VIEWPORT_MESSAGE_TYPES).size, BIM_VIEWPORT_MESSAGE_TYPES.length);
+  assert.equal(BIM_VIEWPORT_MESSAGE_TYPES.includes("spatial.section.flip"), true);
   for (const [state, source, type] of [
     ["created", "viewer", "viewer.ready"],
     ["viewer_ready", "host", "host.initialize"],
@@ -77,6 +78,154 @@ test("identifier-bearing envelopes fail closed before dispatch", () => {
   const validation = validateProtocolEnvelope(envelope);
   assert.equal(validation.ok, false);
   assert.equal(validation.error.code, "INVALID_IDENTIFIER_LIST");
+});
+
+test("context-menu messages require a bounded anchor and allowlisted match scope", () => {
+  const contextMenu = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "viewer",
+    type: "selection.context-menu",
+    payload: {
+      identifiers: ["opaque_identifier_0001"],
+      anchor: { x: 0.5, y: 0.25 },
+      modelVersionId: "12345678-1234-4123-8123-123456789012",
+    },
+  });
+  assert.equal(validateProtocolEnvelope(contextMenu).ok, true);
+
+  const invalidAttribution = createProtocolEnvelope({
+    ...contextMenu,
+    messageId: "message.invalid-attribution",
+    payload: { ...contextMenu.payload, modelVersionId: "bad id" },
+  });
+  assert.equal(validateProtocolEnvelope(invalidAttribution).ok, false);
+
+  const invalidMatch = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "selection.match",
+    payload: { identifiers: ["opaque_identifier_0001"], scope: "unknown" },
+  });
+  assert.equal(validateProtocolEnvelope(invalidMatch).ok, false);
+});
+
+test("measurement and multi-selection commands are explicitly bounded", () => {
+  const multiMode = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "selection.mode",
+    payload: { mode: "multi" },
+  });
+  const measurementMode = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "measurement.mode",
+    payload: { enabled: true },
+  });
+  const measurementResult = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "viewer",
+    type: "measurement.changed",
+    payload: { status: "complete", distance: 12.345678 },
+  });
+  const invalidResult = createProtocolEnvelope({
+    ...measurementResult,
+    messageId: "message.invalid.123456",
+    type: "measurement.changed",
+    payload: { status: "complete", distance: Number.POSITIVE_INFINITY },
+  });
+
+  assert.equal(validateProtocolEnvelope(multiMode).ok, true);
+  assert.equal(validateProtocolEnvelope(measurementMode).ok, true);
+  assert.equal(validateProtocolEnvelope(measurementResult).ok, true);
+  assert.equal(validateProtocolEnvelope(invalidResult).ok, false);
+});
+
+test("visible selection requires an authorized seed and orbit pivot is bounded", () => {
+  const visibleSelection = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "selection.visible",
+    payload: { identifiers: ["opaque_identifier_0001"] },
+  });
+  const orbitPivot = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "camera.navigation",
+    payload: { mode: "orbit", orbitPivotEnabled: true },
+  });
+  const unseededSelection = createProtocolEnvelope({
+    ...visibleSelection,
+    messageId: "message.visible.unseeded",
+    payload: {},
+  });
+  const invalidPivot = createProtocolEnvelope({
+    ...orbitPivot,
+    messageId: "message.pivot.invalid",
+    payload: { mode: "orbit", orbitPivotEnabled: "yes" },
+  });
+
+  assert.equal(validateProtocolEnvelope(visibleSelection).ok, true);
+  assert.equal(validateProtocolEnvelope(orbitPivot).ok, true);
+  assert.equal(validateProtocolEnvelope(unseededSelection).ok, false);
+  assert.equal(validateProtocolEnvelope(invalidPivot).ok, false);
+});
+
+test("labels and model tree commands are explicitly bounded", () => {
+  const labels = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "labels.mode",
+    payload: { enabled: true, identifiers: ["opaque_identifier_0001"] },
+  });
+  const tree = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "host",
+    type: "tree.mode",
+    payload: { open: true },
+  });
+  const treeChanged = createProtocolEnvelope({
+    sessionId: "session.1234567890",
+    nonce: "nonce.123456789012",
+    stateRevision: 3,
+    source: "viewer",
+    type: "tree.changed",
+    payload: { open: false },
+  });
+  const tooManyLabels = createProtocolEnvelope({
+    ...labels,
+    messageId: "message.labels.too-many",
+    payload: {
+      enabled: true,
+      identifiers: Array.from(
+        { length: 81 },
+        (_, index) => "opaque_identifier_" + String(index).padStart(4, "0"),
+      ),
+    },
+  });
+
+  assert.equal(validateProtocolEnvelope(labels).ok, true);
+  assert.equal(validateProtocolEnvelope(tree).ok, true);
+  assert.equal(validateProtocolEnvelope(treeChanged).ok, true);
+  assert.equal(validateProtocolEnvelope(tooManyLabels).ok, false);
 });
 
 test("message assessment fails closed without replay state", () => {

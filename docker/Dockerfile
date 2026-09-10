@@ -5,14 +5,16 @@ ARG SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000
 ARG RELEASE_VERSION=0.2.0-dev
 ARG ALLOW_CANDIDATE_REVISION=false
 ARG VITE_ALLOWED_PARENT_ORIGINS=https://ingenia.vn,https://staging.ingenia.vn
+ARG VITE_BROWSER_CANARY=false
 RUN node -e "const [r,u,v,a]=process.argv.slice(1); if(!/^[0-9a-f]{40}$/.test(r)||u!=='https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/'+r||!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(v)||(r==='0'.repeat(40)&&a!=='true')) process.exit(1)" "$SOURCE_REVISION" "$SOURCE_URL" "$RELEASE_VERSION" "$ALLOW_CANDIDATE_REVISION"
 ENV VITE_SOURCE_URL=$SOURCE_URL
 ENV VITE_ALLOWED_PARENT_ORIGINS=$VITE_ALLOWED_PARENT_ORIGINS
+ENV VITE_BROWSER_CANARY=$VITE_BROWSER_CANARY
 COPY package.json package-lock.json ./
 COPY packages/converter/package.json packages/converter/package.json
 COPY packages/protocol/package.json packages/protocol/package.json
 COPY packages/viewer/package.json packages/viewer/package.json
-RUN npm ci --ignore-scripts \
+RUN npm ci --ignore-scripts --include=optional \
     --workspace @ingenia/xeokit-viewer \
     --workspace @ingenia/generic-bim-viewport-protocol \
     --include-workspace-root=false
