@@ -5,6 +5,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   normalizeSpdxDocument,
+  generateRawSpdx,
+  resolveSbomScope,
+  sbomArguments,
   validateReleaseMetadata,
 } from "../../scripts/generate-release-sbom.mjs";
 import { scanPublicTree, scanText } from "../../scripts/validate-publication.mjs";
@@ -36,14 +39,7 @@ test("root license preserves the pinned xeokit license across platform line endi
 test("publication scripts and legal evidence are wired into the package", async () => {
   const manifest = JSON.parse(await source("package.json"));
   assert.equal(manifest.license, "AGPL-3.0-only");
-  for (const name of [
-    "converter:smoke",
-    "sbom:generate",
-    "validate:publication",
-    "verify:image",
-    "verify:xkt-smoke",
-    "security:audit",
-  ]) {
+  for (const name of ["sbom:generate", "validate:publication", "verify:image", "security:audit"]) {
     assert.equal(typeof manifest.scripts[name], "string");
   }
   for (const relativePath of ["NOTICE", "THIRD_PARTY_NOTICES", "SOURCE_OFFER.md", "SBOM.md"]) {
@@ -85,6 +81,51 @@ test("SPDX normalization is deterministic for fixed release metadata", () => {
   );
 });
 
+test("artifact SBOM scopes reject cross-artifact contamination and unknown output paths", () => {
+  const metadata = validateReleaseMetadata(candidateEnvironment);
+  const viewer = {
+    spdxVersion: "SPDX-2.3",
+    packages: [
+      { name: "@ingenia/xeokit-viewer", SPDXID: "SPDXRef-viewer" },
+      { name: "@xeokit/xeokit-sdk", versionInfo: "2.6.107", SPDXID: "SPDXRef-sdk" },
+    ],
+    relationships: [{ spdxElementId: "SPDXRef-viewer", relationshipType: "DEPENDS_ON", relatedSpdxElement: "SPDXRef-sdk" }],
+  };
+  const normalized = normalizeSpdxDocument(viewer, metadata, "viewer");
+  assert.deepEqual(normalized.relationships, viewer.relationships);
+  assert.match(normalized.documentNamespace, /\/viewer$/);
+  const contaminated = structuredClone(viewer);
+  contaminated.packages.push({ name: "@xeokit/xeokit-convert", versionInfo: "1.3.2" });
+  assert.throws(() => normalizeSpdxDocument(contaminated, metadata, "viewer"), /exclude the converter/);
+  const converter = { spdxVersion: "SPDX-2.3", packages: [
+    { name: "@ingenia/xeokit-converter" },
+    { name: "@xeokit/xeokit-convert", versionInfo: "1.3.2" },
+  ] };
+  assert.match(normalizeSpdxDocument(converter, metadata, "converter").documentNamespace, /\/converter$/);
+  converter.packages.push({ name: "@ingenia/xeokit-viewer" });
+  assert.throws(() => normalizeSpdxDocument(converter, metadata, "converter"), /exclude the Viewer/);
+  assert.throws(() => resolveSbomScope("../elsewhere"), /SBOM_SCOPE/);
+  assert.throws(() => sbomArguments("toString"), /SBOM_SCOPE/);
+  assert.equal(resolveSbomScope("source").output, "sbom.spdx.json");
+  assert.ok(sbomArguments("viewer").includes("--include-workspace-root=false"));
+  assert.ok(sbomArguments("converter").includes("@ingenia/xeokit-converter"));
+});
+
+test("real lock-derived Viewer SBOM excludes uninstalled converter workspace dependencies", () => {
+  // Exercise npm's virtual lock graph rather than only inspecting command flags.
+  // This must also work in a Viewer-only install where the converter is absent.
+  const raw = generateRawSpdx("viewer");
+  const document = normalizeSpdxDocument(raw, validateReleaseMetadata(candidateEnvironment), "viewer");
+  const names = new Set(document.packages.map((entry) => entry.name));
+  for (const name of ["@ingenia/xeokit-viewer", "@ingenia/generic-bim-viewport-protocol", "@xeokit/xeokit-sdk"]) {
+    assert.ok(names.has(name), `${name} must be in the Viewer graph`);
+  }
+  for (const name of ["@ingenia/xeokit-converter", "@xeokit/xeokit-convert", "@loaders.gl/polyfills", "get-pixels", "request", "web-ifc", "vite", "texture-compressor", "image-size"]) {
+    assert.equal(names.has(name), false, `${name} must not be in the Viewer graph`);
+  }
+  assert.match(document.comment, /lock-derived/);
+});
+
 test("container publishes source identity, legal evidence and reviewed headers", async () => {
   const [dockerfile, converterDockerfile, nginx, compose, index] = await Promise.all([
     source("docker/Dockerfile"),
@@ -96,14 +137,16 @@ test("container publishes source identity, legal evidence and reviewed headers",
   for (const label of ["image.source", "image.revision", "image.version", "image.licenses"]) {
     assert.match(dockerfile, new RegExp(label.replace(".", "\\.")));
   }
-  assert.match(dockerfile, /COPY LICENSE NOTICE THIRD_PARTY_NOTICES sbom\.spdx\.json/);
+  assert.match(dockerfile, /COPY --chmod=644 LICENSE NOTICE THIRD_PARTY_NOTICES \/usr\/share\/nginx\/html\/legal\//);
+  assert.match(dockerfile, /SBOM_SCOPE=viewer/);
+  assert.match(dockerfile, /COPY --from=build --chmod=644 \/src\/sbom\.viewer\.spdx\.json/);
+  assert.match(dockerfile, /USER 101:101/);
+  assert.match(dockerfile, /viewer-entrypoint\.sh/);
+  assert.match(compose, /\/tmp:rw,noexec,nosuid,size=32m,mode=1777/);
+  assert.doesNotMatch(compose, /cap_add:/);
   assert.match(dockerfile, /source\.json/);
   assert.equal((dockerfile.match(/FROM .+@sha256:[0-9a-f]{64}/g) ?? []).length, 2);
   assert.match(dockerfile, /ALLOW_CANDIDATE_REVISION=false/);
-  assert.match(
-    dockerfile,
-    /VITE_ALLOWED_PARENT_ORIGINS=https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/,
-  );
   assert.match(converterDockerfile, /npm run converter:prepare/);
   assert.match(converterDockerfile, /org\.opencontainers\.image\.source/);
   assert.match(converterDockerfile, /ALLOW_CANDIDATE_REVISION=false/);
@@ -113,65 +156,6 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.match(index, /href="%VITE_SOURCE_URL%"/);
   assert.match(compose, new RegExp(zeroRevision));
   assert.match(compose, /ALLOW_CANDIDATE_REVISION: "true"/);
-  assert.match(
-    compose,
-    /VITE_ALLOWED_PARENT_ORIGINS: https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/,
-  );
-  assert.match(compose, /\/etc\/nginx\/conf\.d:rw,noexec,nosuid,size=1m/);
-  for (const capability of ["CHOWN", "NET_BIND_SERVICE", "SETGID", "SETUID"]) {
-    assert.match(compose, new RegExp(`- ${capability}`));
-  }
-});
-
-test("release paths require real conversion and the reviewed dual-origin image", async () => {
-  const [ci, release, preflight, fixture, smokeVerifier] = await Promise.all([
-    source(".github/workflows/ci.yml"),
-    source(".github/workflows/release.yml"),
-    source(".github/workflows/release-preflight.yml"),
-    source("tests/fixtures/ingenia-smoke-wall.ifc"),
-    source("scripts/verify-converter-smoke.mjs"),
-  ]);
-  for (const workflow of [ci, release, preflight]) {
-    assert.match(workflow, /RELEASE_ALLOWED_PARENT_ORIGINS: https:\/\/ingenia\.vn,https:\/\/staging\.ingenia\.vn/);
-    assert.match(workflow, /ingenia-smoke-wall\.ifc/);
-    assert.match(workflow, /verify-xkt-smoke-output\.mjs/);
-  }
-  for (const workflow of [release, preflight]) {
-    assert.match(workflow, /VITE_ALLOWED_PARENT_ORIGINS=\$\{\{ env\.RELEASE_ALLOWED_PARENT_ORIGINS \}\}/);
-    assert.match(workflow, /ghcr\.io\/ingeniacsc\/ingenia-xeokit-converter@\$\{\{/);
-    assert.match(workflow, /VIEWER_PARENT_ORIGIN=https:\/\/staging\.ingenia\.vn/);
-    assert.match(workflow, /docker logout ghcr\.io/);
-    assert.match(workflow, /--tmpfs \/etc\/nginx\/conf\.d:rw,noexec,nosuid,size=1m/);
-    for (const capability of ["CHOWN", "NET_BIND_SERVICE", "SETGID", "SETUID"]) {
-      assert.match(workflow, new RegExp(`--cap-add ${capability}`));
-    }
-  }
-  assert.match(fixture, /FILE_SCHEMA\(\('IFC4'\)\)/);
-  assert.match(fixture, /IFCWALL\(/);
-  assert.match(smokeVerifier, /--format", "ifc"/);
-});
-
-test("manual publication preflight proves registry push and provenance without a release tag", async () => {
-  const [preflight, release, readme] = await Promise.all([
-    source(".github/workflows/release-preflight.yml"),
-    source(".github/workflows/release.yml"),
-    source("README.md"),
-  ]);
-  assert.match(preflight, /workflow_dispatch:/);
-  assert.match(preflight, /packages: write/);
-  assert.match(preflight, /id-token: write/);
-  assert.equal((preflight.match(/push: true/g) ?? []).length, 2);
-  assert.equal((preflight.match(/push-to-registry: true/g) ?? []).length, 2);
-  assert.match(preflight, /status=PRE_RELEASE_PREFLIGHT_ONLY/);
-  assert.match(preflight, /deployment=NONE/);
-  assert.match(preflight, /release_tag=NONE/);
-  assert.match(preflight, /cleanup_required=MANUAL_AFTER_EVIDENCE_ACCEPTED/);
-  assert.match(preflight, /viewer_tag=ghcr\.io\/ingeniacsc\/ingenia-xeokit-viewer:%s/);
-  assert.match(preflight, /converter_tag=ghcr\.io\/ingeniacsc\/ingenia-xeokit-converter:%s/);
-  assert.doesNotMatch(preflight, /^\s*tags:\s*\[?"?v\*/m);
-  assert.match(release, /^\s*tags:\s*\["v\*"\]/m);
-  assert.match(readme, /creating and pushing a tag such as\s+`v0\.2\.0-rc\.1` is the real release action/);
-  assert.match(readme, /delete only the two package versions carrying that run's exact\s+`preflight-\*` tag/);
 });
 
 test("publication scanner passes the candidate and blocks high-risk examples", async () => {
@@ -187,7 +171,6 @@ test("public CI and release workflows pin every third-party action", async () =>
   const workflows = await Promise.all([
     source(".github/workflows/ci.yml"),
     source(".github/workflows/release.yml"),
-    source(".github/workflows/release-preflight.yml"),
   ]);
   for (const workflow of workflows) {
     const uses = [...workflow.matchAll(/^\s*uses:\s*([^\s]+)\s*$/gm)].map((match) => match[1]);

@@ -249,6 +249,8 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
     dayNight(mode) {
       dayNightMode = mode === "night" ? "night" : "day";
       viewer.scene.canvas.backgroundColor = dayNightMode === "night" ? [0.031, 0.184, 0.208] : [0.957, 0.937, 0.902];
+      const shell = viewer.scene.canvas.canvas?.closest?.('#viewport-shell');
+      if (shell) shell.dataset.visualMode = dayNightMode;
       viewer.scene.render(true);
     },
     state() {

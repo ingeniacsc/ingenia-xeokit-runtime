@@ -57,7 +57,7 @@ function createViewportStatusCopy(locale) {
         metadata: "Đang đọc dữ liệu IFC",
         "metadata-unavailable": "Đang hoàn thiện hình học",
         parsing: "Đang dựng mô hình 3D",
-        rendering: "Đang hiển thị hình học từ thấp lên cao",
+        rendering: "",
         ready: "Mô hình đã sẵn sàng",
       }
       : {
@@ -66,7 +66,7 @@ function createViewportStatusCopy(locale) {
         metadata: "Reading IFC data",
         "metadata-unavailable": "Finalizing geometry",
         parsing: "Building the 3D model",
-        rendering: "Rendering geometry from lower to upper levels",
+        rendering: "",
         ready: "Model ready",
       },
   };
@@ -147,6 +147,7 @@ async function bootstrap() {
           }),
         },
         camera: {
+          get: withRuntime(({ camera }) => camera.get()),
           fit: withRuntime(({ camera, identifiers, runtime }, tokens, useCurrentSelection) => camera.fit(
             resolveCommandSelection(runtime, identifiers, tokens, useCurrentSelection),
           )),
@@ -181,6 +182,7 @@ async function bootstrap() {
           requestLevelOptions: withRuntime(({ spatial }) => spatial.requestLevelOptions()),
           setLevelClip: withRuntime(({ spatial }, payload) => spatial.setLevelClip(payload)),
           clearLevelClip: withRuntime(({ spatial }) => spatial.clearLevelClip()),
+          setProjectGrid: withRuntime(({ spatial }, payload) => spatial.setProjectGrid(payload)),
         },
         selection: {
           select: withRuntime(({ selection, identifiers }, tokens) => selection.select(identifiers.toObjectIds(tokens))),
@@ -299,7 +301,12 @@ async function bootstrap() {
       loader: runtime.loader,
       onProgress: ({ modelId, percent, phase, loadedBytes }) => {
         const phaseMessage = statusCopy.phases[phase] || statusCopy.phases.parsing;
-        showStatus(percent === 100 ? "ready" : "loading", statusCopy.model.heading, `${modelId} · ${phaseMessage}`, percent);
+        showStatus(
+          percent === 100 ? "ready" : "loading",
+          statusCopy.model.heading,
+          phaseMessage ? `${modelId} · ${phaseMessage}` : modelId,
+          percent,
+        );
         bridge?.post("model.progress", { modelId, percent, phase, loadedBytes });
       },
       onSelectionChanged: (payload) => { void publishSelectionChanged(payload).catch(() => {}); },

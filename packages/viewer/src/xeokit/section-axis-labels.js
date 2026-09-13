@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // IFC uses X = east-west, Y = north-south, and Z = elevation. Xeokit renders
-// the same coordinates Y-up, so IFC Y and Z map to Xeokit Z and Y respectively.
+// the same coordinates Y-up by rotating -90 degrees around X, so IFC Y maps
+// to negative xeokit Z and IFC Z maps to xeokit Y.
 const IFC_AXIS_TO_XEOKIT_VECTOR = Object.freeze({
   x: [1, 0, 0],
-  y: [0, 0, 1],
+  y: [0, 0, -1],
   z: [0, 1, 0],
 });
 

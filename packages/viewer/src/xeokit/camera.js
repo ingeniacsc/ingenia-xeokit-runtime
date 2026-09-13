@@ -67,12 +67,38 @@ function getPresetOrthoScale(viewer, aabb, direction, up) {
 
 export function createCameraController(viewer) {
   return Object.freeze({
+    get() {
+      const { eye, look, up, projection } = viewer.camera;
+      return { direction: normalizeDirection(Array.from(eye).map((v, i) => v - look[i])), up: Array.from(up), projection };
+    },
     fit(identifiers = []) {
       const aabb = getAabb(viewer, identifiers);
       if (!aabb) return;
       fitAabb(viewer, aabb);
     },
     set(payload) {
+      if (payload?.initialView) {
+        const view = payload.initialView;
+        const validVector = (v) => Array.isArray(v) && v.length === 3
+          && v.every((n) => typeof n === "number" && Number.isFinite(n) && Math.abs(n) <= 1e9)
+          && Math.hypot(...v) > 1e-9;
+        if (!validVector(view.direction) || !validVector(view.up)
+          || !["perspective", "ortho"].includes(view.projection)) throw new Error("Invalid initial camera orientation.");
+        const direction = normalizeDirection(view.direction), up = normalizeDirection(view.up);
+        if (Math.abs(direction.reduce((sum, v, i) => sum + v * up[i], 0)) > 0.999) throw new Error("Parallel camera vectors.");
+        const aabb = getAabb(viewer);
+        if (!aabb) throw new Error("No renderable camera bounds.");
+        const look = getAabbCenter(aabb), distance = getCameraDistance(aabb);
+        viewer.cameraFlight.stop?.();
+        viewer.camera.eye = direction.map((v, i) => look[i] + v * distance);
+        viewer.camera.look = look;
+        viewer.camera.up = up;
+        viewer.camera.projection = view.projection;
+        if (viewer.cameraControl) viewer.cameraControl.pivotPos = look;
+        viewer.cameraFlight.jumpTo({ aabb, fit: true, fitFOV: 36, projection: view.projection });
+        viewer.scene.render(true);
+        return;
+      }
       ["eye", "look", "up"].forEach((key) => {
         if (Array.isArray(payload?.[key]) && payload[key].length === 3) viewer.camera[key] = payload[key];
       });

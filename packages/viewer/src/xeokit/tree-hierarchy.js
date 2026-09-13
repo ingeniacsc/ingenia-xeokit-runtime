@@ -1,5 +1,37 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
+const naturalOrder = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+
+function storeyElevation(metaObject) {
+  const value = metaObject?.attributes?.elevation ?? metaObject?.attributes?.Elevation;
+  if (!['number', 'string'].includes(typeof value) || String(value).trim() === '') return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function compareStoreys(left, right) {
+  const leftKnown = Number.isFinite(left.elevation);
+  const rightKnown = Number.isFinite(right.elevation);
+  if (leftKnown !== rightKnown) return leftKnown ? -1 : 1;
+  return (leftKnown ? left.elevation - right.elevation : 0)
+    || naturalOrder.compare(left.label, right.label);
+}
+
+export function createTreeNodeComparator(viewer) {
+  return (left, right) => {
+    const leftMeta = viewer?.metaScene?.metaObjects?.[left.objectId];
+    const rightMeta = viewer?.metaScene?.metaObjects?.[right.objectId];
+    const leftStorey = (left.type || leftMeta?.type) === 'IfcBuildingStorey';
+    const rightStorey = (right.type || rightMeta?.type) === 'IfcBuildingStorey';
+    if (leftStorey !== rightStorey) return leftStorey ? -1 : 1;
+    if (leftStorey) return compareStoreys(
+      { elevation: storeyElevation(leftMeta), label: left.title || '' },
+      { elevation: storeyElevation(rightMeta), label: right.title || '' },
+    );
+    return naturalOrder.compare(left.title || '', right.title || '');
+  };
+}
+
 export function supportsModelTreeHierarchy(metaModel, hierarchy) {
   if (hierarchy !== "storeys") return true;
   let foundBuilding = false;
@@ -35,6 +67,7 @@ export function resolveModelStoreys(viewer, modelEntries = []) {
       const existing = storeysByLabel.get(key);
       if (existing) {
         existing.objectIds.add(objectId);
+        if (existing.elevation !== storeyElevation(metaObject)) existing.elevation = null;
         return;
       }
       storeysByLabel.set(key, {
@@ -42,6 +75,7 @@ export function resolveModelStoreys(viewer, modelEntries = []) {
         modelId: normalizedModelId,
         objectIds: new Set([objectId]),
         label,
+        elevation: storeyElevation(metaObject),
       });
     });
   });
@@ -50,7 +84,8 @@ export function resolveModelStoreys(viewer, modelEntries = []) {
     objectId: Array.from(storey.objectIds)[0],
     objectIds: Object.freeze(Array.from(storey.objectIds).sort()),
   })).sort((left, right) => (
-    left.displayName.localeCompare(right.displayName) || left.label.localeCompare(right.label)
+    naturalOrder.compare(left.displayName, right.displayName)
+    || naturalOrder.compare(left.modelId, right.modelId) || compareStoreys(left, right)
   ));
 }
 

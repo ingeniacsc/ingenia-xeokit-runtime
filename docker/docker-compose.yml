@@ -6,22 +6,19 @@ services:
       args:
         ALLOW_CANDIDATE_REVISION: "true"
         RELEASE_VERSION: 0.2.0-dev
-        SOURCE_REVISION: 0000000000000000000000000000000000000000
+        SOURCE_REVISION: "0000000000000000000000000000000000000000"
         SOURCE_URL: https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
-        VITE_ALLOWED_PARENT_ORIGINS: https://ingenia.vn,https://staging.ingenia.vn
+        VITE_ALLOWED_PARENT_ORIGINS: ${VITE_ALLOWED_PARENT_ORIGINS:-https://ingenia.vn}
+        VITE_BROWSER_CANARY: ${VITE_BROWSER_CANARY:-false}
+    environment:
+      XEOKIT_CONNECT_SRC: ${XEOKIT_CONNECT_SRC:-https://ingenia.vn}
+      XEOKIT_FRAME_ANCESTORS: ${XEOKIT_FRAME_ANCESTORS:-https://ingenia.vn}
     read_only: true
     tmpfs:
-      - /etc/nginx/conf.d:rw,noexec,nosuid,size=1m
-      - /var/cache/nginx:rw,noexec,nosuid,size=16m
-      - /var/run:rw,noexec,nosuid,size=1m
+      - /tmp:rw,noexec,nosuid,size=32m,mode=1777
     ports:
-      - "127.0.0.1:3100:8080"
+      - "127.0.0.1:${VIEWER_PORT:-3100}:8080"
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
-    cap_add:
-      - CHOWN
-      - NET_BIND_SERVICE
-      - SETGID
-      - SETUID

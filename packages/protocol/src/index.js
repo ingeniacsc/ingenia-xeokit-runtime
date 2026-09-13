@@ -20,7 +20,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
   "visibility.applied", "filter.apply", "filter.cancel", "filter.progress",
   "filter.applied", "appearance.apply", "appearance.applied",
   "spatial.section.set", "spatial.section.clear", "spatial.section.flip", "spatial.space-clip.set", "spatial.space-clip.clear", "spatial.levels.request", "spatial.levels.changed",
-  "spatial.level-clip.set", "spatial.level-clip.clear", "spatial.level-clip.changed", "spatial.storeys.set", "spatial.grid.set", "spatial.changed", "spatial.space-clip.changed", "metadata.request", "metadata.result",
+  "spatial.level-clip.set", "spatial.level-clip.clear", "spatial.level-clip.changed", "spatial.storeys.set", "spatial.grid.set", "spatial.site.set", "spatial.changed", "spatial.space-clip.changed", "metadata.request", "metadata.result",
   "snapshot.capture", "snapshot.result", "measurement.mode", "measurement.clear", "measurement.changed", "labels.mode", "properties.mode", "properties.changed", "tree.mode", "tree.changed", "session.export", "session.import",
   "session.state", "context.lost", "context.restore-requested", "context.restored",
   "context.restore-failed",
@@ -34,7 +34,7 @@ const HOST_TYPES = new Set([
   "selection.visible", "selection.match", "selection.marquee", "selection.mode", "visibility.show", "visibility.hide", "visibility.isolate",
   "visibility.reset", "filter.apply", "filter.cancel", "appearance.apply",
   "spatial.section.set", "spatial.section.clear", "spatial.section.flip", "spatial.space-clip.set", "spatial.space-clip.clear", "spatial.levels.request", "spatial.level-clip.set", "spatial.level-clip.clear", "spatial.storeys.set",
-  "spatial.grid.set", "metadata.request", "snapshot.capture", "measurement.mode", "measurement.clear", "labels.mode", "properties.mode", "tree.mode", "session.export",
+  "spatial.grid.set", "spatial.site.set", "metadata.request", "snapshot.capture", "measurement.mode", "measurement.clear", "labels.mode", "properties.mode", "tree.mode", "session.export",
   "session.import", "context.restore-requested",
 ]);
 const VIEWER_TYPES = new Set([

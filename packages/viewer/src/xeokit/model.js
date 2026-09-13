@@ -81,6 +81,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
   const models = new Map();
   const descriptors = new Map();
   const geometryScopes = new Map();
+  const pendingLoads = new Map();
 
   function descriptorForObject(objectId) {
     const normalizedObjectId = String(objectId || "");
@@ -133,6 +134,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
   }
 
   function remove(modelId, { notifySelection = true } = {}) {
+    pendingLoads.get(modelId)?.abort();
     const selectedObjectIds = Array.from(viewer.scene?.selectedObjectIds || []).filter(Boolean);
     const removedSelection = selectedObjectIds.filter((objectId) => String(objectId).startsWith(`${modelId}#`));
     const remainingSelection = selectedObjectIds.filter((objectId) => !removedSelection.includes(objectId));
@@ -152,13 +154,14 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     }
   }
 
-  async function loadMetaModelData(descriptor) {
+  async function loadMetaModelData(descriptor, signal) {
     if (!descriptor?.metaModelUrl) return undefined;
     const declaredSize = Number(descriptor.metaModelByteLength || 0);
     if (declaredSize > MAX_META_MODEL_BYTES) {
       throw new Error("Model metadata exceeds the isolated Viewer size limit.");
     }
     const response = await fetch(descriptor.metaModelUrl, {
+      signal,
       method: "GET",
       headers: boundedHeaders(descriptor.metaModelRequestHeaders),
       credentials: "omit",
@@ -180,9 +183,10 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     }
   }
 
-  async function loadGeometryScope(descriptor) {
+  async function loadGeometryScope(descriptor, signal) {
     if (!descriptor?.geometryScopeUrl) return Object.freeze({ mode: "all" });
     const response = await fetch(descriptor.geometryScopeUrl, {
+      signal,
       method: "GET",
       headers: boundedHeaders(descriptor.requestHeaders),
       credentials: "omit",
@@ -345,7 +349,8 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     return `${sceneObjects.length}:${boundedObjectCount}:${normalizedBounds}`;
   }
 
-  async function revealLoadedSceneBottomUp(model, modelId, geometryScope, initialSceneObjectIds, replaceAll) {
+  async function revealLoadedSceneBottomUp(model, modelId, geometryScope, initialSceneObjectIds, replaceAll, signal) {
+    signal.throwIfAborted();
     const sceneObjects = resolveRevealSceneObjects(
       modelId,
       geometryScope,
@@ -364,6 +369,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     return revealSceneObjectsBottomUp(sceneObjects.allowed, {
       scheduleFrame: scheduleRevealFrame,
       onBatch: ({ batch, revealedCount, totalCount }) => {
+        signal.throwIfAborted();
         setRevealObjectsVisible(batch, true);
         try { viewer.scene.render(true); } catch {}
         onProgress?.({
@@ -410,6 +416,18 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
   }
 
   async function load(descriptor, { replaceAll = false, preserveCamera = false } = {}) {
+    const modelId = descriptor?.modelId;
+    if (pendingLoads.has(modelId)) throw new Error("This model is already loading.");
+    const controller = new AbortController();
+    pendingLoads.set(modelId, controller);
+    try {
+      return await loadInternal(descriptor, { replaceAll, preserveCamera }, controller.signal);
+    } finally {
+      if (pendingLoads.get(modelId) === controller) pendingLoads.delete(modelId);
+    }
+  }
+
+  async function loadInternal(descriptor, { replaceAll, preserveCamera }, signal) {
     const disciplineCode = String(descriptor?.disciplineCode || "");
     const disciplineColor = String(descriptor?.disciplineColor || "").toUpperCase();
     const hasDisciplineAppearance = Boolean(disciplineCode || disciplineColor);
@@ -419,7 +437,8 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     if (hasDisciplineAppearance && (!DISCIPLINE_CODE.test(disciplineCode) || !HEX_COLOR.test(disciplineColor))) {
       throw new Error("Model discipline appearance is invalid.");
     }
-    const geometryScope = await loadGeometryScope(descriptor);
+    const geometryScope = await loadGeometryScope(descriptor, signal);
+    signal.throwIfAborted();
     const existingDescriptor = descriptors.get(descriptor.modelId);
     const existingModel = models.get(descriptor.modelId);
     if (existingDescriptor && existingModel) {
@@ -445,6 +464,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     rememberGeometryScope(descriptor.modelId, geometryScope);
     onProgress?.({ modelId: descriptor.modelId, percent: MODEL_FETCH_PROGRESS_START, phase: "fetching", loadedBytes: 0 });
     const response = await fetch(descriptor.artifactUrl, {
+      signal,
       method: "GET",
       headers: boundedHeaders(descriptor.requestHeaders),
       credentials: "omit",
@@ -453,17 +473,21 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     });
     if (!response.ok) throw new Error(`Model artifact request failed (${response.status}).`);
     const xkt = await readModelArtifact(response, descriptor, onProgress);
+    signal.throwIfAborted();
     onProgress?.({ modelId: descriptor.modelId, percent: 66, phase: "verifying", loadedBytes: xkt.byteLength });
     await verifyContentHash(xkt, descriptor.contentHash);
+    signal.throwIfAborted();
     let metaModelData;
     if (descriptor.metaModelUrl) {
       try {
         onProgress?.({ modelId: descriptor.modelId, percent: 67, phase: "metadata", loadedBytes: xkt.byteLength });
-        metaModelData = await loadMetaModelData(descriptor);
+        metaModelData = await loadMetaModelData(descriptor, signal);
       } catch (error) {
+        signal.throwIfAborted();
         onProgress?.({ modelId: descriptor.modelId, percent: 69, phase: "metadata-unavailable", loadedBytes: xkt.byteLength });
       }
     }
+    signal.throwIfAborted();
     onProgress?.({ modelId: descriptor.modelId, percent: 70, phase: "parsing", loadedBytes: xkt.byteLength });
     let model;
     try {
@@ -484,6 +508,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     models.set(descriptor.modelId, model);
     return new Promise((resolve, reject) => {
       let settled = false;
+      let finishing = false;
       let readyTimeoutId = null;
       let readyWatchdogId = null;
       let lastGeometrySignature = "";
@@ -495,10 +520,11 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
         readyWatchdogId = null;
       };
       const finish = () => {
-        if (settled) return;
-        settled = true;
+        if (settled || finishing) return;
+        finishing = true;
         clearReadinessWatchers();
         scheduleFrame(async () => {
+          if (settled || signal.aborted) return;
           // Geometry is already hash-verified. Presentation remains best-effort so
           // a transient frame fault cannot leave a valid model pending forever.
           if (!preserveCamera) {
@@ -511,10 +537,13 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
               geometryScope,
               initialSceneObjectIds,
               replaceAll,
+              signal,
             );
           } catch {
+            if (settled || signal.aborted) return;
             setModelVisible(model, geometryScope?.mode !== "allowlist");
           }
+          if (settled || signal.aborted) return;
           if (replaceAll) Array.from(models.keys())
             .filter((modelId) => modelId !== descriptor.modelId)
             .forEach((modelId) => remove(modelId));
@@ -525,12 +554,15 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
             : getRenderableObjectCount(model);
           try { viewer.scene.render(true); } catch {}
           onProgress?.({ modelId: descriptor.modelId, percent: 100, phase: "ready" });
+          settled = true;
+          signal.removeEventListener("abort", abortLoad);
           resolve({ modelId: descriptor.modelId, objectCount });
         });
       };
       const fail = (error) => {
         if (settled) return;
         settled = true;
+        signal.removeEventListener("abort", abortLoad);
         clearReadinessWatchers();
         model.destroy?.();
         models.delete(descriptor.modelId);
@@ -538,6 +570,8 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
         geometryScopes.delete(descriptor.modelId);
         reject(error instanceof Error ? error : new Error(String(error)));
       };
+      const abortLoad = () => fail(signal.reason);
+      signal.addEventListener("abort", abortLoad, { once: true });
       model.on("loaded", finish);
       model.on("error", fail);
 
@@ -630,6 +664,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
       revision: descriptor.revision,
       contentHash: descriptor.contentHash,
     })),
-    destroy: () => Array.from(models.keys()).forEach((modelId) => remove(modelId, { notifySelection: false })),
+    destroy: () => Array.from(new Set([...pendingLoads.keys(), ...models.keys()]))
+      .forEach((modelId) => remove(modelId, { notifySelection: false })),
   });
 }

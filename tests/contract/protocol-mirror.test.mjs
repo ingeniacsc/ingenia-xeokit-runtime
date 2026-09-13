@@ -33,6 +33,7 @@ test("public protocol inventory and transitions are self-contained", () => {
   assert.equal(BIM_VIEWPORT_PROTOCOL, "ingenia.generic-bim-viewport");
   assert.equal(new Set(BIM_VIEWPORT_MESSAGE_TYPES).size, BIM_VIEWPORT_MESSAGE_TYPES.length);
   assert.equal(BIM_VIEWPORT_MESSAGE_TYPES.includes("spatial.section.flip"), true);
+  assert.equal(BIM_VIEWPORT_MESSAGE_TYPES.includes("spatial.site.set"), true);
   for (const [state, source, type] of [
     ["created", "viewer", "viewer.ready"],
     ["viewer_ready", "host", "host.initialize"],

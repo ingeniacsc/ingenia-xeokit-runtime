@@ -5,6 +5,23 @@ import { fileURLToPath } from "node:url";
 
 const runtimeRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const expectedSourcePrefix = "https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/";
+const scopes = {
+  source: { output: "sbom.spdx.json", workspaces: [] },
+  viewer: { output: "sbom.viewer.spdx.json", workspaces: ["@ingenia/xeokit-viewer", "@ingenia/generic-bim-viewport-protocol"] },
+  converter: { output: "sbom.converter.spdx.json", workspaces: ["@ingenia/xeokit-converter"] },
+};
+
+export function resolveSbomScope(scope = "source") {
+  if (!Object.hasOwn(scopes, scope)) throw new Error("SBOM_SCOPE must be source, viewer or converter");
+  return scopes[scope];
+}
+
+export function sbomArguments(scope = "source") {
+  const { workspaces } = resolveSbomScope(scope);
+  return ["sbom", "--package-lock-only", "--offline", "--sbom-format", "spdx", "--omit", "dev",
+    ...workspaces.flatMap((workspace) => ["--workspace", workspace]),
+    ...(workspaces.length ? ["--include-workspace-root=false"] : [])];
+}
 
 export function validateReleaseMetadata(environment = process.env) {
   const epoch = environment.SOURCE_DATE_EPOCH ?? "";
@@ -35,22 +52,24 @@ export function validateReleaseMetadata(environment = process.env) {
   return { created: created.toISOString(), version, revision, sourceUrl };
 }
 
-export function normalizeSpdxDocument(document, metadata) {
+export function normalizeSpdxDocument(document, metadata, scope = "source") {
+  resolveSbomScope(scope);
   if (!document || document.spdxVersion !== "SPDX-2.3") {
     throw new Error("npm did not return an SPDX 2.3 document");
   }
 
   const normalized = structuredClone(document);
-  normalized.name = `ingenia-xeokit-runtime-${metadata.version}`;
+  normalized.name = `ingenia-xeokit-${scope}-${metadata.version}`;
   normalized.documentNamespace =
     `https://github.com/ingeniacsc/ingenia-xeokit-runtime/sbom/` +
-    `${metadata.revision}/${metadata.version}`;
+    `${metadata.revision}/${metadata.version}/${scope}`;
   normalized.creationInfo = {
     ...(normalized.creationInfo ?? {}),
     created: metadata.created,
     comment: `Corresponding Source: ${metadata.sourceUrl}`,
   };
   normalized.comment = [
+    `Dependency scope: ${scope}; lock-derived npm production workspace graph, not an OS image inventory.`,
     `Release version: ${metadata.version}`,
     `Release revision: ${metadata.revision}`,
     `Corresponding Source: ${metadata.sourceUrl}`,
@@ -59,8 +78,9 @@ export function normalizeSpdxDocument(document, metadata) {
       : "Release metadata is bound to the named public source commit.",
   ].join("\n");
 
+  const rootNames = ["ingenia-xeokit-runtime", ...resolveSbomScope(scope).workspaces];
   const rootPackage = normalized.packages?.find(
-    (entry) => entry.name === "ingenia-xeokit-runtime",
+    (entry) => rootNames.includes(entry.name),
   );
   if (!rootPackage) {
     throw new Error("SPDX output does not describe the runtime root package");
@@ -71,28 +91,44 @@ export function normalizeSpdxDocument(document, metadata) {
   const converterPackage = normalized.packages?.find(
     (entry) => entry.name === "@xeokit/xeokit-convert",
   );
-  if (!converterPackage || converterPackage.versionInfo !== "1.3.2") {
+  if (scope !== "viewer" && (!converterPackage || converterPackage.versionInfo !== "1.3.2")) {
     throw new Error("SPDX output must contain @xeokit/xeokit-convert 1.3.2");
+  }
+  if (scope === "viewer") {
+    const sdk = normalized.packages?.find((entry) => entry.name === "@xeokit/xeokit-sdk");
+    if (sdk?.versionInfo !== "2.6.107") throw new Error("Viewer SPDX must contain @xeokit/xeokit-sdk 2.6.107");
+    if (converterPackage || normalized.packages?.some((entry) => entry.name === "@ingenia/xeokit-converter")) {
+      throw new Error("Viewer SPDX must exclude the converter");
+    }
+    const forbidden = new Set(["@loaders.gl/polyfills", "get-pixels", "request", "web-ifc", "vite", "texture-compressor", "image-size"]);
+    if (normalized.packages?.some((entry) => forbidden.has(entry.name))) {
+      throw new Error("Viewer SPDX contains converter-only or build tooling dependencies");
+    }
+  }
+  if (scope === "converter" && normalized.packages?.some((entry) => entry.name === "@ingenia/xeokit-viewer" || entry.name === "vite")) {
+    throw new Error("Converter SPDX must exclude the Viewer workspace and build tooling");
   }
   return normalized;
 }
 
-export function generateRawSpdx() {
+export function generateRawSpdx(scope = "source") {
   const npmCli = process.env.npm_execpath || path.resolve(
     path.dirname(process.execPath),
     "node_modules/npm/bin/npm-cli.js",
   );
   return JSON.parse(execFileSync(
     process.execPath,
-    [npmCli, "sbom", "--sbom-format", "spdx", "--omit", "dev"],
+    [npmCli, ...sbomArguments(scope)],
     { cwd: runtimeRoot, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 },
   ));
 }
 
 export async function generateReleaseSbom(environment = process.env) {
   const metadata = validateReleaseMetadata(environment);
-  const normalized = normalizeSpdxDocument(generateRawSpdx(), metadata);
-  const destination = path.resolve(runtimeRoot, "sbom.spdx.json");
+  const scope = environment.SBOM_SCOPE ?? "source";
+  const { output } = resolveSbomScope(scope);
+  const normalized = normalizeSpdxDocument(generateRawSpdx(scope), metadata, scope);
+  const destination = path.resolve(runtimeRoot, output);
   if (path.dirname(destination) !== runtimeRoot) {
     throw new Error("Refusing to write SBOM outside the public runtime root");
   }

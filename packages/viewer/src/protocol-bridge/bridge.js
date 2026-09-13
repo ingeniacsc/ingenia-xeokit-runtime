@@ -177,6 +177,7 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
       case "model.remove": return handlers.model.remove(payload.modelId);
       case "camera.fit": return handlers.camera.fit(requireIdentifierList(payload), payload.useCurrentSelection === true);
       case "camera.set": return handlers.camera.set(payload);
+      case "camera.get": return handlers.camera.get();
       case "camera.view": return handlers.camera.view(payload.view);
       case "camera.navigation": return handlers.camera.navigation(payload);
       case "camera.day-night": return handlers.appearance.dayNight(payload.mode);
@@ -207,6 +208,8 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
       case "spatial.levels.request": return handlers.spatial.requestLevelOptions();
       case "spatial.level-clip.set": return handlers.spatial.setLevelClip(payload);
       case "spatial.level-clip.clear": return handlers.spatial.clearLevelClip();
+      case "spatial.grid.set": return handlers.spatial.setProjectGrid(payload);
+      case "spatial.site.set": return handlers.spatial.setSiteContext(payload);
       case "snapshot.capture": return handlers.snapshot.capture(payload);
       case "context.restore-requested": return handlers.reliability.restoreContext();
       default:
@@ -253,7 +256,9 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
     if (accepted.value.type === "host.initialize") clearReadyRetry();
     try {
       const result = await dispatch(accepted.value);
-      if (accepted.value.type === "snapshot.capture") {
+      if (accepted.value.type === "camera.get") {
+        post("camera.changed", { requestId: accepted.value.requestId, initialView: result });
+      } else if (accepted.value.type === "snapshot.capture") {
         post("snapshot.result", { requestId: accepted.value.requestId, ...(result || {}) });
       } else if (["session.export", "session.import"].includes(accepted.value.type)) {
         post("session.state", {
@@ -264,6 +269,12 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
         });
       } else if (["model.open", "model.add", "model.replace"].includes(accepted.value.type) && result) {
         post("model.ready", { requestId: accepted.value.requestId, ...result });
+      } else if (["spatial.grid.set", "spatial.site.set"].includes(accepted.value.type)) {
+        post("spatial.changed", {
+          requestId: accepted.value.requestId,
+          kind: accepted.value.type === "spatial.grid.set" ? "project-grid" : "site-context",
+          ...(result || {}),
+        });
       } else if (!accepted.value.type.startsWith("host.") && !accepted.value.type.startsWith("context.")) {
         post("request.ack", { requestId: accepted.value.requestId });
       }

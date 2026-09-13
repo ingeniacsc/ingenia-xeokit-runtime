@@ -3,6 +3,7 @@ WORKDIR /src
 ARG SOURCE_REVISION=0000000000000000000000000000000000000000
 ARG SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
 ARG RELEASE_VERSION=0.2.0-dev
+ARG SOURCE_DATE_EPOCH=0
 ARG ALLOW_CANDIDATE_REVISION=false
 RUN node -e "const [r,u,v,a]=process.argv.slice(1); if(!/^[0-9a-f]{40}$/.test(r)||u!=='https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/'+r||!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(v)||(r==='0'.repeat(40)&&a!=='true')) process.exit(1)" "$SOURCE_REVISION" "$SOURCE_URL" "$RELEASE_VERSION" "$ALLOW_CANDIDATE_REVISION"
 LABEL org.opencontainers.image.title="INGENIA xeokit Converter" \
@@ -14,9 +15,15 @@ COPY package.json package-lock.json ./
 COPY packages/converter/package.json packages/converter/package.json
 COPY packages/protocol/package.json packages/protocol/package.json
 COPY packages/viewer/package.json packages/viewer/package.json
-RUN npm ci --ignore-scripts --omit=dev
+RUN npm ci --ignore-scripts --omit=dev \
+    --workspace @ingenia/xeokit-converter --include-workspace-root=false
 COPY packages/converter packages/converter
+COPY scripts/generate-release-sbom.mjs scripts/generate-release-sbom.mjs
 RUN npm run converter:prepare && npm run converter:version
-COPY LICENSE NOTICE THIRD_PARTY_NOTICES SOURCE_OFFER.md SBOM.md sbom.spdx.json /licenses/
+RUN SBOM_SCOPE=converter SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH RELEASE_VERSION=$RELEASE_VERSION \
+    RELEASE_REVISION=$SOURCE_REVISION RELEASE_SOURCE_URL=$SOURCE_URL \
+    ALLOW_CANDIDATE_REVISION=$ALLOW_CANDIDATE_REVISION npm run sbom:generate
+COPY LICENSE NOTICE THIRD_PARTY_NOTICES SOURCE_OFFER.md SBOM.md /licenses/
+RUN cp /src/sbom.converter.spdx.json /licenses/sbom.spdx.json
 USER node
 ENTRYPOINT ["node", "/src/packages/converter/bin/ingenia-xeokit-convert.mjs"]

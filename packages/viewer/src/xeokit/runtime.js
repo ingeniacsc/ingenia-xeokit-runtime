@@ -29,7 +29,7 @@ export function createViewportRuntime({
     viewer = new Viewer({
       canvasElement: canvas,
       spinnerElementId: "xeokit-spinner",
-      transparent: false,
+      transparent: true,
       antialias: true,
       saoEnabled: false,
       // Matches the reviewed host Viewer configuration: DTX can report a loaded

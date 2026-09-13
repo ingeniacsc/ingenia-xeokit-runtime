@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createTreeSearchPlan, normalizeTreeSearchText } from "./tree-search.js";
-import { populateModelTree, resolveModelStoreys } from "./tree-hierarchy.js";
+import { populateModelTree, resolveModelStoreys, createTreeNodeComparator } from "./tree-hierarchy.js";
 import {
   bindModelTreeKeyboardNavigation, decorateModelTreeBody,
   resolveModelTreeCopy, resolveSingleModelTreeSelection,
@@ -370,6 +370,9 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
         hierarchy: config.hierarchy,
         autoAddModels: false,
         showIndeterminate: true,
+        sortNodes: true,
+        elevationSortFunction: createTreeNodeComparator(viewer),
+        defaultSortFunction: createTreeNodeComparator(viewer),
       });
       populateModelTree({ viewer, plugin, modelEntries, hierarchy: config.hierarchy, body, emptyMessage: copy.emptyStoreys });
       decorateModelTreeBody(body, copy);

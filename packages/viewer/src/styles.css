@@ -13,8 +13,17 @@
 
 * { box-sizing: border-box; }
 html, body, #viewport-shell { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-#viewport-shell { position: relative; background: #f4efe6; }
+#viewport-shell {
+  position: relative;
+  /* A broad, soft horizon avoids a flat field without darkening the model. */
+  background: linear-gradient(180deg, #abc6d3 0%, #cfdee3 35%, #e8eeed 55%, #f2f5f1 68%, #e0e7e1 100%);
+}
+#viewport-shell[data-visual-mode="night"] {
+  background: linear-gradient(180deg, #142029 0%, #293d49 35%, #435b66 55%, #526b73 68%, #2d414a 100%);
+}
 #xeokit-canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+#xeokit-canvas:focus { outline: none; }
+#xeokit-canvas:focus-visible { outline: 2px solid #00848c; outline-offset: -2px; }
 /* Xeokit retains this CSP-safe node internally, while the host owns visible loading UI. */
 #xeokit-spinner { display: none !important; }
 #xeokit-navcube {
@@ -33,6 +42,48 @@ html, body, #viewport-shell { width: 100%; height: 100%; margin: 0; overflow: hi
 }
 #section-axis-labels { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 #section-axis-labels[hidden] { display: none; }
+.ingenia-project-grid-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ingenia-project-grid-label {
+  position: absolute;
+  border: 1px solid rgba(0, 107, 117, .8);
+  background: rgba(250, 253, 251, .94);
+  color: #005f69;
+  box-shadow: 0 .15rem .45rem rgba(8, 47, 53, .18);
+  font-size: .64rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ingenia-project-grid-axis-label {
+  min-width: 1.25rem;
+  height: 1.25rem;
+  transform: translate(-50%, -50%);
+  padding: .28rem;
+  border-radius: 50%;
+  text-align: center;
+}
+.ingenia-project-grid-level-label,
+.ingenia-project-grid-elevation-label {
+  padding: .32rem .48rem;
+  border-color: rgba(154, 112, 31, .9);
+  border-radius: .3rem;
+  background: rgba(247, 241, 226, .96);
+  color: #4d3405;
+  box-shadow: 0 .16rem .5rem rgba(75, 53, 12, .22);
+  font-weight: 900;
+}
+.ingenia-project-grid-level-label {
+  transform: translate(calc(-100% - .45rem), -50%);
+}
+.ingenia-project-grid-elevation-label {
+  transform: translate(.45rem, -50%);
+}
 #orbit-pivot-marker {
   position: absolute;
   z-index: 24;
