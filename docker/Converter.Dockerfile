@@ -1,5 +1,6 @@
 FROM node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32
 WORKDIR /src
+RUN apk add --no-cache 'libcrypto3=3.5.8-r0' 'libssl3=3.5.8-r0'
 ARG SOURCE_REVISION=0000000000000000000000000000000000000000
 ARG SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
 ARG RELEASE_VERSION=0.2.0-dev
@@ -25,5 +26,8 @@ RUN SBOM_SCOPE=converter SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH RELEASE_VERSION=$R
     ALLOW_CANDIDATE_REVISION=$ALLOW_CANDIDATE_REVISION npm run sbom:generate
 COPY LICENSE NOTICE THIRD_PARTY_NOTICES SOURCE_OFFER.md SBOM.md /licenses/
 RUN cp /src/sbom.converter.spdx.json /licenses/sbom.spdx.json
+# Installation and SBOM generation are complete; the runtime invokes Node directly.
+RUN rm -rf /usr/local/lib/node_modules/npm /opt/yarn-v1.22.22 \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/yarn /usr/local/bin/yarnpkg
 USER node
 ENTRYPOINT ["node", "/src/packages/converter/bin/ingenia-xeokit-convert.mjs"]
