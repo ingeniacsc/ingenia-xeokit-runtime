@@ -274,15 +274,19 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     return deniedObjectIds.length;
   }
 
-  function getRenderableObjectCount(model) {
-    const sceneObjectCount = Object.keys(viewer.scene?.objects || {}).length;
-    if (sceneObjectCount > 0) return sceneObjectCount;
+  function getRenderableObjectCount(model, modelId, initialSceneObjectIds) {
+    const sceneObjectIds = Object.keys(viewer.scene?.objects || {});
+    const modelObjectCount = sceneObjectIds.filter((id) => id.startsWith(`${modelId}#`)).length;
+    if (modelObjectCount > 0) return modelObjectCount;
     try {
       const modelCount = Number(model?.numEntities ?? model?.numObjects ?? 0);
-      return Number.isFinite(modelCount) && modelCount > 0 ? modelCount : 0;
-    } catch {
-      return 0;
-    }
+      if (Number.isFinite(modelCount) && modelCount > 0) return modelCount;
+    } catch {}
+    // Older SDK finalization can expose unprefixed scene objects before the
+    // model accessor settles. Count only objects introduced by this load.
+    return initialSceneObjectIds
+      ? sceneObjectIds.filter((id) => !initialSceneObjectIds.has(id)).length
+      : 0;
   }
 
   function resolveRevealSceneObjects(modelId, geometryScope, initialSceneObjectIds, replaceAll) {
@@ -455,7 +459,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
       const scopedObjectCount = applyGeometryScope(descriptor.modelId, geometryScope);
       const objectCount = geometryScope.mode === "allowlist"
         ? scopedObjectCount
-        : getRenderableObjectCount(existingModel);
+        : getRenderableObjectCount(existingModel, descriptor.modelId);
       try { viewer.scene.render(true); } catch {}
       onProgress?.({ modelId: descriptor.modelId, percent: 100, phase: "ready" });
       return { modelId: descriptor.modelId, objectCount };
@@ -551,7 +555,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
           const scopedObjectCount = applyGeometryScope(descriptor.modelId, geometryScope);
           const objectCount = geometryScope.mode === "allowlist"
             ? scopedObjectCount
-            : getRenderableObjectCount(model);
+            : getRenderableObjectCount(model, descriptor.modelId, initialSceneObjectIds);
           try { viewer.scene.render(true); } catch {}
           onProgress?.({ modelId: descriptor.modelId, percent: 100, phase: "ready" });
           settled = true;

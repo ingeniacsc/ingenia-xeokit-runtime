@@ -9,11 +9,16 @@ function storeyElevation(metaObject) {
   return Number.isFinite(number) ? number : null;
 }
 
+function storeySortKey(label) {
+  return String(label || "").replace(/(\p{L})\s+(?=\d)/gu, '$1');
+}
+
 function compareStoreys(left, right) {
   const leftKnown = Number.isFinite(left.elevation);
   const rightKnown = Number.isFinite(right.elevation);
   if (leftKnown !== rightKnown) return leftKnown ? -1 : 1;
   return (leftKnown ? left.elevation - right.elevation : 0)
+    || naturalOrder.compare(storeySortKey(left.label), storeySortKey(right.label))
     || naturalOrder.compare(left.label, right.label);
 }
 

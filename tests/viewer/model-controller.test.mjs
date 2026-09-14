@@ -12,6 +12,55 @@ async function waitForLoadedHandler(handlers) {
   throw new Error("Model loader did not register a loaded handler.");
 }
 
+test("federated load acknowledgements count each model independently in either order", async () => {
+  const content = new Uint8Array([1, 9, 2, 8]).buffer;
+  const contentHash = createHash("sha256").update(Buffer.from(content)).digest("hex");
+  const originalFetch = globalThis.fetch;
+  const originalAnimationFrame = globalThis.requestAnimationFrame;
+  globalThis.fetch = async () => ({ ok: true, arrayBuffer: async () => content });
+  globalThis.requestAnimationFrame = (callback) => callback();
+  try {
+    for (const order of [["hvac", "arc"], ["arc", "hvac"]]) {
+      const handlers = new Map();
+      const counts = { hvac: 2, arc: 3 };
+      const viewer = {
+        camera: { projection: "perspective" },
+        scene: { objects: {}, render() {} },
+      };
+      const controller = createModelController({ viewer, loader: { load({ id }) {
+        const callbacks = {};
+        handlers.set(id, callbacks);
+        for (let i = 0; i < counts[id]; i += 1) {
+          viewer.scene.objects[`${id}#${i}`] = { id: `${id}#${i}`, aabb: [0, i, 0, 1, i + 1, 1] };
+        }
+        return {
+          get numEntities() { throw new Error("SDK accessor not finalized"); },
+          on(name, callback) { callbacks[name] = callback; },
+          destroy() {},
+        };
+      } } });
+      for (const id of order) {
+        const opening = controller.open({ modelId: id, format: "xkt",
+          artifactUrl: "https://viewer.invalid/content", contentHash, revision: "1" },
+        { replaceAll: false, preserveCamera: true });
+        while (!handlers.has(id)) await new Promise((resolve) => setImmediate(resolve));
+        await waitForLoadedHandler(handlers.get(id));
+        handlers.get(id).loaded();
+        assert.deepEqual(await opening, { modelId: id, objectCount: counts[id] });
+      }
+      assert.equal(Object.keys(viewer.scene.objects).length, 5);
+      for (const id of order) {
+        assert.deepEqual(await controller.open({ modelId: id, format: "xkt",
+          artifactUrl: "https://viewer.invalid/content", contentHash, revision: "1" },
+        { replaceAll: false, preserveCamera: true }), { modelId: id, objectCount: counts[id] });
+      }
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+    globalThis.requestAnimationFrame = originalAnimationFrame;
+  }
+});
+
 test("loaded models are revealed, fitted, and rendered before ready", async () => {
   const content = new Uint8Array([1, 2, 3, 4]).buffer;
   const contentHash = createHash("sha256").update(Buffer.from(content)).digest("hex");
