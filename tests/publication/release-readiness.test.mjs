@@ -145,7 +145,12 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.match(compose, /\/tmp:rw,noexec,nosuid,size=32m,mode=1777/);
   assert.doesNotMatch(compose, /cap_add:/);
   assert.match(dockerfile, /source\.json/);
-  assert.equal((dockerfile.match(/FROM .+@sha256:[0-9a-f]{64}/g) ?? []).length, 2);
+  const baseStages = dockerfile.split(/\r?\n/).filter((line) => line.startsWith("FROM "));
+  assert.equal(baseStages.length, 3);
+  for (const base of baseStages) {
+    assert.match(base, /^FROM [^\s]+@sha256:[0-9a-f]{64}(?: AS [a-z0-9-]+)?$/);
+  }
+  assert.match(dockerfile, /AS busybox-backport/);
   assert.match(dockerfile, /ALLOW_CANDIDATE_REVISION=false/);
   assert.match(converterDockerfile, /npm run converter:prepare/);
   assert.match(converterDockerfile, /org\.opencontainers\.image\.source/);

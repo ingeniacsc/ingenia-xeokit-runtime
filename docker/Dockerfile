@@ -26,6 +26,20 @@ RUN SBOM_SCOPE=viewer SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH RELEASE_VERSION=$RELE
     ALLOW_CANDIDATE_REVISION=$ALLOW_CANDIDATE_REVISION npm run sbom:generate
 RUN npm run build
 
+# Fetch every security-build input with its recorded hash before the offline
+# package build. Keep the browser/runtime dependency graphs unchanged.
+COPY docker/busybox-sources.json docker/patches/busybox-CVE-2025-60876.patch /security/
+COPY docker/build-patched-busybox.sh /security/build-patched-busybox.sh
+RUN /bin/sh /security/build-patched-busybox.sh fetch \
+    /security/busybox-sources.json /security/busybox-CVE-2025-60876.patch /busybox-inputs
+
+FROM nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6 AS busybox-backport
+ARG SOURCE_DATE_EPOCH=0
+COPY --from=build /busybox-inputs /busybox-inputs
+COPY docker/build-patched-busybox.sh docker/Dockerfile docker/BUSYBOX_SECURITY.md /security/
+RUN --network=none SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH \
+    /bin/sh /security/build-patched-busybox.sh build
+
 FROM nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6
 ARG SOURCE_REVISION=0000000000000000000000000000000000000000
 ARG SOURCE_URL=https://github.com/ingeniacsc/ingenia-xeokit-runtime/tree/0000000000000000000000000000000000000000
@@ -37,12 +51,23 @@ LABEL org.opencontainers.image.title="INGENIA xeokit Runtime" \
       org.opencontainers.image.revision="$SOURCE_REVISION" \
       org.opencontainers.image.version="$RELEASE_VERSION" \
       org.opencontainers.image.licenses="AGPL-3.0-only"
+COPY --from=busybox-backport /busybox-output/runtime/ingenia-busybox-backport.rsa.pub /etc/apk/keys/
+COPY --from=busybox-backport /busybox-output/runtime/*.apk /opt/ingenia-busybox-apks/
+RUN --network=none apk add --no-network /opt/ingenia-busybox-apks/*.apk \
+    && test "$(apk info -v busybox)" = busybox-1.37.0-r3101 \
+    && test "$(apk info -v busybox-binsh)" = busybox-binsh-1.37.0-r3101 \
+    && test "$(apk info -v ssl_client)" = ssl_client-1.37.0-r3101 \
+    && /bin/busybox --list | grep -qx wget \
+    && test "$(readlink /bin/sh)" = /bin/busybox \
+    && rm /opt/ingenia-busybox-apks/*.apk \
+    && rmdir /opt/ingenia-busybox-apks
 COPY --chmod=644 docker/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --chmod=644 docker/nginx-main.conf /etc/nginx/nginx.conf
 COPY --chmod=644 docker/viewer-entrypoint.sh /opt/ingenia/viewer-entrypoint.sh
 COPY --from=build /src/packages/viewer/dist /usr/share/nginx/html
 COPY --chmod=644 LICENSE NOTICE THIRD_PARTY_NOTICES /usr/share/nginx/html/legal/
 COPY --from=build --chmod=644 /src/sbom.viewer.spdx.json /usr/share/nginx/html/legal/sbom.spdx.json
+COPY --from=busybox-backport --chmod=644 /busybox-output/legal/ /usr/share/nginx/html/legal/
 RUN printf '{"source":"%s","revision":"%s","version":"%s","license":"AGPL-3.0-only"}\n' \
       "$SOURCE_URL" "$SOURCE_REVISION" "$RELEASE_VERSION" \
       > /usr/share/nginx/html/source.json \
