@@ -29,6 +29,7 @@ RUN npm run build
 # Fetch every security-build input with its recorded hash before the offline
 # package build. Keep the browser/runtime dependency graphs unchanged.
 COPY docker/busybox-sources.json docker/patches/busybox-CVE-2025-60876.patch /security/
+COPY docker/patches/busybox-offline-checks.patch /security/
 COPY docker/build-patched-busybox.sh /security/build-patched-busybox.sh
 RUN /bin/sh /security/build-patched-busybox.sh fetch \
     /security/busybox-sources.json /security/busybox-CVE-2025-60876.patch /busybox-inputs

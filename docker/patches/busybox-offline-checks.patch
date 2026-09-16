@@ -1,0 +1,33 @@
+Subject: [INGENIA build tests] portable musl UTC input and offline HTTP fixture
+
+Only test inputs change; all original success/file/time assertions remain.
+Apply after Alpine 0022, retaining numeric UTC and all DST/offset checks.
+Four wget tests use the bounded Python loopback HTTP fixture.
+
+--- a/testsuite/date/date-timezone
++++ b/testsuite/date/date-timezone
+@@ -3,2 +3,2 @@
+-# 'Z' is UTC
+-dt=$(TZ=UTC busybox date -d '1999-1-2 3:4:5Z')
++# Numeric UTC is portable to musl strptime(%z).
++dt=$(TZ=UTC busybox date -d '1999-1-2 3:4:5 +0000')
+--- a/testsuite/wget/wget--O-overrides--P
++++ b/testsuite/wget/wget--O-overrides--P
+@@ -4 +4 @@
+-busybox wget -q -O index.html -P foo http://www.google.com/
++busybox wget -q -O index.html -P foo http://127.0.0.1:18080/
+--- a/testsuite/wget/wget-handles-empty-path
++++ b/testsuite/wget/wget-handles-empty-path
+@@ -3 +3 @@
+-busybox wget http://www.google.com
++busybox wget http://127.0.0.1:18080
+--- a/testsuite/wget/wget-retrieves-google-index
++++ b/testsuite/wget/wget-retrieves-google-index
+@@ -3 +3 @@
+-busybox wget -q -O foo http://www.google.com/
++busybox wget -q -O foo http://127.0.0.1:18080/
+--- a/testsuite/wget/wget-supports--P
++++ b/testsuite/wget/wget-supports--P
+@@ -4 +4 @@
+-busybox wget -q -P foo http://www.google.com/
++busybox wget -q -P foo http://127.0.0.1:18080/

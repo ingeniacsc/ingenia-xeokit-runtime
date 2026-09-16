@@ -70,3 +70,32 @@ timeout; reserve approximately 1GiB RAM and 1GiB temporary disk, then measure
 actual usage. The source archive adds approximately 3MiB to the final image.
 These are planning estimates, not measured release evidence. No build tools,
 toolchain APKs or private build keys enter the final runtime.
+
+## Original test-suite portability
+
+The initial offline build retained its complete failure log: 898 tests passed
+and five failed. Four old wget tests depended on downloading Google's live
+homepage. The remaining test expected the `Z` suffix for a date, whereas the
+pinned musl 1.2.6 implementation of `strptime(%z)` accepts signed numeric offsets.
+The published baseline image also rejects this suffix; it accepts `+0000`.
+This is a pre-existing libc limitation, not a change to date behavior here.
+See the [musl implementation](https://git.musl-libc.org/cgit/musl/plain/src/time/strptime.c?h=v1.2.6).
+
+`busybox-offline-checks.patch` changes exactly five test files, without changing
+runtime C code or configuration. The first date input uses the equivalent
+numeric UTC offset `+0000`, retaining all seven expected date/DST/offset results.
+Four Google URL inputs become `http://127.0.0.1:18080`; the empty path and all
+download, nonempty-file, `-O` and `-P` assertions remain intact. No internet test
+is skipped. The entire original dynamic and extras check phases still run.
+
+A Python HTTP fixture binds only loopback during the offline build, serves a
+fixed 37-byte body, caps successful responses/error records and socket duration,
+and is stopped on both success and failure. The build derives the expected
+request count from both pinned suite configurations and requires that count
+with zero fixture errors. For these configurations the count is four because
+the extras configuration has no wget applet.
+It verifies hashes of all five resulting test files. Patch hashes, original
+and resulting test hashes, and fixture evidence are included in the public
+manifest/provenance. The corresponding-source archive contains 88 explicit
+members, including this separate test-only patch; its five input adjustments
+are not represented as additional vulnerability fixes.

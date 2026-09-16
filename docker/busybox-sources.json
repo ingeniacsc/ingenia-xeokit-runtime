@@ -1097,5 +1097,41 @@
     }
   ],
   "builder_apks_status": "FROZEN",
-  "runtime_parent": "nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6"
+  "runtime_parent": "nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6",
+  "build_test_patch": {
+    "name": "busybox-offline-checks.patch",
+    "purpose": "Test-input portability only: musl numeric UTC and local HTTP fixture; no runtime code changes or skipped assertions",
+    "sha256": "e52b1014fcc26909e32d17642e5b982775072bcfcf9cd4b480c6342bdf3ead60",
+    "sha512": "a43c3f9574678cea506c540769ab1745f89b0c064fc61a79c0d5b2dde3a48dd21fd37fc82ecdf65187d6e2d46513d80cc1ced553637a64b719c624cda4ec5cbb",
+    "bytes": 1325,
+    "targets": [
+      {
+        "path": "testsuite/date/date-timezone",
+        "before_sha256": "f1ad7bc467b8ba57c34bfa8816e68d773e4e66d8952103a9197c8bd5c3d91fa9",
+        "after_sha256": "3f2373dc2e5046835d7c76902d570046c11bad1c38643fbc745ca7498f4fc9d5"
+      },
+      {
+        "path": "testsuite/wget/wget--O-overrides--P",
+        "before_sha256": "992d01a13367da34fc08d53de0a733b3f5d34387c6ba2a5f2ecc929f64de8110",
+        "after_sha256": "769a9e6603320311a4b393bd77971824489f3ff5add6d8909e4dbfd3fff45405"
+      },
+      {
+        "path": "testsuite/wget/wget-handles-empty-path",
+        "before_sha256": "e3484ef5b0f130d798dfa37bc39e74c676d40c9e0f998e3b73ad992c3e4a8371",
+        "after_sha256": "7c4ed2810bfd8ca0a6cc37ceb29484d3512b3cb1b870a6298d391ba99e3f049f"
+      },
+      {
+        "path": "testsuite/wget/wget-retrieves-google-index",
+        "before_sha256": "0e4971fcfb88ec12a24ed07f01cce915eef07e8672312568c509f9b6b64d8fa6",
+        "after_sha256": "cef5a1832a523e909d92503f629d2f5f29be183980f1d431f7deddb0dd90b9ce"
+      },
+      {
+        "path": "testsuite/wget/wget-supports--P",
+        "before_sha256": "c6a173a3b5f813d289d1ae5a8fd7e881995aedc582058da704f882bc88af03c7",
+        "after_sha256": "0ed13e620a634ddb95950ca55bb19f32118a6a5f4e4c6ec052758e0ff258d1b6"
+      }
+    ],
+    "fixture_origin": "http://127.0.0.1:18080",
+    "minimum_successful_requests": 4
+  }
 }

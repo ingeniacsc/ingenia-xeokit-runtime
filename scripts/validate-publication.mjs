@@ -51,7 +51,16 @@ export function scanText(text, relativePath = "synthetic.txt") {
   ]).has(relativePath);
   if (!permitsLoopback) {
     const internalOrigin = /https?:\/\/(?:localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+)(?::\d+)?/g;
-    for (const match of text.matchAll(internalOrigin)) record("internal-origin", match[0]);
+    // Public provenance for the offline BusyBox tests names one synthetic
+    // loopback fixture. Other origins, suffixes and file paths stay blocked.
+    const fixtureFiles = new Set(["docker/busybox-sources.json", "docker/BUSYBOX_SECURITY.md"]);
+    for (const match of text.matchAll(internalOrigin)) {
+      const tail = text.slice(match.index + match[0].length);
+      const isFixture = fixtureFiles.has(relativePath)
+        && match[0] === "http://127.0.0.1:18080"
+        && /^(?:$|[\s"'`),;])/.test(tail);
+      if (!isFixture) record("internal-origin", match[0]);
+    }
   }
   return findings;
 }

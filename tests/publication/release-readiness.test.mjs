@@ -172,6 +172,25 @@ test("publication scanner passes the candidate and blocks high-risk examples", a
   assert.equal(scanText("service=http://10.1.2.3:8000", "fixture.txt").some((item) => item.rule === "internal-origin"), true);
 });
 
+test("publication permits only the documented offline BusyBox fixture origin", () => {
+  const fixture = "http://127.0.0.1:18080";
+  const files = ["docker/busybox-sources.json", "docker/BUSYBOX_SECURITY.md"];
+  for (const file of files) {
+    assert.deepEqual(scanText(JSON.stringify({ fixture_origin: fixture }), file), []);
+    assert.deepEqual(scanText("Fixture `" + fixture + "`.", file), []);
+    for (const rejected of [
+      fixture + ".example.invalid", fixture + "@example.invalid", fixture + "/private",
+      fixture + "?query=private", "http://127.0.0.1:18081", "http://localhost:18080",
+      "http://10.9.8.7:8000", "http://192.168.9.8", "http://172.16.9.8",
+    ]) {
+      assert.ok(scanText(rejected, file).some(item => item.rule === "internal-origin"), rejected);
+    }
+  }
+  for (const file of ["README.md", "packages/viewer/src/main.js", "docker/other.json"]) {
+    assert.ok(scanText(fixture, file).some(item => item.rule === "internal-origin"), file);
+  }
+});
+
 test("public CI and release workflows pin every third-party action", async () => {
   const workflows = await Promise.all([
     source(".github/workflows/ci.yml"),

@@ -33,6 +33,14 @@ async function main() {
   }
   await fs.writeFile(path.join(output, 'metadata', 'busybox-sources.json'), manifestBytes, {flag: 'wx'});
   await fs.writeFile(path.join(output, 'metadata', manifest.backport.name), patchBytes, {flag: 'wx'});
+  const testPatch = manifest.build_test_patch;
+  if (!testPatch || testPatch.name !== 'busybox-offline-checks.patch') throw new Error('Pinned build-test patch required');
+  const testPatchBytes = await fs.readFile(path.join(path.dirname(patchPath), testPatch.name));
+  if (testPatchBytes.length !== testPatch.bytes || digest(testPatchBytes) !== testPatch.sha256
+      || digest(testPatchBytes, 'sha512') !== testPatch.sha512) {
+    throw new Error('Build-test patch checksum mismatch');
+  }
+  await fs.writeFile(path.join(output, 'metadata', testPatch.name), testPatchBytes, {flag: 'wx'});
   const tasks = [
     ...manifest.aports_files.map(row => ({...row, directory: 'aports'})),
     {...manifest.upstream_source, directory: 'distfiles'},
@@ -98,12 +106,15 @@ build)
 from pathlib import Path
 import gzip
 import hashlib
+import http.server
 import io
 import json
 import os
 import shutil
 import subprocess
 import tarfile
+import threading
+import time
 
 inputs = Path('/busybox-inputs')
 manifest = json.loads((inputs / 'metadata/busybox-sources.json').read_text(encoding='utf-8'))
@@ -128,12 +139,18 @@ patch = manifest['backport']
 patch_bytes = (inputs / 'metadata' / patch['name']).read_bytes()
 assert hashlib.sha256(patch_bytes).hexdigest() == patch['sha256']
 (recipe / patch['name']).write_bytes(patch_bytes)
+test_patch = manifest['build_test_patch']
+test_patch_bytes = (inputs / 'metadata' / test_patch['name']).read_bytes()
+assert hashlib.sha256(test_patch_bytes).hexdigest() == test_patch['sha256']
+assert hashlib.sha512(test_patch_bytes).hexdigest() == test_patch['sha512']
+(recipe / test_patch['name']).write_bytes(test_patch_bytes)
 overlay = (
     '\n# INGENIA local backport; not an Alpine-issued package revision.\n'
     'pkgrel=3101\n'
     'pkgdesc="$pkgdesc (INGENIA CVE-2025-60876 backport of Alpine r31)"\n'
-    'source="$source ' + patch['name'] + '"\n'
-    'sha512sums="$sha512sums\n' + patch['sha512'] + '  ' + patch['name'] + '\n"\n'
+    'source="$source ' + patch['name'] + ' ' + test_patch['name'] + '"\n'
+    'sha512sums="$sha512sums\n' + patch['sha512'] + '  ' + patch['name'] + '\n'
+    + test_patch['sha512'] + '  ' + test_patch['name'] + '\n"\n'
 )
 (recipe / 'APKBUILD').write_text(original + overlay, encoding='utf-8', newline='\n')
 signing = work / 'signing'
@@ -143,14 +160,74 @@ public_key = signing / 'ingenia-busybox-backport.rsa.pub'
 subprocess.run(['openssl', 'genrsa', '-out', str(key), '2048'], check=True)
 key.chmod(0o600)
 subprocess.run(['openssl', 'rsa', '-in', str(key), '-pubout', '-out', str(public_key)], check=True)
+# The build tool verifies the local repository index using the same public key.
+# The private signing key remains exclusively in the builder signing directory.
+shutil.copyfile(public_key, Path('/etc/apk/keys') / public_key.name)
 env = dict(os.environ, PACKAGER_PRIVKEY=str(key), ABUILD_USERDIR=str(signing),
            SRCDEST=str(inputs / 'distfiles'), REPODEST=str(work / 'packages'),
            JOBS='2', MAKEFLAGS='-j2', SOURCE_DATE_EPOCH=str(epoch))
+# The four original HTTP assertions run against a deterministic local response.
+# No internet test is skipped and no external network is enabled.
+env.pop('SKIP_INTERNET_TESTS', None)
+suite_wget_enabled = {}
+for config_name in ['busyboxconfig', 'busyboxconfig-extras']:
+    config_lines = (inputs / 'aports' / config_name).read_text(encoding='utf-8').splitlines()
+    enabled = 'CONFIG_WGET=y' in config_lines
+    disabled = '# CONFIG_WGET is not set' in config_lines
+    assert enabled != disabled, config_name
+    suite_wget_enabled[config_name] = enabled
+expected_http_requests = 4 * sum(suite_wget_enabled.values())
+assert expected_http_requests >= test_patch['minimum_successful_requests']
+fixture_body = b'INGENIA BusyBox offline HTTP fixture\n'
+fixture_state = {'successful_requests': 0, 'errors': []}
+fixture_deadline = time.monotonic() + 1210
+
+class FixtureHandler(http.server.BaseHTTPRequestHandler):
+    def setup(self):
+        super().setup()
+        self.connection.settimeout(2)
+
+    def log_message(self, *args):
+        pass
+
+    def do_GET(self):
+        if (self.path != '/' or time.monotonic() > fixture_deadline
+                or fixture_state['successful_requests'] >= expected_http_requests):
+            if len(fixture_state['errors']) < 8:
+                fixture_state['errors'].append('unexpected_or_excess_request')
+            self.send_error(503)
+            return
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/plain')
+        self.send_header('Content-Length', str(len(fixture_body)))
+        self.end_headers()
+        self.wfile.write(fixture_body)
+        fixture_state['successful_requests'] += 1
+
+class FixtureServer(http.server.HTTPServer):
+    def handle_error(self, request, client_address):
+        if len(fixture_state['errors']) < 8:
+            fixture_state['errors'].append('handler_error')
+
+fixture = FixtureServer(('127.0.0.1', 18080), FixtureHandler)
+fixture_thread = threading.Thread(target=fixture.serve_forever,
+                                  kwargs={'poll_interval': 0.1}, daemon=True)
+fixture_thread.start()
 # -d skips dependency installation because the complete closure is installed.
 # Docker runs this entire step with --network=none. The original recipe's
 # prepare/build/check/package steps and configuration remain in force.
-subprocess.run(['abuild', '-F', '-d', '-P', str(work / 'packages'), 'all'],
-               cwd=recipe, env=env, check=True, timeout=1200)
+try:
+    subprocess.run(['abuild', '-F', '-d', '-P', str(work / 'packages'), 'all'],
+                   cwd=recipe, env=env, check=True, timeout=1200)
+finally:
+    fixture.shutdown()
+    fixture_thread.join(timeout=3)
+    fixture.server_close()
+assert not fixture_thread.is_alive(), 'HTTP fixture did not stop'
+assert fixture_state == {'successful_requests': expected_http_requests, 'errors': []}, fixture_state
+for target in test_patch['targets']:
+    actual = recipe / 'src/busybox-1.37.0' / target['path']
+    assert hashlib.sha256(actual.read_bytes()).hexdigest() == target['after_sha256'], target['path']
 packages = []
 for package in ['busybox', 'busybox-binsh', 'ssl_client']:
     filename = f'{package}-{manifest["package_version"]}.apk'
@@ -168,6 +245,15 @@ provenance = {
     'manifest_sha256': hashlib.sha256((inputs / 'metadata/busybox-sources.json').read_bytes()).hexdigest(),
     'public_signing_key_sha256': hashlib.sha256(public_key.read_bytes()).hexdigest(),
     'source_date_epoch': epoch, 'packages': packages,
+    'build_test_patch_sha256': test_patch['sha256'],
+    'build_test_fixture': {'origin': test_patch['fixture_origin'],
+                           'successful_requests': fixture_state['successful_requests'],
+                           'expected_successful_requests': expected_http_requests,
+                           'suite_wget_enabled': suite_wget_enabled,
+                           'body_sha256': hashlib.sha256(fixture_body).hexdigest(),
+                           'body_bytes': len(fixture_body), 'errors': fixture_state['errors'],
+                           'test_files_sha256_verified': len(test_patch['targets']),
+                           'internet_tests_skipped': False},
     'builder_packages': subprocess.check_output(['apk', 'info', '-v'], text=True).splitlines(),
     'predicate': patch['predicate'], 'raw_wire_regression': 'REQUIRED_ON_FINAL_IMAGE',
     'scanner_warning': 'Unchanged upstream 1.37.0 can still match a broad CPE rule; no suppression applied.',
@@ -183,6 +269,7 @@ members += [
     (inputs / 'distfiles' / manifest['upstream_source']['name'], manifest['upstream_source']['name']),
     (recipe / 'APKBUILD', 'ingenia/APKBUILD'),
     (recipe / patch['name'], 'ingenia/' + patch['name']),
+    (recipe / test_patch['name'], 'ingenia/' + test_patch['name']),
     (inputs / 'metadata/busybox-sources.json', 'ingenia/busybox-sources.json'),
     (Path('/security/build-patched-busybox.sh'), 'ingenia/build-patched-busybox.sh'),
     (Path('/security/Dockerfile'), 'ingenia/Dockerfile'),
