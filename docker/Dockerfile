@@ -55,9 +55,8 @@ LABEL org.opencontainers.image.title="INGENIA xeokit Runtime" \
 COPY --from=busybox-backport /busybox-output/runtime/ingenia-busybox-backport.rsa.pub /etc/apk/keys/
 COPY --from=busybox-backport /busybox-output/runtime/*.apk /opt/ingenia-busybox-apks/
 RUN --network=none apk add --no-network /opt/ingenia-busybox-apks/*.apk \
-    && test "$(apk info -v busybox)" = busybox-1.37.0-r3101 \
-    && test "$(apk info -v busybox-binsh)" = busybox-binsh-1.37.0-r3101 \
-    && test "$(apk info -v ssl_client)" = ssl_client-1.37.0-r3101 \
+    && apk info --exists 'busybox=1.37.0-r3101' \
+        'busybox-binsh=1.37.0-r3101' 'ssl_client=1.37.0-r3101' \
     && /bin/busybox --list | grep -qx wget \
     && test "$(readlink /bin/sh)" = /bin/busybox \
     && rm /opt/ingenia-busybox-apks/*.apk \
