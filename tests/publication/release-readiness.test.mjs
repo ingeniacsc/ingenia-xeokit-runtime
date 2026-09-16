@@ -176,13 +176,20 @@ test("publication permits only the documented offline BusyBox fixture origin", (
   const fixture = "http://127.0.0.1:18080";
   const files = ["docker/busybox-sources.json", "docker/BUSYBOX_SECURITY.md"];
   for (const file of files) {
-    assert.deepEqual(scanText(JSON.stringify({ fixture_origin: fixture }), file), []);
-    assert.deepEqual(scanText("Fixture `" + fixture + "`.", file), []);
+    const delimiter = file.endsWith(".json") ? '"' : "`";
+    const permitted = file.endsWith(".json")
+      ? JSON.stringify({ fixture_origin: fixture }) : "Fixture `" + fixture + "`.";
+    assert.deepEqual(scanText(permitted, file), []);
     for (const rejected of [
       fixture + ".example.invalid", fixture + "@example.invalid", fixture + "/private",
       fixture + "?query=private", "http://127.0.0.1:18081", "http://localhost:18080",
       "http://10.9.8.7:8000", "http://192.168.9.8", "http://172.16.9.8",
+      fixture + ";@example.invalid", fixture + "),@example.invalid", fixture + "\t/private",
     ]) {
+      assert.ok(scanText(rejected, file).some(item => item.rule === "internal-origin"), rejected);
+      assert.ok(scanText(delimiter + rejected + delimiter, file).some(item => item.rule === "internal-origin"), rejected);
+    }
+    for (const rejected of [fixture, '"' + fixture + "`", "`" + fixture + '"']) {
       assert.ok(scanText(rejected, file).some(item => item.rule === "internal-origin"), rejected);
     }
   }
