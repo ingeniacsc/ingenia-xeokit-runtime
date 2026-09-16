@@ -214,10 +214,11 @@ fixture_thread = threading.Thread(target=fixture.serve_forever,
                                   kwargs={'poll_interval': 0.1}, daemon=True)
 fixture_thread.start()
 # -d skips dependency installation because the complete closure is installed.
+# -K retains builder-only source/temp dirs for the mandatory post-build hashes.
 # Docker runs this entire step with --network=none. The original recipe's
 # prepare/build/check/package steps and configuration remain in force.
 try:
-    subprocess.run(['abuild', '-F', '-d', '-P', str(work / 'packages'), 'all'],
+    subprocess.run(['abuild', '-F', '-d', '-K', '-P', str(work / 'packages'), 'all'],
                    cwd=recipe, env=env, check=True, timeout=1200)
 finally:
     fixture.shutdown()

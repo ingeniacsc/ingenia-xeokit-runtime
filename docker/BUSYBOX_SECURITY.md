@@ -99,3 +99,9 @@ and resulting test hashes, and fixture evidence are included in the public
 manifest/provenance. The corresponding-source archive contains 88 explicit
 members, including this separate test-only patch; its five input adjustments
 are not represented as additional vulnerability fixes.
+
+The pinned abuild 3.17.0 runs with uppercase `-K` to retain its builder-only
+source and temporary directories for the mandatory post-build test-file hash
+checks. Its original prepare/build/check/package/signing phases still run.
+Only the explicit runtime and legal artifacts are copied to the final image;
+retained build directories and private signing keys are excluded.
