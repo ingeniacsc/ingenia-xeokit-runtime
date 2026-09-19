@@ -34,12 +34,31 @@ COPY docker/build-patched-busybox.sh /security/build-patched-busybox.sh
 RUN /bin/sh /security/build-patched-busybox.sh fetch \
     /security/busybox-sources.json /security/busybox-CVE-2025-60876.patch /busybox-inputs
 
+FROM build AS zlib-inputs
+COPY docker/zlib-sources.json docker/patches/zlib-CVE-2026-85091.patch /zlib-security/
+COPY docker/tests/zlib-nonblocking-regression.c docker/build-patched-zlib.sh /zlib-security/
+RUN /bin/sh /zlib-security/build-patched-zlib.sh fetch /zlib-security /zlib-inputs
+
 FROM nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6 AS busybox-backport
 ARG SOURCE_DATE_EPOCH=0
 COPY --from=build /busybox-inputs /busybox-inputs
 COPY docker/build-patched-busybox.sh docker/Dockerfile docker/BUSYBOX_SECURITY.md /security/
 RUN --network=none SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH \
     /bin/sh /security/build-patched-busybox.sh build
+
+FROM busybox-backport AS zlib-backport
+ARG SOURCE_DATE_EPOCH=0
+COPY --from=zlib-inputs /zlib-inputs /zlib-inputs
+COPY docker/build-patched-zlib.sh docker/Dockerfile docker/ZLIB_SECURITY.md /zlib-security/
+RUN --network=none SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH \
+    /bin/sh /zlib-security/build-patched-zlib.sh build
+
+# Export only distributable signed packages, public keys and source evidence.
+FROM scratch AS security-packages
+COPY --from=busybox-backport /busybox-output/runtime/ /busybox/runtime/
+COPY --from=busybox-backport /busybox-output/legal/ /busybox/legal/
+COPY --from=zlib-backport /zlib-output/runtime/ /zlib/runtime/
+COPY --from=zlib-backport /zlib-output/legal/ /zlib/legal/
 
 FROM nginx:1.30.4-alpine3.24-slim@sha256:77da26c31397bf6694b4bf93275f5b40b0b120ba1b8f114264b603e592c561d6
 ARG SOURCE_REVISION=0000000000000000000000000000000000000000
@@ -61,6 +80,12 @@ RUN --network=none apk add --no-network /opt/ingenia-busybox-apks/*.apk \
     && test "$(readlink /bin/sh)" = /bin/busybox \
     && rm /opt/ingenia-busybox-apks/*.apk \
     && rmdir /opt/ingenia-busybox-apks
+COPY --from=zlib-backport /zlib-output/runtime/ingenia-zlib-backport.rsa.pub /etc/apk/keys/
+COPY --from=zlib-backport /zlib-output/runtime/zlib-1.3.2-r1001.apk /opt/ingenia-zlib-apks/
+RUN --network=none apk add --no-network /opt/ingenia-zlib-apks/zlib-1.3.2-r1001.apk \
+    && apk info --exists 'zlib=1.3.2-r1001' \
+    && rm /opt/ingenia-zlib-apks/zlib-1.3.2-r1001.apk \
+    && rmdir /opt/ingenia-zlib-apks
 COPY --chmod=644 docker/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --chmod=644 docker/nginx-main.conf /etc/nginx/nginx.conf
 COPY --chmod=644 docker/viewer-entrypoint.sh /opt/ingenia/viewer-entrypoint.sh
@@ -68,6 +93,7 @@ COPY --from=build /src/packages/viewer/dist /usr/share/nginx/html
 COPY --chmod=644 LICENSE NOTICE THIRD_PARTY_NOTICES /usr/share/nginx/html/legal/
 COPY --from=build --chmod=644 /src/sbom.viewer.spdx.json /usr/share/nginx/html/legal/sbom.spdx.json
 COPY --from=busybox-backport --chmod=644 /busybox-output/legal/ /usr/share/nginx/html/legal/
+COPY --from=zlib-backport --chmod=644 /zlib-output/legal/ /usr/share/nginx/html/legal/
 RUN printf '{"source":"%s","revision":"%s","version":"%s","license":"AGPL-3.0-only"}\n' \
       "$SOURCE_URL" "$SOURCE_REVISION" "$RELEASE_VERSION" \
       > /usr/share/nginx/html/source.json \

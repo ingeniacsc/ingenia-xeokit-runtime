@@ -146,8 +146,15 @@ test("container publishes source identity, legal evidence and reviewed headers",
   assert.doesNotMatch(compose, /cap_add:/);
   assert.match(dockerfile, /source\.json/);
   const baseStages = dockerfile.split(/\r?\n/).filter((line) => line.startsWith("FROM "));
-  assert.equal(baseStages.length, 3);
-  for (const base of baseStages) {
+  const internalStages = [
+    "FROM build AS zlib-inputs",
+    "FROM busybox-backport AS zlib-backport",
+    "FROM scratch AS security-packages",
+  ];
+  const externalStages = baseStages.filter((line) => !internalStages.includes(line));
+  assert.deepEqual(baseStages.filter((line) => internalStages.includes(line)), internalStages);
+  assert.equal(externalStages.length, 3);
+  for (const base of externalStages) {
     assert.match(base, /^FROM [^\s]+@sha256:[0-9a-f]{64}(?: AS [a-z0-9-]+)?$/);
   }
   assert.match(dockerfile, /AS busybox-backport/);
