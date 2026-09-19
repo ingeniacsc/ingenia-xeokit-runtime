@@ -660,6 +660,8 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     },
     list: () => Array.from(models.keys()),
     modelVersionIdFor: (objectId) => String(descriptorForObject(objectId)?.modelId || ""),
+    capabilityIdFor: (objectId) => String(descriptorForObject(objectId)?.capabilityId || ""),
+    disciplineCodeFor: (objectId) => String(descriptorForObject(objectId)?.disciplineCode || ""),
     disciplineColorFor: (objectId) => String(descriptorForObject(objectId)?.disciplineColor || ""),
     technicalPropertyAccessFor,
     listDescriptors: () => Array.from(descriptors.entries()).map(([modelId, descriptor]) => ({

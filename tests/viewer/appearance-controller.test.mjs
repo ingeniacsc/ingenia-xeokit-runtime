@@ -67,6 +67,35 @@ test("discipline color mode overlays every object in the approved model palette"
   assert.equal(pipe.colorize, null);
 });
 
+test("discipline appearance overrides color, opacity, and X-Ray only for the selected discipline", () => {
+  const { viewer, wall, pipe } = createViewer();
+  wall.id = "model.123456789012#GUID-WALL";
+  pipe.id = "model.987654321098#GUID-PIPE";
+  wall.xrayed = false;
+  pipe.xrayed = false;
+  viewer.scene.objects = { [wall.id]: wall, [pipe.id]: pipe };
+  const appearance = createAppearanceController(viewer, {
+    model: {
+      disciplineCodeFor: (objectId) => objectId.startsWith("model.123456789012#") ? "STR" : "HVAC",
+      disciplineColorFor: () => "#52616B",
+    },
+  });
+
+  appearance.apply({ options: { mode: "discipline" } });
+  appearance.apply({
+    options: {
+      disciplineAppearance: { disciplineCode: "STR", color: "#E8791A", opacity: 0.45, xray: true },
+    },
+  });
+
+  assert.deepEqual(wall.colorize, [232 / 255, 121 / 255, 26 / 255]);
+  assert.equal(wall.opacity, 0.45);
+  assert.equal(wall.xrayed, true);
+  assert.deepEqual(pipe.colorize, [82 / 255, 97 / 255, 107 / 255]);
+  assert.equal(pipe.opacity, 1);
+  assert.equal(pipe.xrayed, false);
+});
+
 test("spaces and glass keep their semantic transparency in every presentation mode", () => {
   const { viewer } = createViewer();
   const space = { id: "model.123456789012#GUID-SPACE" };

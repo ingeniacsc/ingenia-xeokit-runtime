@@ -23,6 +23,7 @@ const SELECTED_OBJECT_OPACITY = 0.35;
 const SOURCE_OPACITY_IS_OPAQUE = 0.995;
 const MAX_PRESENTATION_PROPERTY_SETS = 32;
 const MAX_PRESENTATION_PROPERTIES = 64;
+const DISCIPLINE_CODE = /^[A-Z][A-Z0-9_]{1,31}$/;
 const SAFE_STATUS_CODE = /^[A-Za-z0-9._:-]{1,64}$/;
 const GLASS_MATERIAL_VALUE = /(?:glass|glazing|glazed|k\u00ednh|kinh)/i;
 const MATERIAL_PROPERTY_NAME = /(?:material|finish|glazing|glass|v\u1eadt\s*li\u1ec7u|vat\s*lieu)/i;
@@ -78,16 +79,38 @@ function resolveSelectionOpacity(entity, opacity) {
   return entity?.selected === true ? Math.min(opacity, SELECTED_OBJECT_OPACITY) : opacity;
 }
 
-function applyColorMode(viewer, mode, model, sourceOpacityFor) {
+function normalizeDisciplineAppearance(value) {
+  const disciplineCode = String(value?.disciplineCode || '').trim();
+  const color = String(value?.color || '').trim();
+  const opacity = Number(value?.opacity);
+  if (!DISCIPLINE_CODE.test(disciplineCode) || !/^#[0-9a-fA-F]{6}$/.test(color) || !Number.isFinite(opacity)) return null;
+  return {
+    disciplineCode,
+    color: color.toUpperCase(),
+    opacity: Math.max(0.05, Math.min(1, opacity)),
+    xray: value?.xray === true,
+  };
+}
+
+function applyColorMode(viewer, mode, model, sourceOpacityFor, disciplineAppearances = new Map()) {
   Object.values(viewer.scene.objects || {}).forEach((entity) => {
     if (!entity) return;
     if (mode === 'ifc') {
       entity.colorize = IFC_TYPE_COLOR_PALETTE[resolveIfcType(viewer, entity)] || null;
     } else if (mode === 'discipline') {
-      entity.colorize = colorFromHex(model?.disciplineColorFor?.(entity.id));
+      const disciplineCode = String(model?.disciplineCodeFor?.(entity.id) || '');
+      const appearance = disciplineAppearances.get(disciplineCode);
+      entity.colorize = colorFromHex(appearance?.color || model?.disciplineColorFor?.(entity.id));
+      if ('xrayed' in entity) entity.xrayed = appearance?.xray === true;
+      entity.opacity = resolveSelectionOpacity(
+        entity,
+        appearance ? appearance.opacity : resolvePresentationOpacity(viewer, entity, sourceOpacityFor?.(entity)),
+      );
+      return;
     } else {
       entity.colorize = null;
     }
+    if ('xrayed' in entity) entity.xrayed = false;
     entity.opacity = resolveSelectionOpacity(
       entity,
       resolvePresentationOpacity(viewer, entity, sourceOpacityFor?.(entity)),
@@ -161,6 +184,7 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
   let dayNightMode = 'day';
   let businessStatusFilter = [];
   const businessStatusesByObjectId = new Map();
+  const disciplineAppearances = new Map();
   const sourceOpacityByEntity = new WeakMap();
   const sourceOpacityFor = (entity) => {
     if (!entity || typeof entity !== "object") return 1;
@@ -177,7 +201,7 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
           throw new Error('Unsupported isolated viewport color mode.');
         }
         colorMode = options.mode;
-        applyColorMode(viewer, colorMode, model, sourceOpacityFor);
+        applyColorMode(viewer, colorMode, model, sourceOpacityFor, disciplineAppearances);
       }
       if (options.reset) {
         viewer.scene.setObjectsColorized(viewer.scene.colorizedObjectIds, null);
@@ -185,7 +209,7 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
         Object.values(viewer.scene.objects || {}).forEach((entity) => {
           if (entity && 'xrayed' in entity) entity.xrayed = false;
         });
-        applyColorMode(viewer, colorMode, model, sourceOpacityFor);
+        applyColorMode(viewer, colorMode, model, sourceOpacityFor, disciplineAppearances);
         return;
       }
       if (Array.isArray(options.businessStatuses) && colorMode === 'business') {
@@ -200,6 +224,13 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
       if (Array.isArray(options.businessStatusFilter) && colorMode === 'business') {
         businessStatusFilter = options.businessStatusFilter;
         applyBusinessStatusFilter(viewer, businessStatusesByObjectId, options.businessStatusFilter, sourceOpacityFor);
+        return;
+      }
+      if (options.disciplineAppearance && colorMode === 'discipline') {
+        const appearance = normalizeDisciplineAppearance(options.disciplineAppearance);
+        if (!appearance) throw new Error('Invalid discipline appearance.');
+        disciplineAppearances.set(appearance.disciplineCode, appearance);
+        applyColorMode(viewer, colorMode, model, sourceOpacityFor, disciplineAppearances);
         return;
       }
       if (options.mode) return;
@@ -244,7 +275,7 @@ export function createAppearanceController(viewer, { model, visibility } = {}) {
         );
         return;
       }
-      applyColorMode(viewer, colorMode, model, sourceOpacityFor);
+      applyColorMode(viewer, colorMode, model, sourceOpacityFor, disciplineAppearances);
     },
     dayNight(mode) {
       dayNightMode = mode === "night" ? "night" : "day";
