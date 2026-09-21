@@ -10,9 +10,11 @@
     "@xeokit/xeokit-convert": "1.3.2"
   },
   "overrides": {
+    "image-size": "2.0.4",
+    "qs": "6.16.0",
     "request": {
       "form-data": "2.5.6",
-      "qs": "6.15.3",
+      "qs": "6.16.0",
       "tough-cookie": "4.1.4"
     }
   },
@@ -29,7 +31,7 @@
     "dev": "npm run dev -w @ingenia/xeokit-viewer",
     "sbom:generate": "node scripts/generate-release-sbom.mjs",
     "security:audit": "npm audit --omit=dev --audit-level=high",
-    "test": "node --test tests/contract/*.test.mjs tests/security/*.test.mjs tests/publication/*.test.mjs",
+    "test": "node --test tests/contract/*.test.mjs tests/security/*.test.mjs tests/publication/*.test.mjs tests/viewer/*.test.mjs",
     "validate:publication": "node scripts/validate-publication.mjs",
     "verify:image": "node scripts/verify-running-image.mjs",
     "verify:xkt-smoke": "node scripts/verify-xkt-smoke-output.mjs"
