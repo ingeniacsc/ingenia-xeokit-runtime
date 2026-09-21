@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "vulnerability": "CVE-2026-85091",
+  "upstream_version": "1.3.2",
+  "package_version": "1.3.2-r1001",
+  "aports_commit": "f248b33b5943c7dc69bf691031d7612ab2e8ed93",
+  "upstream_fix_commit": "df84af25dc1942490e1d1c899a07619152a46148",
+  "recipe": {
+    "name": "APKBUILD",
+    "url": "https://raw.githubusercontent.com/alpinelinux/aports/f248b33b5943c7dc69bf691031d7612ab2e8ed93/main/zlib/APKBUILD",
+    "bytes": 924,
+    "sha256": "7b8d064be19f39b5e921e9e2dddb960964c6e159ca035848cc362375f0da9b9f",
+    "sha512": "8359fd53ec1919256a74e560b3407a9a87199f5668189779bc76d0f08015569211dcb66e078cfeee7f32ed7475edae49ca06c81a2ceaf0fd2d9d2d1b788efc49"
+  },
+  "source": {
+    "name": "zlib-1.3.2.tar.gz",
+    "url": "https://zlib.net/fossils/zlib-1.3.2.tar.gz",
+    "bytes": 1502830,
+    "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+    "sha512": "70963771ea5d763614278a69b474f09b7d237ef8f53b675a10fe31d9923aeef601504b35d7ebd1b1e7f347e9ebb048e6b3b47fffdf137e7bdc7e8d5eb4ec4692"
+  },
+  "patch": {
+    "name": "zlib-CVE-2026-85091.patch",
+    "bytes": 852,
+    "sha256": "1bf190beb6312aab67080332779071114f649d6a5db69ba7d9a238f9c5e6e52b",
+    "sha512": "149b15bf9a30158f88e5810acda1c415336157d9a9e27f0efd604f7cf1c24d7a239f7a393a1cf2fe975402a15c5f3c52fc9588cddad1286096f82ca3c24492ec",
+    "target": "gzwrite.c",
+    "before_sha256": "2ce783294c688330c716bfe106f43167d3dae5be84994176bc304d205d4f5b04",
+    "after_sha256": "31d0da140edf382b82b13e2d87a22f59e158d9014ee026459e01cf437d0ab07d",
+    "upstream_download_sha256": "110ff14375733173d8aa54574473424fbd7dfe4b81f1ca34a759c6fe14b15b14",
+    "format_note": "Final unchanged blank context line omitted and hunk lengths adjusted; all upstream source edits and before/after source hashes unchanged."
+  },
+  "regression": {
+    "name": "zlib-nonblocking-regression.c",
+    "sha256": "92cb42acfdb138e2e78df0b42ab4dfc2e3fdbe3ea5a7efae59a9f05e73cef707",
+    "baseline_exit": 42,
+    "patched_exit": 0,
+    "mechanism": "Saturate local nonblocking pipe, observe stale external input state after gzwrite, then verify patched gzprintf and gzip roundtrip. Baseline stops before unsafe memmove."
+  },
+  "builder": "Existing frozen BusyBox toolchain; no added package or online installation."
+}

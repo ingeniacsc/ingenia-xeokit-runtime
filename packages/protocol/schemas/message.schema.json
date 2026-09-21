@@ -31,12 +31,161 @@
     "type": { "$ref": "#/$defs/messageType" },
     "payload": { "type": "object", "maxProperties": 32 }
   },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "session.export" } }, "required": ["type"] },
+      "then": { "properties": { "payload": { "type": "object", "maxProperties": 0 } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "session.import" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["stateRef"],
+            "properties": { "stateRef": { "$ref": "#/$defs/viewStateReference" } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "session.state" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["requestId", "schemaVersion", "stateRef", "createdAt", "operation", "restored", "presentation"],
+            "properties": {
+              "requestId": { "$ref": "#/$defs/opaqueIdentifier" },
+              "schemaVersion": { "const": 1 },
+              "stateRef": { "$ref": "#/$defs/viewStateReference" },
+              "createdAt": { "type": "integer", "minimum": 1 },
+              "operation": { "enum": ["export", "import"] },
+              "restored": { "type": "boolean" },
+              "presentation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["navigationMode", "visualMode", "colorMode"],
+                "properties": {
+                  "navigationMode": { "enum": ["orbit", "walk", "fly"] },
+                  "visualMode": { "enum": ["day", "night"] },
+                  "colorMode": { "enum": ["source", "ifc"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "request.ack" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["requestId"],
+            "properties": { "requestId": { "$ref": "#/$defs/opaqueIdentifier" } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "request.error" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["requestId"],
+            "properties": {
+              "requestId": { "$ref": "#/$defs/opaqueIdentifier" },
+              "code": { "type": "string", "maxLength": 128 },
+              "message": { "type": "string", "maxLength": 512 },
+              "recoverable": { "type": "boolean" },
+              "recoveryAction": { "type": "string", "maxLength": 128 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "type": { "enum": ["properties.mode", "properties.changed"] } },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "maxProperties": 1,
+            "properties": {
+              "enabled": { "type": "boolean" },
+              "open": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "type": { "enum": ["object.picked", "selection.context-menu"] } },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["identifiers", "modelVersionId"],
+            "properties": {
+              "identifiers": { "type": "array" },
+              "modelVersionId": { "$ref": "#/$defs/opaqueIdentifier" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "selection.changed" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["identifiers"],
+            "oneOf": [
+              {
+                "properties": {
+                  "identifiers": { "type": "array", "maxItems": 0 },
+                  "modelVersionId": { "$ref": "#/$defs/opaqueIdentifier" }
+                }
+              },
+              {
+                "required": ["modelVersionId"],
+                "properties": {
+                  "identifiers": { "type": "array", "minItems": 1 },
+                  "modelVersionId": { "$ref": "#/$defs/opaqueIdentifier" }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "opaqueIdentifier": {
       "type": "string",
       "minLength": 16,
       "maxLength": 128,
       "pattern": "^[A-Za-z0-9._~-]+$"
+    },
+    "viewStateReference": {
+      "type": "string",
+      "minLength": 34,
+      "maxLength": 146,
+      "pattern": "^viewstate\\.session\\.[A-Za-z0-9._~-]{16,128}$"
     },
     "messageType": {
       "enum": [
@@ -46,14 +195,15 @@
         "model.progress", "model.ready", "model.failed", "model.revision",
         "camera.set", "camera.get", "camera.fit", "camera.view",
         "camera.navigation", "camera.day-night", "camera.changed", "navigation.changed",
-        "selection.select", "selection.clear", "selection.marquee", "selection.changed",
+        "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
         "object.picked", "object.hovered", "visibility.show", "visibility.hide",
         "visibility.isolate", "visibility.reset", "visibility.applied",
         "filter.apply", "filter.cancel", "filter.progress", "filter.applied",
         "appearance.apply", "appearance.applied", "spatial.section.set",
-        "spatial.section.clear", "spatial.storeys.set", "spatial.grid.set",
-        "spatial.changed", "metadata.request", "metadata.result", "snapshot.capture",
-        "snapshot.result", "session.export", "session.import", "session.state",
+        "spatial.section.clear", "spatial.section.flip", "spatial.space-clip.set", "spatial.space-clip.clear", "spatial.levels.request", "spatial.levels.changed",
+        "spatial.level-clip.set", "spatial.level-clip.clear", "spatial.level-clip.changed", "spatial.storeys.set", "spatial.grid.set", "spatial.site.set",
+        "spatial.changed", "spatial.space-clip.changed", "metadata.request", "metadata.result", "snapshot.capture",
+        "snapshot.result", "measurement.mode", "measurement.clear", "measurement.changed", "labels.mode", "properties.mode", "properties.changed", "tree.mode", "tree.changed", "session.export", "session.import", "session.state",
         "context.lost", "context.restore-requested", "context.restored",
         "context.restore-failed"
       ]

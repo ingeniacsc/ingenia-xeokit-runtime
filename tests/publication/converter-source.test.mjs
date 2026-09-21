@@ -23,6 +23,9 @@ test("converter source is exact, rebuildable and separate from private backend",
   assert.match(wrapper, /spawn\(process\.execPath/);
   assert.match(patch, /@loaders\.gl\/polyfills/);
   assert.match(dockerfile, /npm ci --ignore-scripts --omit=dev/);
+  assert.match(dockerfile, /--workspace @ingenia\/xeokit-converter --include-workspace-root=false/);
+  assert.match(dockerfile, /SBOM_SCOPE=converter/);
+  assert.match(dockerfile, /cp \/src\/sbom\.converter\.spdx\.json \/licenses\/sbom\.spdx\.json/);
   assert.doesNotMatch(`${wrapper}\n${patch}`, /django|celery|projectmembership|auth_token/i);
 });
 

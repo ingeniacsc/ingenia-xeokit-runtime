@@ -19,6 +19,31 @@ export function createObjectIdentifierRegistry() {
     return token;
   }
 
+  function register(token, objectId) {
+    const normalizedToken = String(token || "");
+    const normalizedObjectId = String(objectId || "");
+    if (!normalizedToken || !normalizedObjectId) {
+      throw new Error("A Viewer selection reference and xeokit object identifier are required.");
+    }
+    const existingObjectId = objectIdByToken.get(normalizedToken);
+    if (existingObjectId && existingObjectId !== normalizedObjectId) {
+      throw new Error("Viewer selection reference is already bound to another object.");
+    }
+    const existingToken = tokenByObjectId.get(normalizedObjectId);
+    if (existingToken && existingToken !== normalizedToken) {
+      // The backend issues a new short-lived opaque reference for each pick.
+      // Retire the older local reference so a repeated click can cross the iframe boundary.
+      objectIdByToken.delete(existingToken);
+    }
+    objectIdByToken.set(normalizedToken, normalizedObjectId);
+    tokenByObjectId.set(normalizedObjectId, normalizedToken);
+    return normalizedToken;
+  }
+
+  function tokenForObjectId(objectId) {
+    return tokenByObjectId.get(String(objectId || "")) || "";
+  }
+
   function toObjectIds(tokens) {
     return tokens.map((token) => {
       const objectId = objectIdByToken.get(token);
@@ -29,6 +54,8 @@ export function createObjectIdentifierRegistry() {
 
   return Object.freeze({
     toToken,
+    register,
+    tokenForObjectId,
     toObjectIds,
     clear() {
       objectIdByToken.clear();

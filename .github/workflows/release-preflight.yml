@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ && ! "$GITHUB_SHA" =~ ^0+$ ]]
           version="0.2.0-preflight.${GITHUB_RUN_ID}"
           tag="preflight-${GITHUB_RUN_ID}-${GITHUB_SHA::12}"
           printf 'RELEASE_VERSION=%s\n' "$version" >>"$GITHUB_ENV"
@@ -54,6 +55,8 @@ jobs:
           npm run security:audit
           npm run validate:publication
           npm run sbom:generate
+          SBOM_SCOPE=viewer npm run sbom:generate
+          SBOM_SCOPE=converter npm run sbom:generate
           VITE_ALLOWED_PARENT_ORIGINS="$RELEASE_ALLOWED_PARENT_ORIGINS" npm run build
 
       - name: Set up Docker Buildx
@@ -78,6 +81,7 @@ jobs:
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
             SOURCE_REVISION=${{ env.RELEASE_REVISION }}
             SOURCE_URL=${{ env.RELEASE_SOURCE_URL }}
+            SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
             VITE_ALLOWED_PARENT_ORIGINS=${{ env.RELEASE_ALLOWED_PARENT_ORIGINS }}
 
       - name: Publish Converter preflight image
@@ -92,6 +96,7 @@ jobs:
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
             SOURCE_REVISION=${{ env.RELEASE_REVISION }}
             SOURCE_URL=${{ env.RELEASE_SOURCE_URL }}
+            SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
 
       - name: Attest Viewer preflight provenance
         uses: actions/attest-build-provenance@96b4a1ef7235a096b17240c259729fdd70c83d45
@@ -138,14 +143,8 @@ jobs:
           trap 'docker rm -f "$viewer_container" >/dev/null 2>&1 || true' EXIT
           docker run --detach --name "$viewer_container" \
             --read-only \
-            --tmpfs /etc/nginx/conf.d:rw,noexec,nosuid,size=1m \
-            --tmpfs /var/cache/nginx:rw,noexec,nosuid,size=16m \
-            --tmpfs /var/run:rw,noexec,nosuid,size=1m \
+            --tmpfs /tmp:rw,noexec,nosuid,size=32m,mode=1777 \
             --cap-drop ALL \
-            --cap-add CHOWN \
-            --cap-add NET_BIND_SERVICE \
-            --cap-add SETGID \
-            --cap-add SETUID \
             --security-opt no-new-privileges \
             --publish 127.0.0.1:3100:8080 \
             --env XEOKIT_FRAME_ANCESTORS=https://staging.ingenia.vn \
@@ -160,6 +159,28 @@ jobs:
           VIEWER_PARENT_ORIGIN=https://staging.ingenia.vn \
           VIEWER_API_ORIGIN=https://staging.ingenia.vn \
             node scripts/verify-running-image.mjs
+
+      - name: Collect SBOMs from the immutable images
+        shell: bash
+        env:
+          VIEWER_DIGEST: ${{ steps.viewer.outputs.digest }}
+          CONVERTER_DIGEST: ${{ steps.converter.outputs.digest }}
+        run: |
+          set -Eeuo pipefail
+          docker run --rm --network none --entrypoint cat "ghcr.io/ingeniacsc/ingenia-xeokit-viewer@$VIEWER_DIGEST" /usr/share/nginx/html/legal/sbom.spdx.json > sbom.viewer.spdx.json
+          docker run --rm --network none --entrypoint cat "ghcr.io/ingeniacsc/ingenia-xeokit-converter@$CONVERTER_DIGEST" /licenses/sbom.spdx.json > sbom.converter.spdx.json
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { normalizeSpdxDocument, validateReleaseMetadata } from './scripts/generate-release-sbom.mjs';
+          const metadata = validateReleaseMetadata();
+          for (const scope of ['viewer', 'converter']) {
+            const raw = JSON.parse(readFileSync(`sbom.${scope}.spdx.json`, 'utf8'));
+            const expected = normalizeSpdxDocument(raw, metadata, scope);
+            if (raw.documentNamespace !== expected.documentNamespace || raw.creationInfo?.comment !== expected.creationInfo.comment) {
+              throw new Error(`Image SBOM source binding mismatch: ${scope}`);
+            }
+          }
+          NODE
 
       - name: Record non-release preflight binding
         shell: bash
@@ -181,12 +202,19 @@ jobs:
             printf 'converter_tag=ghcr.io/ingeniacsc/ingenia-xeokit-converter:%s\n' "$PREFLIGHT_IMAGE_TAG"
             printf 'viewer_digest=%s\n' "$VIEWER_DIGEST"
             printf 'converter_digest=%s\n' "$CONVERTER_DIGEST"
+            printf 'source_sbom_sha256=%s\n' "$(sha256sum sbom.spdx.json | awk '{print $1}')"
+            printf 'viewer_sbom_sha256=%s\n' "$(sha256sum sbom.viewer.spdx.json | awk '{print $1}')"
+            printf 'converter_sbom_sha256=%s\n' "$(sha256sum sbom.converter.spdx.json | awk '{print $1}')"
           } > release-preflight-binding.txt
 
       - name: Upload public preflight evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: xeokit-runtime-preflight-${{ github.run_id }}-evidence
-          path: release-preflight-binding.txt
+          path: |
+            release-preflight-binding.txt
+            sbom.spdx.json
+            sbom.viewer.spdx.json
+            sbom.converter.spdx.json
           if-no-files-found: error
           retention-days: 90
