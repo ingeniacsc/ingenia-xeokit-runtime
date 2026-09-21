@@ -572,3 +572,37 @@ test('technical matching fails closed when its work budget is exhausted', async 
   assert.deepEqual(viewer.scene.selectedObjectIds, []);
   controller.destroy();
 });
+
+test('a touch tap selects once and suppresses its synthetic click', async () => {
+  const { listener, viewer } = createViewer();
+  const picked = [];
+  const controller = createSelectionController(viewer, (payload) => picked.push(payload));
+
+  listener('pointerdown')({ pointerId: 7, pointerType: 'touch', clientX: 110, clientY: 70 });
+  listener('pointerup')({ pointerId: 7, pointerType: 'touch', clientX: 112, clientY: 71 });
+  listener('click')({ clientX: 112, clientY: 71 });
+  await new Promise((resolve) => setTimeout(resolve, 0));
+
+  assert.deepEqual(picked, [{ identifiers: ['wall-1'] }]);
+  assert.deepEqual(viewer.scene.selectedObjectIds, ['wall-1']);
+  controller.destroy();
+});
+
+test('a touch drag or pointer cancel does not select and cleans up listeners', () => {
+  const { listener, viewer } = createViewer();
+  const picked = [];
+  const controller = createSelectionController(viewer, (payload) => picked.push(payload));
+
+  listener('pointerdown')({ pointerId: 9, pointerType: 'touch', clientX: 20, clientY: 30 });
+  listener('pointerup')({ pointerId: 9, pointerType: 'touch', clientX: 60, clientY: 70 });
+  listener('pointerdown')({ pointerId: 10, pointerType: 'pen', clientX: 20, clientY: 30 });
+  listener('pointercancel')({ pointerId: 10 });
+  listener('pointerup')({ pointerId: 10, pointerType: 'pen', clientX: 20, clientY: 30 });
+
+  assert.deepEqual(picked, []);
+  assert.deepEqual(viewer.scene.selectedObjectIds, []);
+  controller.destroy();
+  assert.equal(listener('pointerdown'), undefined);
+  assert.equal(listener('pointerup'), undefined);
+  assert.equal(listener('pointercancel'), undefined);
+});

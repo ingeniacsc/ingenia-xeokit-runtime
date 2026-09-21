@@ -6,6 +6,8 @@ const MATCH_SCAN_CHUNK = 100;
 const MAX_PUBLIC_SELECTION_REFERENCES = 50;
 const MAX_MATCH_CACHE_BYTES = 256 * 1024;
 const MAX_MATCH_WORK_UNITS = 250_000;
+const TOUCH_PICK_MAX_DISTANCE_PX = 12;
+const TOUCH_PICK_CLICK_DEDUPLICATION_MS = 750;
 
 function normalizeValue(value) {
   return String(value || '').trim().toLocaleLowerCase();
@@ -87,6 +89,8 @@ export function createSelectionController(
   let authorityRevision = 0;
   let matchValueCacheBytes = 0;
   const matchValueCache = new Map();
+  let touchPointerStart = null;
+  let lastTouchPick = null;
   const canvas = viewer.scene.canvas.canvas;
   const clearSelection = () => {
     authorityRevision += 1;
@@ -296,7 +300,44 @@ export function createSelectionController(
     event.preventDefault?.();
     clearSelection();
   };
-  canvas.addEventListener('click', pick);
+  const shouldIgnoreSyntheticTouchClick = (event) => {
+    if (!lastTouchPick) return false;
+    const elapsed = Date.now() - lastTouchPick.at;
+    if (elapsed < 0 || elapsed > TOUCH_PICK_CLICK_DEDUPLICATION_MS) return false;
+    const deltaX = Number(event.clientX) - lastTouchPick.x;
+    const deltaY = Number(event.clientY) - lastTouchPick.y;
+    return Math.hypot(deltaX, deltaY) <= TOUCH_PICK_MAX_DISTANCE_PX;
+  };
+  const onCanvasClick = (event) => {
+    if (shouldIgnoreSyntheticTouchClick(event)) return;
+    pick(event);
+  };
+  const onPointerDown = (event) => {
+    if (event.pointerType === 'touch' || event.pointerType === 'pen') {
+      touchPointerStart = {
+        id: event.pointerId,
+        x: Number(event.clientX) || 0,
+        y: Number(event.clientY) || 0,
+      };
+    }
+  };
+  const onPointerUp = (event) => {
+    if (!touchPointerStart || touchPointerStart.id !== event.pointerId) return;
+    const start = touchPointerStart;
+    touchPointerStart = null;
+    const x = Number(event.clientX) || 0;
+    const y = Number(event.clientY) || 0;
+    if (Math.hypot(x - start.x, y - start.y) > TOUCH_PICK_MAX_DISTANCE_PX) return;
+    lastTouchPick = { at: Date.now(), x, y };
+    pick(event);
+  };
+  const onPointerCancel = (event) => {
+    if (touchPointerStart?.id === event.pointerId) touchPointerStart = null;
+  };
+  canvas.addEventListener('click', onCanvasClick);
+  canvas.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointerup', onPointerUp);
+  canvas.addEventListener('pointercancel', onPointerCancel);
   canvas.addEventListener('contextmenu', openContextMenu);
   keyboardTarget?.addEventListener?.('keydown', clearOnEscape);
   return Object.freeze({
@@ -359,7 +400,12 @@ export function createSelectionController(
       authorityRevision += 1;
       matchValueCache.clear();
       matchValueCacheBytes = 0;
-      canvas.removeEventListener('click', pick);
+      touchPointerStart = null;
+      lastTouchPick = null;
+      canvas.removeEventListener('click', onCanvasClick);
+      canvas.removeEventListener('pointerdown', onPointerDown);
+      canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('pointercancel', onPointerCancel);
       canvas.removeEventListener('contextmenu', openContextMenu);
       keyboardTarget?.removeEventListener?.('keydown', clearOnEscape);
     },

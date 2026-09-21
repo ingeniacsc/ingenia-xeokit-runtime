@@ -53,12 +53,15 @@ jobs:
 
       - name: Build candidate Viewer and Converter images
         run: |
+          SOURCE_DATE_EPOCH="$(git show -s --format=%ct HEAD)"
           docker build --file docker/Dockerfile \
             --build-arg ALLOW_CANDIDATE_REVISION=true \
+            --build-arg SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" \
             --build-arg VITE_ALLOWED_PARENT_ORIGINS="$RELEASE_ALLOWED_PARENT_ORIGINS" \
             --tag ingenia-xeokit-viewer:candidate .
           docker build --file docker/Converter.Dockerfile \
             --build-arg ALLOW_CANDIDATE_REVISION=true \
+            --build-arg SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" \
             --tag ingenia-xeokit-converter:candidate .
 
       - name: Convert a real IFC through the candidate Converter image
