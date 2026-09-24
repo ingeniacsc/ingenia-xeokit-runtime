@@ -311,6 +311,10 @@ async function bootstrap() {
       },
       onSelectionChanged: (payload) => { void publishSelectionChanged(payload).catch(() => {}); },
       onModelInvalidated: (modelId) => selection?.invalidateModel(modelId),
+      onAuthorityChanged: () => {
+        selection?.clear();
+        objectProperties?.hide();
+      },
     });
     const camera = createCameraController(runtime.viewer);
     orbitPivot = createOrbitPivotController(runtime.viewer, {
