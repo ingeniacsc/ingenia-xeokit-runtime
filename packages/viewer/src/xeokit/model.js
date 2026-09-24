@@ -77,7 +77,7 @@ async function readModelArtifact(response, descriptor, onProgress) {
   return buffer.buffer;
 }
 
-export function createModelController({ viewer, loader, onModelInvalidated, onProgress, onSelectionChanged }) {
+export function createModelController({ viewer, loader, onModelInvalidated, onAuthorityChanged, onProgress, onSelectionChanged }) {
   const models = new Map();
   const descriptors = new Map();
   const geometryScopes = new Map();
@@ -185,20 +185,47 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
 
   async function loadGeometryScope(descriptor, signal) {
     if (!descriptor?.geometryScopeUrl) return Object.freeze({ mode: "all" });
-    const response = await fetch(descriptor.geometryScopeUrl, {
+    let response;
+    try {
+      response = await fetch(descriptor.geometryScopeUrl, {
       signal,
       method: "GET",
       headers: boundedHeaders(descriptor.requestHeaders),
       credentials: "omit",
       referrerPolicy: "no-referrer",
       cache: "no-store",
-    });
-    if (!response.ok) throw new Error(`Model geometry scope request failed (${response.status}).`);
+      });
+    } catch (error) {
+      if (!signal.aborted && (error instanceof TypeError || error?.name === "TimeoutError")) {
+        throw Object.assign(new Error("Model geometry scope is temporarily unavailable."), {
+          protocolCode: "CAPABILITY_REFRESH_TRANSIENT", recoverable: true,
+        });
+      }
+      throw error;
+    }
+    if (!response.ok) {
+      const error = new Error(`Model geometry scope request failed (${response.status}).`);
+      if ([408, 429].includes(response.status) || response.status >= 500) {
+        error.protocolCode = "CAPABILITY_REFRESH_TRANSIENT";
+        error.recoverable = true;
+      }
+      throw error;
+    }
     const declaredSize = Number(response.headers.get("Content-Length") || 0);
     if (declaredSize > MAX_GEOMETRY_SCOPE_BYTES) {
       throw new Error("Model geometry scope exceeds the isolated Viewer size limit.");
     }
-    const text = await response.text();
+    let text;
+    try {
+      text = await response.text();
+    } catch (error) {
+      if (!signal.aborted && (error instanceof TypeError || error?.name === "TimeoutError")) {
+        throw Object.assign(new Error("Model geometry scope is temporarily unavailable."), {
+          protocolCode: "CAPABILITY_REFRESH_TRANSIENT", recoverable: true,
+        });
+      }
+      throw error;
+    }
     if (new TextEncoder().encode(text).byteLength > MAX_GEOMETRY_SCOPE_BYTES) {
       throw new Error("Model geometry scope exceeds the isolated Viewer size limit.");
     }
@@ -236,7 +263,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     });
   }
 
-  function applyGeometryScope(modelId, scope) {
+  function applyGeometryScope(modelId, scope, { preserveVisibility = false } = {}) {
     const prefix = `${modelId}#`;
     const modelObjectIds = Object.keys(viewer.scene?.objects || {}).filter((objectId) => (
       objectId.startsWith(prefix)
@@ -244,8 +271,15 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
     if (scope?.mode !== "allowlist") return modelObjectIds.length;
     const allowed = new Set(scope.allowedObjectIds || []);
     const visibleObjectIds = modelObjectIds.filter((objectId) => allowed.has(objectId.slice(prefix.length)));
-    viewer.scene?.setObjectsVisible?.(modelObjectIds, false);
-    viewer.scene?.setObjectsVisible?.(visibleObjectIds, true);
+    if (preserveVisibility) {
+      // Credential rotation must only restrict existing visibility. Re-enabling
+      // allowed objects here would undo the user's hide/isolate decisions.
+      const deniedObjectIds = modelObjectIds.filter((objectId) => !allowed.has(objectId.slice(prefix.length)));
+      viewer.scene?.setObjectsVisible?.(deniedObjectIds, false);
+    } else {
+      viewer.scene?.setObjectsVisible?.(modelObjectIds, false);
+      viewer.scene?.setObjectsVisible?.(visibleObjectIds, true);
+    }
     return visibleObjectIds.length;
   }
 
@@ -421,7 +455,17 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
 
   async function load(descriptor, { replaceAll = false, preserveCamera = false } = {}) {
     const modelId = descriptor?.modelId;
-    if (pendingLoads.has(modelId)) throw new Error("This model is already loading.");
+    if (pendingLoads.has(modelId)) {
+      const active = descriptors.get(modelId);
+      if (!models.has(modelId) || !active
+        || String(active.revision) !== String(descriptor.revision)
+        || String(active.contentHash).toLowerCase() !== String(descriptor.contentHash).toLowerCase()) {
+        throw new Error("This model is already loading.");
+      }
+      // A timed-out credential refresh cannot overwrite a newer refresh. The
+      // signal is checked again after the scope fetch, even if fetch ignores it.
+      pendingLoads.get(modelId).abort();
+    }
     const controller = new AbortController();
     pendingLoads.set(modelId, controller);
     try {
@@ -451,12 +495,29 @@ export function createModelController({ viewer, loader, onModelInvalidated, onPr
       if (!sameImmutableVersion) {
         throw new Error("An active model identity cannot be reused for different BIM content.");
       }
+      const previousScope = geometryScopes.get(descriptor.modelId);
+      const nextIds = new Set(geometryScope.allowedObjectIds || []);
+      const scopeChanged = previousScope?.mode !== geometryScope.mode
+        || (geometryScope.mode === "allowlist" && (
+          previousScope.allowedObjectIds.size !== nextIds.size
+          || [...nextIds].some((id) => !previousScope.allowedObjectIds.has(id))
+        ));
+      const accessChanged = TECHNICAL_PROPERTY_ACCESS_KEYS.some((key) => (
+        (existingDescriptor.technicalPropertyAccess?.[key] === true)
+          !== (descriptor.technicalPropertyAccess?.[key] === true)
+      ));
+      if (scopeChanged || accessChanged) {
+        onModelInvalidated?.(descriptor.modelId);
+        // Clear stale selections and open details before acknowledging changed
+        // authority; same-policy token rotation preserves the current selection.
+        onAuthorityChanged?.(descriptor.modelId);
+      }
       rememberGeometryScope(descriptor.modelId, geometryScope);
       descriptors.set(descriptor.modelId, descriptor);
       if (replaceAll) Array.from(models.keys())
         .filter((modelId) => modelId !== descriptor.modelId)
         .forEach((modelId) => remove(modelId));
-      const scopedObjectCount = applyGeometryScope(descriptor.modelId, geometryScope);
+      const scopedObjectCount = applyGeometryScope(descriptor.modelId, geometryScope, { preserveVisibility: true });
       const objectCount = geometryScope.mode === "allowlist"
         ? scopedObjectCount
         : getRenderableObjectCount(existingModel, descriptor.modelId);
