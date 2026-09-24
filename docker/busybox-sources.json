@@ -724,10 +724,10 @@
       "bytes": 1571
     },
     {
-      "name": "ca-certificates-bundle-20260611-r0.apk",
-      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/ca-certificates-bundle-20260611-r0.apk",
-      "sha256": "cd7752154d0fa628a5f7360218e9e8e83edf31f7fa26f58ee42d26b507bd0372",
-      "bytes": 107328
+      "name": "ca-certificates-bundle-20260909-r0.apk",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/ca-certificates-bundle-20260909-r0.apk",
+      "sha256": "a35f8cf2366d90294d0bb089af565fd17f3fa03721e61bcc7f02ed3d8334e7ea",
+      "bytes": 108542
     },
     {
       "name": "fakeroot-1.37.2-r0.apk",
