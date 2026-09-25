@@ -423,6 +423,7 @@ export function createSelectionController(
   canvas.addEventListener('contextmenu', openContextMenu);
   keyboardTarget?.addEventListener?.('keydown', clearOnEscape);
   return Object.freeze({
+    getRevision() { return authorityRevision; },
     select(identifiers) {
       marquee?.cancel();
       authorityRevision += 1;

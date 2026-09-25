@@ -5,6 +5,7 @@ import { createModelController } from "./xeokit/model.js";
 import { createCameraController } from "./xeokit/camera.js";
 import { createOrbitPivotController } from "./xeokit/orbit-pivot.js";
 import { createSelectionController } from "./xeokit/selection.js";
+import { createSelectionReferencePages } from "./xeokit/selection-reference-pages.js";
 import { createAppearanceController } from "./xeokit/appearance.js";
 import { createVisibilityController } from "./xeokit/visibility.js";
 import { createSnapshotController } from "./xeokit/snapshot.js";
@@ -186,6 +187,7 @@ async function bootstrap() {
         },
         selection: {
           select: withRuntime(({ selection, identifiers }, tokens) => selection.select(identifiers.toObjectIds(tokens))),
+          references: withRuntime(({ selectionReferences }, payload) => selectionReferences.request(payload)),
           mode: withRuntime(({ selection }, mode) => selection.setMode(mode)),
           clear: withRuntime(({ selection }) => selection.clear()),
           visible: withRuntime(({ selection, identifiers }, tokens) => selection.selectVisible(identifiers.toObjectIds(tokens))),
@@ -263,6 +265,7 @@ async function bootstrap() {
     let model = null;
     let objectProperties = null;
     let selection = null;
+    let selectionReferences = null;
     let orbitPivot = null;
     let tree = null;
     let selectionPublicationRevision = 0;
@@ -400,6 +403,17 @@ async function bootstrap() {
         resolveTechnicalPropertyAccess: (objectId) => model.technicalPropertyAccessFor(objectId),
       },
     );
+    selectionReferences = createSelectionReferencePages({
+      getObjectIds: () => Array.from(runtime.viewer.scene.selectedObjectIds || []),
+      getRevision: () => selection.getRevision(),
+      modelVersionIdFor: (id) => model.modelVersionIdFor(id),
+      isObjectAllowed: (id) => {
+        const entity = runtime.viewer.scene.objects[id];
+        return Boolean(entity && entity.visible !== false && entity.pickable !== false
+          && entity.culled !== true && model.isObjectAllowed(id));
+      },
+      createReferences: (ids) => model.createSelectionReferences(ids),
+    });
     const viewSession = createViewerSessionController({
       viewer: runtime.viewer,
       model,
@@ -431,6 +445,7 @@ async function bootstrap() {
       objectProperties,
       tree,
       identifiers,
+      selectionReferences,
       viewSession,
     };
     settleRuntime.resolve(resources);
@@ -521,6 +536,7 @@ async function bootstrap() {
 
     window.addEventListener("beforeunload", () => {
       bridge.destroy();
+      selectionReferences.destroy();
       selection.destroy();
       orbitPivot.destroy();
       measurement.destroy();

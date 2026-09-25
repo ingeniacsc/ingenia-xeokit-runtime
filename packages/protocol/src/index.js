@@ -14,7 +14,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
   "model.progress", "model.ready", "model.failed", "model.revision",
   "camera.set", "camera.get", "camera.fit", "camera.view",
   "camera.navigation", "camera.day-night", "camera.changed", "navigation.changed",
-  "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
+  "selection.references.request", "selection.references.result", "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
   "object.picked", "object.hovered",
   "visibility.show", "visibility.hide", "visibility.isolate", "visibility.reset",
   "visibility.applied", "filter.apply", "filter.cancel", "filter.progress",
@@ -28,6 +28,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
 
 const MESSAGE_TYPES = new Set(BIM_VIEWPORT_MESSAGE_TYPES);
 const HOST_TYPES = new Set([
+  "selection.references.request",
   "host.initialize", "request.cancel", "model.open", "model.add", "model.remove",
   "model.replace", "camera.set", "camera.get", "camera.fit", "camera.view",
   "camera.navigation", "camera.day-night", "selection.select", "selection.clear",
@@ -38,6 +39,7 @@ const HOST_TYPES = new Set([
   "session.import", "context.restore-requested",
 ]);
 const VIEWER_TYPES = new Set([
+  "selection.references.result",
   "viewer.ready", "viewer.initialized", "model.progress", "model.ready",
   "model.failed", "model.revision", "camera.changed", "navigation.changed",
   "selection.changed", "selection.context-menu", "object.picked", "object.hovered", "measurement.changed", "visibility.applied",
@@ -98,6 +100,29 @@ function isOpaqueIdentifier(value) {
 function isViewStateReference(value) {
   return typeof value === "string"
     && /^viewstate\.session\.[A-Za-z0-9._~-]{16,128}$/.test(value);
+}
+
+function validateSelectionReferences(type, payload) {
+  if (!type.startsWith("selection.references.")) return Object.freeze({ ok: true });
+  const result = type === "selection.references.result";
+  const keys = result ? ["requestId", "snapshotId", "modelVersionId", "identifiers", "offset", "total", "done"] : ["offset", "snapshotId"];
+  if (Object.keys(payload).some((key) => !keys.includes(key))
+      || !Number.isInteger(payload.offset) || payload.offset < 0 || payload.offset > 100000
+      || (payload.snapshotId !== undefined && !isOpaqueIdentifier(payload.snapshotId))
+      || (!result && payload.offset > 0 && !payload.snapshotId)) {
+    return fail("MALFORMED_MESSAGE", "Selection export page is invalid.");
+  }
+  if (result && (!isOpaqueIdentifier(payload.requestId) || !isOpaqueIdentifier(payload.snapshotId)
+      || !isOpaqueIdentifier(payload.modelVersionId) || !Number.isInteger(payload.total)
+      || payload.total < 1 || payload.total > 100000 || payload.offset > payload.total
+      || !Array.isArray(payload.identifiers) || payload.identifiers.length > 50
+      || payload.identifiers.some((id) => typeof id !== 'string' || !/^selection\.session\.[A-Za-z0-9_-]{16,96}$/.test(id))
+      || new Set(payload.identifiers).size !== payload.identifiers.length
+      || payload.identifiers.length !== Math.min(50, payload.total - payload.offset)
+      || payload.done !== (payload.offset + payload.identifiers.length === payload.total))) {
+    return fail("MALFORMED_MESSAGE", "Selection export response is invalid.");
+  }
+  return Object.freeze({ ok: true });
 }
 
 function validateRequestCorrelationPayload(type, payload) {
@@ -496,6 +521,8 @@ export function validateProtocolEnvelope(candidate, options = {}) {
       return fail("MALFORMED_MESSAGE", "Model attribution must be a non-empty opaque bounded identifier.");
     }
   }
+  const exportPage = validateSelectionReferences(candidate.type, candidate.payload);
+  if (!exportPage.ok) return exportPage;
   const correlation = validateRequestCorrelationPayload(candidate.type, candidate.payload);
   if (!correlation.ok) return correlation;
   if (candidate.type === "selection.context-menu") {
