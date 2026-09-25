@@ -110,6 +110,7 @@ export function createSelectionController(
     operationRevision = null,
     publishDetails = true,
     applySelection = true,
+    rejectCancelled = false,
   ) => {
     const requestRevision = operationRevision ?? ++authorityRevision;
     const { authorizationIdentifiers, scope, totalAvailable, ...publicPayload } = payload;
@@ -121,7 +122,10 @@ export function createSelectionController(
     const publicationResult = publication && typeof publication.then === 'function'
       ? await publication
       : publication;
-    if (publicationResult === null || !isCurrent()) return Array.from(viewer.scene.selectedObjectIds || []);
+    if (publicationResult === null || !isCurrent()) {
+      if (rejectCancelled) throw new Error('Version selection was cancelled or could not be authorized.');
+      return Array.from(viewer.scene.selectedObjectIds || []);
+    }
     // Opening a context menu verifies its seed with the host, but must never
     // collapse an already-selected local group to the bounded public payload.
     const selected = applySelection
@@ -155,6 +159,7 @@ export function createSelectionController(
     return matchValueCache.get(key);
   };
   const invalidateModel = (modelId) => {
+    authorityRevision += 1;
     const normalizedModelId = String(modelId || '').trim();
     if (!normalizedModelId) return;
     const prefix = `${normalizedModelId}#`;
@@ -341,6 +346,13 @@ export function createSelectionController(
   canvas.addEventListener('contextmenu', openContextMenu);
   keyboardTarget?.addEventListener?.('keydown', clearOnEscape);
   return Object.freeze({
+    async selectAuthorized(identifiers) {
+      const selected = await authorizeAndSelect({ identifiers }, undefined, null, true, true, true);
+      if (selected.length !== identifiers.length || identifiers.some((id) => !selected.includes(id))) {
+        throw new Error('Version selection was cancelled or could not be authorized.');
+      }
+      return selected;
+    },
     select(identifiers) {
       authorityRevision += 1;
       onSelectionOperationCancelled?.();

@@ -181,6 +181,7 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
       case "camera.view": return handlers.camera.view(payload.view);
       case "camera.navigation": return handlers.camera.navigation(payload);
       case "camera.day-night": return handlers.appearance.dayNight(payload.mode);
+      case "selection.by-global-ids": return handlers.selection.byGlobalIds(payload);
       case "selection.select": return handlers.selection.select(requireIdentifierList(payload));
       case "selection.clear": return handlers.selection.clear();
       case "selection.visible": return handlers.selection.visible(requireIdentifierList(payload));
