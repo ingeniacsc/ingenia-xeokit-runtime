@@ -186,6 +186,7 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
       case "selection.visible": return handlers.selection.visible(requireIdentifierList(payload));
       case "selection.match": return handlers.selection.match(requireIdentifierList(payload), payload.scope);
       case "selection.mode": return handlers.selection.mode(payload.mode);
+      case "selection.references.request": return handlers.selection.references(payload);
       case "measurement.mode": return handlers.measurement.mode(payload.enabled);
       case "measurement.clear": return handlers.measurement.clear();
       case "labels.mode": return handlers.labels.mode(payload.enabled, payload.identifiers);
@@ -260,6 +261,8 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
         post("camera.changed", { requestId: accepted.value.requestId, initialView: result });
       } else if (accepted.value.type === "snapshot.capture") {
         post("snapshot.result", { requestId: accepted.value.requestId, ...(result || {}) });
+      } else if (accepted.value.type === "selection.references.request") {
+        post("selection.references.result", { ...(result || {}), requestId: accepted.value.requestId });
       } else if (["session.export", "session.import"].includes(accepted.value.type)) {
         post("session.state", {
           requestId: accepted.value.requestId,
