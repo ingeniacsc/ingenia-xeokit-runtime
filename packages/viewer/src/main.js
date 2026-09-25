@@ -1,3 +1,4 @@
+import { selectVersionObjects } from "./xeokit/version-selection.js";
 // SPDX-License-Identifier: AGPL-3.0-only
 import "./styles.css";
 import { readBootstrapConfiguration, createViewerBridge } from "./protocol-bridge/bridge.js";
@@ -185,6 +186,7 @@ async function bootstrap() {
           setProjectGrid: withRuntime(({ spatial }, payload) => spatial.setProjectGrid(payload)),
         },
         selection: {
+          byGlobalIds: withRuntime((runtime, payload) => selectVersionObjects({ ...runtime, viewer: runtime.runtime.viewer }, payload)),
           select: withRuntime(({ selection, identifiers }, tokens) => selection.select(identifiers.toObjectIds(tokens))),
           mode: withRuntime(({ selection }, mode) => selection.setMode(mode)),
           clear: withRuntime(({ selection }) => selection.clear()),

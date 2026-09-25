@@ -14,7 +14,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
   "model.progress", "model.ready", "model.failed", "model.revision",
   "camera.set", "camera.get", "camera.fit", "camera.view",
   "camera.navigation", "camera.day-night", "camera.changed", "navigation.changed",
-  "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
+  "selection.by-global-ids", "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
   "object.picked", "object.hovered",
   "visibility.show", "visibility.hide", "visibility.isolate", "visibility.reset",
   "visibility.applied", "filter.apply", "filter.cancel", "filter.progress",
@@ -30,7 +30,7 @@ const MESSAGE_TYPES = new Set(BIM_VIEWPORT_MESSAGE_TYPES);
 const HOST_TYPES = new Set([
   "host.initialize", "request.cancel", "model.open", "model.add", "model.remove",
   "model.replace", "camera.set", "camera.get", "camera.fit", "camera.view",
-  "camera.navigation", "camera.day-night", "selection.select", "selection.clear",
+  "camera.navigation", "camera.day-night", "selection.by-global-ids", "selection.select", "selection.clear",
   "selection.visible", "selection.match", "selection.marquee", "selection.mode", "visibility.show", "visibility.hide", "visibility.isolate",
   "visibility.reset", "filter.apply", "filter.cancel", "appearance.apply",
   "spatial.section.set", "spatial.section.clear", "spatial.section.flip", "spatial.space-clip.set", "spatial.space-clip.clear", "spatial.levels.request", "spatial.level-clip.set", "spatial.level-clip.clear", "spatial.storeys.set",
@@ -483,6 +483,17 @@ export function validateProtocolEnvelope(candidate, options = {}) {
   if (!sourceMatches) return fail("INVALID_SOURCE", "Message type is not allowed from this source.");
   if (!Number.isSafeInteger(candidate.stateRevision) || candidate.stateRevision < 0 || !isPlainObject(candidate.payload)) {
     return fail("MALFORMED_MESSAGE", "State revision or payload is invalid.");
+  }
+  if (candidate.type === "selection.by-global-ids") {
+    const payload = candidate.payload;
+    if (Object.keys(payload).some((key) => !["modelId", "globalIds", "fit"].includes(key))
+      || !isOpaqueIdentifier(payload.modelId)
+      || !Array.isArray(payload.globalIds) || payload.globalIds.length < 1 || payload.globalIds.length > 50
+      || new Set(payload.globalIds).size !== payload.globalIds.length
+      || payload.globalIds.some((id) => typeof id !== "string" || !/^[A-Za-z0-9_$]{1,128}$/.test(id))
+      || (payload.fit !== undefined && typeof payload.fit !== "boolean")) {
+      return fail("INVALID_IDENTIFIER_LIST", "Version selection requires one model and up to 50 unique IFC identifiers.");
+    }
   }
   if (IDENTIFIER_LIST_MESSAGE_TYPES.has(candidate.type)) {
     const identifiers = validateIdentifierList(candidate.payload.identifiers);

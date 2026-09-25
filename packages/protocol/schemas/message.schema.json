@@ -195,7 +195,7 @@
         "model.progress", "model.ready", "model.failed", "model.revision",
         "camera.set", "camera.get", "camera.fit", "camera.view",
         "camera.navigation", "camera.day-night", "camera.changed", "navigation.changed",
-        "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
+        "selection.by-global-ids", "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
         "object.picked", "object.hovered", "visibility.show", "visibility.hide",
         "visibility.isolate", "visibility.reset", "visibility.applied",
         "filter.apply", "filter.cancel", "filter.progress", "filter.applied",
