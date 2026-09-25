@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { resolveTechnicalMatchValue } from './object-properties.js';
+import { createMarqueeGesture, createMarqueeIntersection } from './marquee-selection.js';
 const MATCH_SCOPES = new Set(['exact', 'type', 'system', 'material', 'tag', 'storey']);
 const MATCH_SCAN_CHUNK = 100;
 const MAX_PUBLIC_SELECTION_REFERENCES = 50;
@@ -91,9 +92,13 @@ export function createSelectionController(
   const matchValueCache = new Map();
   let touchPointerStart = null;
   let lastTouchPick = null;
+  let marquee = null;
+  let marqueeOperation = null;
   const canvas = viewer.scene.canvas.canvas;
   const clearSelection = () => {
+    marquee?.cancel();
     authorityRevision += 1;
+    marqueeOperation = null;
     onSelectionOperationCancelled?.();
     viewer.scene.setObjectsSelected(viewer.scene.selectedObjectIds, false);
     onSelectionAppearanceChanged?.();
@@ -155,6 +160,10 @@ export function createSelectionController(
     return matchValueCache.get(key);
   };
   const invalidateModel = (modelId) => {
+    marquee?.cancel();
+    authorityRevision += 1;
+    marqueeOperation = null;
+    onSelectionOperationCancelled?.();
     const normalizedModelId = String(modelId || '').trim();
     if (!normalizedModelId) return;
     const prefix = `${normalizedModelId}#`;
@@ -260,6 +269,63 @@ export function createSelectionController(
       ...(modelVersionId ? { modelVersionId } : {}),
     }).catch(() => {});
   };
+  const selectMarquee = async (rectangle, startEvent) => {
+    const revision = ++authorityRevision;
+    marqueeOperation = revision;
+    const isCurrent = () => authorityRevision === revision;
+    const intersects = createMarqueeIntersection(viewer.scene, rectangle);
+    // Keep the established single-version attribution contract. Starting over
+    // geometry chooses its version; starting on empty canvas chooses the first hit.
+    const startId = pickObject(startEvent);
+    let modelVersionId = resolveModelVersionId(startId);
+    let primaryObjectId = '';
+    const matches = [];
+    const entities = Object.values(viewer.scene.objects || {});
+    try {
+      for (let index = 0; index < entities.length; index += 1) {
+        const entity = entities[index];
+        if (intersects(entity)
+            && (!modelVersionId || resolveModelVersionId(entity.id) === modelVersionId)) {
+          if (!primaryObjectId) {
+            primaryObjectId = entity.id;
+            modelVersionId = resolveModelVersionId(entity.id);
+          }
+          matches.push(entity.id);
+        }
+        if ((index + 1) % MATCH_SCAN_CHUNK === 0 || index + 1 === entities.length) {
+          onSelectionOperationProgress?.({ scope: 'selection', processed: index + 1,
+            total: entities.length, matched: matches.length });
+          await new Promise((resolve) => globalThis.setTimeout(resolve, 0));
+          if (!isCurrent()) return;
+        }
+      }
+      if (!matches.length) {
+        onSelectionOperationCancelled?.();
+        return;
+      }
+      const candidates = Array.from(new Set([
+        ...(viewer.scene.selectedObjectIds || []).filter((id) => (
+          resolveModelVersionId(id) === modelVersionId && viewer.scene.objects[id]
+            && viewer.scene.objects[id].visible !== false && viewer.scene.objects[id].pickable !== false
+        )), ...matches,
+      ]));
+      // Bulk geometry remains private. Verify its seed before changing the scene.
+      const publication = await onSelectionSeedVerification?.({ identifiers: [primaryObjectId],
+        ...(modelVersionId ? { modelVersionId } : {}) }, isCurrent);
+      if (!isCurrent()) return;
+      if (publication === null) {
+        onSelectionOperationCancelled?.();
+        return;
+      }
+      const selected = selectObjects(viewer, candidates, onSelectionAppearanceChanged);
+      onSelectionDetails?.({ identifiers: selected, scope: 'selection', totalAvailable: selected.length });
+      onSelectionOperationComplete?.({ scope: 'selection', selectedCount: selected.length });
+    } catch {
+      if (isCurrent()) onSelectionOperationCancelled?.();
+    } finally {
+      if (marqueeOperation === revision) marqueeOperation = null;
+    }
+  };
   const openContextMenu = (event) => {
     event.preventDefault();
     // Measurement owns point picking, but never disables the object menu.
@@ -296,7 +362,7 @@ export function createSelectionController(
   };
   const clearOnEscape = (event) => {
     if (event.key !== 'Escape' || event.defaultPrevented || isEditableKeyboardTarget(event.target)) return;
-    if (!viewer.scene.selectedObjectIds?.length) return;
+    if (!viewer.scene.selectedObjectIds?.length && marqueeOperation === null) return;
     event.preventDefault?.();
     clearSelection();
   };
@@ -309,6 +375,7 @@ export function createSelectionController(
     return Math.hypot(deltaX, deltaY) <= TOUCH_PICK_MAX_DISTANCE_PX;
   };
   const onCanvasClick = (event) => {
+    if (marquee?.consumeClick()) return;
     if (shouldIgnoreSyntheticTouchClick(event)) return;
     pick(event);
   };
@@ -334,6 +401,21 @@ export function createSelectionController(
   const onPointerCancel = (event) => {
     if (touchPointerStart?.id === event.pointerId) touchPointerStart = null;
   };
+  marquee = createMarqueeGesture(viewer, {
+    keyboardTarget, isInteractionCaptured,
+    onStart: () => {
+      authorityRevision += 1;
+      marqueeOperation = null;
+      onSelectionOperationCancelled?.();
+    },
+    onCancel: () => {
+      authorityRevision += 1;
+      marqueeOperation = null;
+      onSelectionOperationCancelled?.();
+    },
+    onSelect: (rectangle, event) => { void selectMarquee(rectangle, event); },
+    onClick: pick,
+  });
   canvas.addEventListener('click', onCanvasClick);
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointerup', onPointerUp);
@@ -342,6 +424,7 @@ export function createSelectionController(
   keyboardTarget?.addEventListener?.('keydown', clearOnEscape);
   return Object.freeze({
     select(identifiers) {
+      marquee?.cancel();
       authorityRevision += 1;
       onSelectionOperationCancelled?.();
       const selected = selectObjects(viewer, identifiers, onSelectionAppearanceChanged);
@@ -397,6 +480,8 @@ export function createSelectionController(
     },
     invalidateModel,
     destroy() {
+      marquee?.destroy();
+      marqueeOperation = null;
       authorityRevision += 1;
       matchValueCache.clear();
       matchValueCacheBytes = 0;
