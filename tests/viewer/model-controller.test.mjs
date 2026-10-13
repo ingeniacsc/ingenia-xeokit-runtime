@@ -150,6 +150,7 @@ test("capability geometry scope hides objects outside the server allowlist befor
   const contentHash = createHash("sha256").update(Buffer.from(content)).digest("hex");
   const handlers = {};
   const modelId = "model-scope";
+  let zoneGroups = [{ id: "zone-1", code: "ZONE-1", name: "Zone 1", objectIds: ["WALL-1", "WALL-2"] }];
   const viewer = {
     camera: { projection: "perspective" },
     cameraFlight: { jumpTo: () => {} },
@@ -176,6 +177,7 @@ test("capability geometry scope hides objects outside the server allowlist befor
           schemaVersion: "viewer_geometry_scope.v1",
           modelVersionId: modelId,
           geometryScope: { mode: "allowlist", allowedObjectIds: ["WALL-1"] },
+          zoneGroups,
         }),
       };
     }
@@ -214,6 +216,8 @@ test("capability geometry scope hides objects outside the server allowlist befor
     assert.equal(viewer.scene.objects[`${modelId}#WALL-2`].visible, false);
     assert.equal(controller.isObjectAllowed(`${modelId}#WALL-1`), true);
     assert.equal(controller.isObjectAllowed(`${modelId}#WALL-2`), false);
+    assert.deepEqual(controller.listTreeDescriptors()[0].zoneGroups[0].objectIds, ["WALL-1"]);
+    assert.equal("zoneGroups" in controller.listDescriptors()[0], false);
     assert.deepEqual(
       controller.filterAllowedObjectIds([`${modelId}#WALL-1`, `${modelId}#WALL-2`]),
       [`${modelId}#WALL-1`],
@@ -221,6 +225,12 @@ test("capability geometry scope hides objects outside the server allowlist befor
     viewer.scene.objects[`${modelId}#WALL-2`].visible = true;
     assert.equal(controller.enforceGeometryScopes(), 1);
     assert.equal(viewer.scene.objects[`${modelId}#WALL-2`].visible, false);
+    zoneGroups = [];
+    await controller.add({ modelId, format: "xkt", contentHash,
+      artifactUrl: "https://viewer.invalid/content", geometryScopeUrl: "https://viewer.invalid/geometry-scope" });
+    assert.deepEqual(controller.listTreeDescriptors()[0].zoneGroups, []);
+    controller.remove(modelId);
+    assert.deepEqual(controller.listTreeDescriptors(), []);
   } finally {
     globalThis.fetch = originalFetch;
     globalThis.requestAnimationFrame = originalAnimationFrame;

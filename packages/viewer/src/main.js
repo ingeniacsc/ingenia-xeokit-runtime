@@ -121,13 +121,13 @@ async function bootstrap() {
           open: withRuntime(({ appearance, model, spatial, tree }, descriptor) => {
             spatial.clearSpaceClip();
             return Promise.resolve(model.open(descriptor)).then((result) => {
-              tree.syncModels(model.listDescriptors());
+              tree.syncModels(model.listTreeDescriptors());
               appearance.reapply();
               return result;
             });
           }),
           add: withRuntime(({ appearance, model, spatial, tree }, descriptor) => Promise.resolve(model.add(descriptor)).then(async (result) => {
-            tree.syncModels(model.listDescriptors());
+            tree.syncModels(model.listTreeDescriptors());
             appearance.reapply();
             await spatial.applySpaceClipForModel();
             return result;
@@ -135,7 +135,7 @@ async function bootstrap() {
           replace: withRuntime(({ appearance, model, spatial, tree }, descriptor) => {
             spatial.clearSpaceClip();
             return Promise.resolve(model.replace(descriptor)).then((result) => {
-              tree.syncModels(model.listDescriptors());
+              tree.syncModels(model.listTreeDescriptors());
               appearance.reapply();
               return result;
             });
@@ -143,7 +143,7 @@ async function bootstrap() {
           remove: withRuntime(({ model, spatial, tree }, modelId) => {
             spatial.clearSpaceClipForModel(modelId);
             const result = model.remove(modelId);
-            tree.syncModels(model.listDescriptors());
+            tree.syncModels(model.listTreeDescriptors());
             return result;
           }),
         },
@@ -361,6 +361,7 @@ async function bootstrap() {
     );
     tree = createModelTreeController(runtime.viewer, {
       container: document.querySelector("#viewport-shell"),
+      filterAllowedObjectIds: (ids) => model.filterAllowedObjectIds(ids),
       locale: bootstrap.locale,
       onOpenChange: (open) => bridge?.post("tree.changed", { open }),
       onSelect: (payload) => {

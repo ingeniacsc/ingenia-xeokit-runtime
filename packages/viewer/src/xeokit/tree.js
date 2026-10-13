@@ -7,11 +7,13 @@ import {
   resolveModelTreeCopy, resolveSingleModelTreeSelection,
 } from "./tree-interaction.js";
 import { makeViewportPanelDraggable } from "./floating-panel.js";
+import { renderZoneTree } from "./tree-zones.js";
 export const MODEL_TREE_TABS = Object.freeze([
   { id: "models", label: "Models", hierarchy: "containment" },
   { id: "containment", label: "Objects", hierarchy: "containment" },
   { id: "types", label: "Classes", hierarchy: "types" },
   { id: "storeys", label: "Storeys", hierarchy: "storeys" },
+  { id: "zones", label: "Zones", hierarchy: "zones" },
 ]);
 function collectNodeObjectIds(viewer, plugin, node) {
   const objectIds = [];
@@ -160,7 +162,7 @@ function renderStoreyTree(body, storeys, { emptyMessage, onSelect, viewer }) {
   body.appendChild(tree);
 }
 
-export function createModelTreeController(viewer, { container, locale = "vi", onOpenChange, onSelect } = {}) {
+export function createModelTreeController(viewer, { container, locale = "vi", onOpenChange, onSelect, filterAllowedObjectIds = (ids) => ids } = {}) {
   const copy = resolveModelTreeCopy(locale);
   const host = container || document.querySelector("#viewport-shell") || document.body;
   const panel = document.createElement("section");
@@ -288,6 +290,18 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
 
   function applySearch() {
     const entry = containers.get(activeTab);
+    if (activeTab === "zones" && entry) {
+      const query = normalizeTreeSearchText(searchInput.value);
+      let matches = 0;
+      entry.body.querySelectorAll("[data-model-tree-zone]").forEach((item) => {
+        item.hidden = Boolean(query) && !normalizeTreeSearchText(item.dataset.modelTreeZoneSearch).includes(query);
+        if (!item.hidden) matches += 1;
+      });
+      searchClear.hidden = !query;
+      searchStatus.hidden = !query;
+      searchStatus.textContent = query ? (matches ? copy.results(matches, false) : copy.noResults) : "";
+      return;
+    }
     if (activeTab === "storeys" && entry) {
       const query = normalizeTreeSearchText(searchInput.value);
       const items = Array.from(entry.body.querySelectorAll("[data-model-tree-storey]"));
@@ -344,7 +358,6 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
       return;
     }
     const serial = ++rebuildSerial;
-    const { TreeViewPlugin } = await import("@xeokit/xeokit-sdk");
     if (destroyed || !open || serial !== rebuildSerial) return;
     if (reset) {
       plugins.forEach(destroyPlugin);
@@ -352,6 +365,20 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
       containers.forEach(({ body }) => body.replaceChildren());
     }
     const entry = containers.get(activeTab);
+    if (activeTab === "zones") {
+      renderZoneTree(entry.body, modelEntries, {
+        viewer, copy,
+        onFocus: (ids) => focusObjectIds(viewer, filterAllowedObjectIds(ids), onSelect),
+        onReset: () => {
+          viewer.scene.setObjectsVisible?.(viewer.scene.objectIds, false);
+          viewer.scene.setObjectsVisible?.(filterAllowedObjectIds(viewer.scene.objectIds), true);
+          onSelect?.(null);
+        },
+      });
+      updateTabState();
+      applySearch();
+      return;
+    }
     if (entry?.config.hierarchy === "storeys") {
       renderStoreyTree(entry.body, resolveModelStoreys(viewer, modelEntries), {
         emptyMessage: copy.emptyStoreys,
@@ -363,6 +390,8 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
       return;
     }
     if (entry && !plugins.has(activeTab)) {
+      const { TreeViewPlugin } = await import("@xeokit/xeokit-sdk");
+      if (destroyed || !open || serial !== rebuildSerial) return;
       const { body, config } = entry;
       body.replaceChildren();
       const plugin = new TreeViewPlugin(viewer, {
@@ -455,11 +484,12 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
         return {
           modelId: String(modelId || "").trim(),
           displayName: String(displayName || "").trim().slice(0, 200),
+          zoneGroups: typeof candidate === "string" ? null : candidate?.zoneGroups ?? null,
         };
       }).filter(({ modelId }) => modelId);
       const nextKey = next.map(({ modelId, displayName }) => `${modelId}:${displayName}`).join("|");
       const currentKey = modelEntries.map(({ modelId, displayName }) => `${modelId}:${displayName}`).join("|");
-      if (nextKey === currentKey) return;
+      if (nextKey === currentKey && next.every((entry, index) => entry.zoneGroups === modelEntries[index]?.zoneGroups)) return;
       modelEntries = next;
       rebuildRetryCount = 0;
       if (open) void rebuild().catch(() => {});

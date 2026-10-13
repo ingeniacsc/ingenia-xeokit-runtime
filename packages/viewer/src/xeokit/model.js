@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+import { normalizeZoneGroups } from "./zone-groups.js";
 
 import { revealSceneObjectsBottomUp } from "./progressive-model-reveal.js";
 
@@ -242,7 +243,9 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
       throw new Error("Model geometry scope identity is invalid.");
     }
     const scope = payload.geometryScope;
-    if (scope?.mode === "all") return Object.freeze({ mode: "all" });
+    if (scope?.mode === "all") return Object.freeze({
+      mode: "all", zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope),
+    });
     const identifiers = scope?.allowedObjectIds;
     if (
       scope?.mode !== "allowlist"
@@ -260,6 +263,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
     return Object.freeze({
       mode: "allowlist",
       allowedObjectIds: Object.freeze([...new Set(identifiers)]),
+      zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope),
     });
   }
 
@@ -285,8 +289,8 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
 
   function rememberGeometryScope(modelId, scope) {
     geometryScopes.set(modelId, scope?.mode === "allowlist"
-      ? Object.freeze({ mode: "allowlist", allowedObjectIds: new Set(scope.allowedObjectIds || []) })
-      : Object.freeze({ mode: "all" }));
+      ? Object.freeze({ mode: "allowlist", allowedObjectIds: new Set(scope.allowedObjectIds || []), zoneGroups: scope.zoneGroups })
+      : Object.freeze({ mode: "all", zoneGroups: scope?.zoneGroups }));
   }
 
   function isObjectAllowed(objectId) {
@@ -725,6 +729,12 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
     disciplineCodeFor: (objectId) => String(descriptorForObject(objectId)?.disciplineCode || ""),
     disciplineColorFor: (objectId) => String(descriptorForObject(objectId)?.disciplineColor || ""),
     technicalPropertyAccessFor,
+    // Zone identifiers stay inside the iframe; session exports still use the
+    // minimal listDescriptors contract below.
+    listTreeDescriptors: () => Array.from(descriptors.entries()).map(([modelId, descriptor]) => ({
+      modelId, displayName: descriptor.displayName || modelId,
+      zoneGroups: geometryScopes.get(modelId)?.zoneGroups ?? null,
+    })),
     listDescriptors: () => Array.from(descriptors.entries()).map(([modelId, descriptor]) => ({
       modelId,
       displayName: descriptor.displayName || modelId,

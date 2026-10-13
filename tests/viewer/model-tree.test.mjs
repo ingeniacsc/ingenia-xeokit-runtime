@@ -2,12 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { MODEL_TREE_TABS } from "../../packages/viewer/src/xeokit/tree.js";
 
-test("model tree mirrors the direct Xeokit four-view explorer", () => {
+test("model tree preserves four existing views and adds zones", () => {
   assert.deepEqual(MODEL_TREE_TABS.map(({ id, hierarchy }) => ({ id, hierarchy })), [
     { id: "models", hierarchy: "containment" },
     { id: "containment", hierarchy: "containment" },
     { id: "types", hierarchy: "types" },
     { id: "storeys", hierarchy: "storeys" },
+    { id: "zones", hierarchy: "zones" },
   ]);
 });
 
@@ -35,7 +36,7 @@ test("model tree accepts bounded display names for model roots", async () => {
   assert.doesNotMatch(treeSource, /addEventListener\("change", checkboxHandler\)/);
   assert.doesNotMatch(treeSource, /model\.catalog/);
   assert.doesNotMatch(treeSource, /onCatalogAction/);
-  assert.equal(source.MODEL_TREE_TABS.length, 4);
+  assert.equal(source.MODEL_TREE_TABS.length, 5);
 });
 
 test("storeys hierarchy admits valid federation models independently", async () => {
