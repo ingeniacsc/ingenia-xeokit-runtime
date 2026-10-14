@@ -8,12 +8,17 @@ import {
 } from "./tree-interaction.js";
 import { makeViewportPanelDraggable } from "./floating-panel.js";
 import { renderZoneTree } from "./tree-zones.js";
+import { createZoneFilterOperation } from "./zone-filter-operation.js";
+import { createAxisRangePanel } from "./axis-range-panel.js";
+import { createAxisRangeOperation } from "./axis-range-operation.js";
+import { gridRangeOptions } from "./axis-range-geometry.js";
 export const MODEL_TREE_TABS = Object.freeze([
   { id: "models", label: "Models", hierarchy: "containment" },
   { id: "containment", label: "Objects", hierarchy: "containment" },
   { id: "types", label: "Classes", hierarchy: "types" },
   { id: "storeys", label: "Storeys", hierarchy: "storeys" },
   { id: "zones", label: "Zones", hierarchy: "zones" },
+  { id: "axisRange", label: "Axis range", hierarchy: "axisRange" },
 ]);
 function collectNodeObjectIds(viewer, plugin, node) {
   const objectIds = [];
@@ -162,8 +167,18 @@ function renderStoreyTree(body, storeys, { emptyMessage, onSelect, viewer }) {
   body.appendChild(tree);
 }
 
-export function createModelTreeController(viewer, { container, locale = "vi", onOpenChange, onSelect, filterAllowedObjectIds = (ids) => ids } = {}) {
+export function createModelTreeController(viewer, { container, locale = "vi", onOpenChange, onSelect, onZoneStart, onRangeApply, onRangePreview, filterAllowedObjectIds = (ids) => ids } = {}) {
   const copy = resolveModelTreeCopy(locale);
+  let zoneProgress = null;
+  let rangePanel = null, projectGrid = null, gridSignature = "";
+  const rangeOperation = createAxisRangeOperation(viewer, {
+    filterAllowedObjectIds, onSelect, onStart: onZoneStart,
+    onProgress: (progress) => rangePanel?.progress(progress),
+  });
+  const zoneOperation = createZoneFilterOperation(viewer, {
+    filterAllowedObjectIds, onSelect, onStart: onZoneStart,
+    onProgress: (progress) => zoneProgress?.(progress),
+  });
   const host = container || document.querySelector("#viewport-shell") || document.body;
   const panel = document.createElement("section");
   panel.className = "ingenia-model-tree ingenia-viewport-panel";
@@ -225,7 +240,7 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
     tabButton.type = "button";
     tabButton.className = "ingenia-model-tree-tab";
     tabButton.dataset.tab = tab.id;
-    tabButton.textContent = copy.tabs[tab.id] || tab.label;
+    tabButton.textContent = tab.id === "axisRange" ? (locale === "vi" ? "Khoảng trục" : "Axis range") : copy.tabs[tab.id] || tab.label;
     tabButton.setAttribute("role", "tab");
     tabs.appendChild(tabButton);
     const body = document.createElement("div");
@@ -257,6 +272,8 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
   const unbindKeyboard = bindModelTreeKeyboardNavigation({ bodies, tabs });
   onOpenChange?.(false);
   function updateTabState() {
+    search.hidden = activeTab === "axisRange";
+    if (activeTab === "axisRange") searchStatus.hidden = true;
     containers.forEach(({ body, tabButton }, id) => {
       const active = id === activeTab;
       body.hidden = !active;
@@ -360,20 +377,38 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
     const serial = ++rebuildSerial;
     if (destroyed || !open || serial !== rebuildSerial) return;
     if (reset) {
+      rangePanel?.destroy(); rangePanel = null;
       plugins.forEach(destroyPlugin);
       plugins = new Map();
       containers.forEach(({ body }) => body.replaceChildren());
     }
     const entry = containers.get(activeTab);
-    if (activeTab === "zones") {
-      renderZoneTree(entry.body, modelEntries, {
-        viewer, copy,
-        onFocus: (ids) => focusObjectIds(viewer, filterAllowedObjectIds(ids), onSelect),
-        onReset: () => {
-          viewer.scene.setObjectsVisible?.(viewer.scene.objectIds, false);
-          viewer.scene.setObjectsVisible?.(filterAllowedObjectIds(viewer.scene.objectIds), true);
-          onSelect?.(null);
+    if (activeTab === "axisRange") {
+      if (!rangePanel) rangePanel = createAxisRangePanel(entry.body, {
+        locale,
+        getModels: () => modelEntries,
+        getGridOptions: (modelId) => gridRangeOptions(projectGrid, modelId),
+        getModelBounds: (modelId) => {
+          const ids = filterAllowedObjectIds(viewer.scene.objectIds.filter((id) => id.startsWith(`${modelId}#`)));
+          const box = ids.length ? viewer.scene.getAABB(ids) : null;
+          if (!box || box.length !== 6 || !Array.from(box).every(Number.isFinite)) return null;
+          return { x: [box[0], box[3]], y: [-box[5], -box[2]], z: [box[1], box[4]] };
         },
+        onPreview: (spec) => onRangePreview?.(spec),
+        onApply: (spec) => { onRangeApply?.(); return rangeOperation.run(spec); },
+        onSelectAll: () => rangeOperation.selectAll(),
+        onClear: () => rangeOperation.clear(),
+        onCancel: () => rangeOperation.cancel(),
+      });
+      updateTabState();
+      return;
+    }
+    if (activeTab === "zones") {
+      zoneProgress = renderZoneTree(entry.body, modelEntries, {
+        viewer, copy,
+        onFocus: (ids) => { void zoneOperation.run(ids).catch(() => {}); },
+        onReset: () => { void zoneOperation.run([], { reset: true }).catch(() => {}); },
+        onCancel: () => zoneOperation.cancel(),
       });
       updateTabState();
       applySearch();
@@ -438,7 +473,15 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
   modelLoadedSubscription = viewer?.scene?.on?.("modelLoaded", rebuildWhenMetadataIsReady) || null;
   metaModelCreatedSubscription = viewer?.metaScene?.on?.("metaModelCreated", rebuildWhenMetadataIsReady) || null;
 
+  function clearRangePreview() {
+    rangePanel?.setPreviewEnabled(false);
+    onRangePreview?.(null);
+  }
+
   function closePanel() {
+    clearRangePreview();
+    rangeOperation.cancel();
+    zoneOperation.cancel();
     open = false;
     panel.hidden = true;
     onOpenChange?.(false);
@@ -447,9 +490,25 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
   panel.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closePanel();
   });
-  tabs.addEventListener("click", (event) => {
+  let tabTransition = 0;
+  tabs.addEventListener("click", async (event) => {
     const id = event.target?.dataset?.tab;
     if (!containers.has(id)) return;
+    const transition = ++tabTransition;
+    rangeOperation.cancel();
+    if (activeTab === "axisRange" && id !== "axisRange") {
+      clearRangePreview();
+      bodies.inert = true;
+      await rangeOperation.clear().catch(() => {});
+      rangePanel?.invalidateResult();
+    }
+    zoneOperation.cancel();
+    if (zoneOperation.isBusy()) {
+      bodies.inert = true;
+      await zoneOperation.settled().catch(() => {});
+    }
+    if (destroyed || transition !== tabTransition) return;
+    bodies.inert = false;
     activeTab = id;
     updateTabState();
     void rebuild({ reset: false }).catch(() => {});
@@ -462,15 +521,37 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
   });
 
   return Object.freeze({
+    isZoneBusy: () => zoneOperation.isBusy() || rangeOperation.isBusy(),
+    clearRangePreview,
+    cancelZoneForAuthorityChange: () => {
+      clearRangePreview();
+      zoneOperation.cancel({ discardSelection: true });
+      void rangeOperation.clear({ authorityChange: true }).catch(() => {});
+      rangePanel?.invalidateResult();
+      rangePanel?.refresh();
+    },
+    getSelectionRevision: () => `${zoneOperation.getRevision()}:${rangeOperation.getRevision()}`,
+    clearAxisRange: () => { clearRangePreview(); rangePanel?.invalidateResult(); return rangeOperation.clear(); },
+    setProjectGrid(grid) {
+      const next = JSON.stringify(grid || null);
+      if (next === gridSignature) return;
+      clearRangePreview();
+      gridSignature = next;
+      projectGrid = grid;
+      void rangeOperation.clear().catch(() => {});
+      rangePanel?.invalidateResult();
+      rangePanel?.refresh();
+    },
     mode(nextOpen) {
       open = nextOpen === true;
+      if (!open) { clearRangePreview(); zoneOperation.cancel(); rangeOperation.cancel(); }
       panel.hidden = !open;
       onOpenChange?.(open);
       if (open) {
         window.requestAnimationFrame(panelDrag.clampToBounds);
         rebuildRetryCount = 0;
         window.requestAnimationFrame(() => searchInput.focus());
-        return rebuild({ reset: plugins.size === 0 }).catch((error) => {
+        return rebuild({ reset: plugins.size === 0 && !rangePanel }).catch((error) => {
           closePanel();
           throw error;
         });
@@ -490,11 +571,18 @@ export function createModelTreeController(viewer, { container, locale = "vi", on
       const nextKey = next.map(({ modelId, displayName }) => `${modelId}:${displayName}`).join("|");
       const currentKey = modelEntries.map(({ modelId, displayName }) => `${modelId}:${displayName}`).join("|");
       if (nextKey === currentKey && next.every((entry, index) => entry.zoneGroups === modelEntries[index]?.zoneGroups)) return;
+      zoneOperation.cancel();
+      void rangeOperation.clear({ authorityChange: true }).catch(() => {});
+      clearRangePreview();
       modelEntries = next;
       rebuildRetryCount = 0;
       if (open) void rebuild().catch(() => {});
     },
     destroy() {
+      clearRangePreview();
+      rangePanel?.destroy();
+      rangeOperation.destroy();
+      zoneOperation.destroy();
       destroyed = true;
       rebuildSerial += 1;
       if (modelLoadedSubscription) viewer?.scene?.off?.(modelLoadedSubscription);
