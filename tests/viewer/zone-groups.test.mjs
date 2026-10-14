@@ -1,8 +1,22 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeZoneGroups, buildZoneTreeGroups } from "../../packages/viewer/src/xeokit/zone-groups.js";
+import { normalizeZoneGroups as normalize, buildZoneTreeGroups } from "../../packages/viewer/src/xeokit/zone-groups.js";
+const normalizeZoneGroups = (groups, scope) => normalize(groups, scope, "version-a");
 
-const group = { id: "zone-a", code: "ZONE-A", name: "Zone A", objectIds: ["wall", "slab", "wall"] };
+const group = { id: "zone-a", code: "ZONE-A", name: "Zone A", objectIds: ["wall", "slab", "wall"],
+  zoneSetId: "set-a", publishedSnapshotId: "snapshot-a", modelVersionId: "version-a", objectCount: 2 };
+
+test("zone contract rejects missing snapshot, wrong version and inaccurate counts", () => {
+  for (const patch of [{ zoneSetId: null }, { publishedSnapshotId: undefined },
+    { modelVersionId: "version-b" }, { objectCount: 3 }]) {
+    assert.equal(normalizeZoneGroups([{ ...group, ...patch }], { mode: "all" }), null);
+  }
+  const objectIds = Array.from({ length: 14001 }, (_, index) => `guid-${index}`);
+  const result = normalizeZoneGroups([{ ...group, objectIds, objectCount: objectIds.length }], { mode: "all" });
+  assert.equal(result[0].objectCount, 14001);
+  assert.equal(result[0].objectIds.at(-1), "guid-14000");
+  assert.equal(result[0].publishedSnapshotId, "snapshot-a");
+});
 
 test("optional zone metadata never expands geometry authority", () => {
   const groups = normalizeZoneGroups([group], { mode: "allowlist", allowedObjectIds: ["wall"] });

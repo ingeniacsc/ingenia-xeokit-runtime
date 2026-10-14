@@ -244,7 +244,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
     }
     const scope = payload.geometryScope;
     if (scope?.mode === "all") return Object.freeze({
-      mode: "all", zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope),
+      mode: "all", zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope, descriptor.modelId),
     });
     const identifiers = scope?.allowedObjectIds;
     if (
@@ -263,7 +263,7 @@ export function createModelController({ viewer, loader, onModelInvalidated, onAu
     return Object.freeze({
       mode: "allowlist",
       allowedObjectIds: Object.freeze([...new Set(identifiers)]),
-      zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope),
+      zoneGroups: normalizeZoneGroups(payload.zoneGroups, scope, descriptor.modelId),
     });
   }
 

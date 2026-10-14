@@ -175,15 +175,18 @@ async function bootstrap() {
           dayNight: withRuntime(({ appearance }, mode) => appearance.dayNight(mode)),
         },
         spatial: {
-          setSection: withRuntime(({ spatial }, payload) => spatial.setSection(payload)),
-          clearSection: withRuntime(({ spatial }, payload) => spatial.clearSection(payload)),
-          flipSection: withRuntime(({ spatial }, payload) => spatial.flipSection(payload)),
-          setSpaceClip: withRuntime(({ spatial }) => spatial.setSpaceClip()),
-          clearSpaceClip: withRuntime(({ spatial }) => spatial.clearSpaceClip()),
+          setSection: withRuntime(({ spatial, tree }, payload) => { tree.clearRangePreview(); return spatial.setSection(payload); }),
+          clearSection: withRuntime(({ spatial, tree }, payload) => { tree.clearRangePreview(); return spatial.clearSection(payload); }),
+          flipSection: withRuntime(({ spatial, tree }, payload) => { tree.clearRangePreview(); return spatial.flipSection(payload); }),
+          setSpaceClip: withRuntime(({ spatial, tree }) => { tree.clearRangePreview(); return spatial.setSpaceClip(); }),
+          clearSpaceClip: withRuntime(({ spatial, tree }) => { tree.clearRangePreview(); return spatial.clearSpaceClip(); }),
           requestLevelOptions: withRuntime(({ spatial }) => spatial.requestLevelOptions()),
-          setLevelClip: withRuntime(({ spatial }, payload) => spatial.setLevelClip(payload)),
-          clearLevelClip: withRuntime(({ spatial }) => spatial.clearLevelClip()),
-          setProjectGrid: withRuntime(({ spatial }, payload) => spatial.setProjectGrid(payload)),
+          setLevelClip: withRuntime(({ spatial, tree }, payload) => { tree.clearRangePreview(); return spatial.setLevelClip(payload); }),
+          clearLevelClip: withRuntime(({ spatial, tree }) => { tree.clearRangePreview(); return spatial.clearLevelClip(); }),
+          setProjectGrid: withRuntime(({ spatial, tree }, payload) => {
+            tree.setProjectGrid(payload?.grid);
+            return spatial.setProjectGrid(payload);
+          }),
         },
         selection: {
           select: withRuntime(({ selection, identifiers }, tokens) => selection.select(identifiers.toObjectIds(tokens))),
@@ -223,7 +226,8 @@ async function bootstrap() {
           isolate: withRuntime(({ visibility, identifiers, runtime }, tokens, useCurrentSelection) => visibility.isolate(
             resolveCommandSelection(runtime, identifiers, tokens, useCurrentSelection),
           )),
-          reset: withRuntime(({ spatial, visibility }) => {
+          reset: withRuntime(async ({ spatial, visibility, tree }) => {
+            await tree.clearAxisRange();
             spatial.clearSpaceClip();
             return visibility.reset();
           }),
@@ -236,9 +240,10 @@ async function bootstrap() {
         },
       },
     });
-    const [{ createViewportRuntime }, { createSpatialController }] = await Promise.all([
+    const [{ createViewportRuntime }, { createSpatialController }, { createAxisRangePreview }] = await Promise.all([
       import("./xeokit/runtime.js"),
       import("./xeokit/spatial.js"),
+      import("./xeokit/axis-range-preview.js"),
     ]);
     const runtime = createViewportRuntime({
       canvas: document.querySelector("#xeokit-canvas"),
@@ -315,7 +320,8 @@ async function bootstrap() {
       onSelectionChanged: (payload) => { void publishSelectionChanged(payload).catch(() => {}); },
       onModelInvalidated: (modelId) => selection?.invalidateModel(modelId),
       onAuthorityChanged: () => {
-        selection?.clear();
+        tree?.cancelZoneForAuthorityChange();
+        selection?.clear({ authorityChange: true });
         objectProperties?.hide();
       },
     });
@@ -335,6 +341,11 @@ async function bootstrap() {
       onSpaceClipChanged: (payload) => bridge?.post("spatial.space-clip.changed", payload),
       visibility,
     });
+    const rangePreview = createAxisRangePreview(runtime.viewer, {
+      container: document.querySelector("#viewport-shell"),
+      locale: bootstrap.locale,
+    });
+    let rangePreviewActive = false;
     const snapshot = createSnapshotController(runtime.viewer);
     const measurement = createMeasurementController(runtime.viewer, {
       onChanged: (payload) => bridge?.post("measurement.changed", payload),
@@ -364,12 +375,23 @@ async function bootstrap() {
       filterAllowedObjectIds: (ids) => model.filterAllowedObjectIds(ids),
       locale: bootstrap.locale,
       onOpenChange: (open) => bridge?.post("tree.changed", { open }),
-      onSelect: (payload) => {
+      onRangePreview: (spec) => {
+        if (!spec) { rangePreview.clear(); rangePreviewActive = false; return; }
+        // Preview uses the same validated frame as filtering. Clear other clips
+        // once, not on every slider event, and never change element selection.
+        if (!rangePreviewActive) spatial.clearSection();
+        rangePreview.update(spec);
+        rangePreviewActive = true;
+      },
+      onRangeApply: () => spatial.clearSection(),
+      onZoneStart: () => { selection?.invalidatePendingOperations(); selectionPublicationRevision += 1; },
+      onSelect: (payload, isCurrent = () => true) => {
         if (!payload) {
+          selectionPublicationRevision += 1;
           objectProperties.hide();
           bridge?.post("selection.changed", { identifiers: [] });
         }
-        else void publishSelection(payload).catch(() => {});
+        else void publishSelection(payload, isCurrent).catch(() => {});
       },
     });
     selection = createSelectionController(
@@ -388,6 +410,7 @@ async function bootstrap() {
       ),
       {
         isInteractionCaptured: () => measurement.active,
+        isSelectionLocked: () => tree?.isZoneBusy() === true,
         onSelectionOperationCancelled: () => selectionOperationStatus.clear(),
         onSelectionSeedVerification: verifySelectionSeed,
         onSelectionCleared: () => {
@@ -405,8 +428,8 @@ async function bootstrap() {
       },
     );
     selectionReferences = createSelectionReferencePages({
-      getObjectIds: () => Array.from(runtime.viewer.scene.selectedObjectIds || []),
-      getRevision: () => selection.getRevision(),
+      getObjectIds: () => tree?.isZoneBusy() ? [] : Array.from(runtime.viewer.scene.selectedObjectIds || []),
+      getRevision: () => `${selection.getRevision()}:${tree?.getSelectionRevision() || 0}`,
       modelVersionIdFor: (id) => model.modelVersionIdFor(id),
       isObjectAllowed: (id) => {
         const entity = runtime.viewer.scene.objects[id];
@@ -544,6 +567,7 @@ async function bootstrap() {
       labels.destroy();
       objectProperties.destroy();
       tree.destroy();
+      rangePreview.destroy();
       selectionOperationStatus.destroy();
       visibility.destroy();
       spatial.destroy();

@@ -9,6 +9,7 @@ test("model tree preserves four existing views and adds zones", () => {
     { id: "types", hierarchy: "types" },
     { id: "storeys", hierarchy: "storeys" },
     { id: "zones", hierarchy: "zones" },
+    { id: "axisRange", hierarchy: "axisRange" },
   ]);
 });
 
@@ -36,7 +37,7 @@ test("model tree accepts bounded display names for model roots", async () => {
   assert.doesNotMatch(treeSource, /addEventListener\("change", checkboxHandler\)/);
   assert.doesNotMatch(treeSource, /model\.catalog/);
   assert.doesNotMatch(treeSource, /onCatalogAction/);
-  assert.equal(source.MODEL_TREE_TABS.length, 5);
+  assert.equal(source.MODEL_TREE_TABS.length, 6);
 });
 
 test("storeys hierarchy admits valid federation models independently", async () => {

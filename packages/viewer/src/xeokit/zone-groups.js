@@ -7,7 +7,7 @@ const text = (value, limit) => typeof value === "string" && value.length > 0
 
 // Optional presentation metadata. An older producer or invalid extension must
 // never widen geometry authority or prevent an otherwise valid model opening.
-export function normalizeZoneGroups(groups, scope) {
+export function normalizeZoneGroups(groups, scope, modelVersionId) {
   if (!Array.isArray(groups) || groups.length > MAX_GROUPS) return null;
   if (!["all", "allowlist"].includes(scope?.mode)) return null;
   const allowed = scope.mode === "allowlist" ? new Set(scope.allowedObjectIds || []) : null;
@@ -16,13 +16,20 @@ export function normalizeZoneGroups(groups, scope) {
   const result = [];
   for (const group of groups) {
     if (!text(group?.id, 128) || keys.has(group.id) || !text(group.code, 200)
-      || !text(group.name, 300) || !Array.isArray(group.objectIds)) return null;
+      || !text(group.name, 300) || !Array.isArray(group.objectIds)
+      || !text(group.zoneSetId, 128) || !text(group.publishedSnapshotId, 128)
+      || !text(modelVersionId, 128) || group.modelVersionId !== modelVersionId
+      || !Number.isSafeInteger(group.objectCount)) return null;
     keys.add(group.id);
     total += group.objectIds.length;
     if (total > MAX_IDENTIFIERS || group.objectIds.some((id) => !text(id, 128) || id.includes("#"))) return null;
-    const objectIds = [...new Set(group.objectIds)].filter((id) => !allowed || allowed.has(id));
+    const unique = [...new Set(group.objectIds)];
+    if (group.objectCount !== unique.length) return null;
+    const objectIds = unique.filter((id) => !allowed || allowed.has(id));
     if (objectIds.length) result.push(Object.freeze({
       id: group.id, code: group.code, name: group.name, objectIds: Object.freeze(objectIds),
+      zoneSetId: group.zoneSetId, modelVersionId, publishedSnapshotId: group.publishedSnapshotId,
+      objectCount: objectIds.length,
     }));
   }
   return Object.freeze(result);

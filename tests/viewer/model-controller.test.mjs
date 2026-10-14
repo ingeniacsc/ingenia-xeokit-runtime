@@ -150,7 +150,8 @@ test("capability geometry scope hides objects outside the server allowlist befor
   const contentHash = createHash("sha256").update(Buffer.from(content)).digest("hex");
   const handlers = {};
   const modelId = "model-scope";
-  let zoneGroups = [{ id: "zone-1", code: "ZONE-1", name: "Zone 1", objectIds: ["WALL-1", "WALL-2"] }];
+  let zoneGroups = [{ id: "zone-1", code: "ZONE-1", name: "Zone 1", objectIds: ["WALL-1", "WALL-2"],
+    zoneSetId: "set-1", publishedSnapshotId: "snapshot-1", modelVersionId: modelId, objectCount: 2 }];
   const viewer = {
     camera: { projection: "perspective" },
     cameraFlight: { jumpTo: () => {} },

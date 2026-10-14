@@ -50,6 +50,34 @@ function createViewer() {
   };
 }
 
+test('zone operation invalidates pending selection and locks competing interactions', async () => {
+  const { viewer, listener, keyboardListener, keyboardTarget } = createViewer();
+  let locked = false, picked = 0;
+  const controller = createSelectionController(viewer, () => { picked += 1; }, () => { picked += 1; }, {
+    keyboardTarget, isSelectionLocked: () => locked,
+  });
+  controller.select(['wall-1']);
+  const before = controller.getRevision();
+  locked = true;
+  controller.invalidatePendingOperations();
+  assert.ok(controller.getRevision() > before);
+  assert.deepEqual(viewer.scene.selectedObjectIds, ['wall-1']);
+  listener('click')({ clientX: 50, clientY: 50 });
+  listener('contextmenu')({ preventDefault() {}, clientX: 50, clientY: 50 });
+  keyboardListener('keydown')({ key: 'Escape', target: { tagName: 'DIV' } });
+  controller.select(['wall-2']);
+  assert.deepEqual(await controller.selectVisible(['wall-2']), []);
+  assert.deepEqual(await controller.match(['wall-2'], 'type'), []);
+  assert.deepEqual(viewer.scene.selectedObjectIds, ['wall-1']);
+  assert.equal(picked, 0);
+  controller.clear({ authorityChange: true });
+  assert.deepEqual(viewer.scene.selectedObjectIds, []);
+  locked = false;
+  controller.select(['wall-2']);
+  assert.deepEqual(viewer.scene.selectedObjectIds, ['wall-2']);
+  controller.destroy();
+});
+
 test('Escape clears the selected objects without taking over text input', () => {
   const { keyboardListener, keyboardTarget, viewer } = createViewer();
   const details = [];

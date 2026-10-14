@@ -73,6 +73,7 @@ export function createSelectionController(
   onContextMenu,
   {
     isInteractionCaptured,
+    isSelectionLocked = () => false,
     keyboardTarget = typeof window !== 'undefined' ? window : null,
     matchWorkUnitLimit = MAX_MATCH_WORK_UNITS,
     onSelectionOperationCancelled,
@@ -236,6 +237,7 @@ export function createSelectionController(
     return selected;
   };
   const pick = (event) => {
+    if (isSelectionLocked()) return;
     if (isInteractionCaptured?.()) return;
     onOrbitPivot?.(event);
     const objectId = pickObject(event);
@@ -328,6 +330,7 @@ export function createSelectionController(
   };
   const openContextMenu = (event) => {
     event.preventDefault();
+    if (isSelectionLocked()) return;
     // Measurement owns point picking, but never disables the object menu.
     const objectId = pickObject(event);
     if (!objectId) return;
@@ -361,6 +364,7 @@ export function createSelectionController(
     ).catch(() => {});
   };
   const clearOnEscape = (event) => {
+    if (isSelectionLocked()) return;
     if (event.key !== 'Escape' || event.defaultPrevented || isEditableKeyboardTarget(event.target)) return;
     if (!viewer.scene.selectedObjectIds?.length && marqueeOperation === null) return;
     event.preventDefault?.();
@@ -402,7 +406,7 @@ export function createSelectionController(
     if (touchPointerStart?.id === event.pointerId) touchPointerStart = null;
   };
   marquee = createMarqueeGesture(viewer, {
-    keyboardTarget, isInteractionCaptured,
+    keyboardTarget, isInteractionCaptured: () => isSelectionLocked() || isInteractionCaptured?.(),
     onStart: () => {
       authorityRevision += 1;
       marqueeOperation = null;
@@ -424,7 +428,14 @@ export function createSelectionController(
   keyboardTarget?.addEventListener?.('keydown', clearOnEscape);
   return Object.freeze({
     getRevision() { return authorityRevision; },
+    invalidatePendingOperations() {
+      marquee?.cancel();
+      authorityRevision += 1;
+      marqueeOperation = null;
+      onSelectionOperationCancelled?.();
+    },
     select(identifiers) {
+      if (isSelectionLocked()) return Array.from(viewer.scene.selectedObjectIds || []);
       marquee?.cancel();
       authorityRevision += 1;
       onSelectionOperationCancelled?.();
@@ -437,6 +448,7 @@ export function createSelectionController(
       return multiSelectMode ? 'multi' : 'single';
     },
     selectVisible(identifiers) {
+      if (isSelectionLocked()) return Promise.resolve([]);
       const primaryObjectId = identifiers?.[0] || '';
       const modelVersionId = resolveModelVersionId(primaryObjectId);
       if (!primaryObjectId) return Promise.resolve([]);
@@ -448,6 +460,7 @@ export function createSelectionController(
       });
     },
     async match(identifiers, scope) {
+      if (isSelectionLocked()) return [];
       const primaryObjectId = identifiers[0] || '';
       if (!primaryObjectId || !MATCH_SCOPES.has(scope)) return [];
       if (!canMatchScope(primaryObjectId, scope)) {
@@ -476,7 +489,8 @@ export function createSelectionController(
         workBudget,
       });
     },
-    clear() {
+    clear({ authorityChange = false } = {}) {
+      if (isSelectionLocked() && !authorityChange) return;
       clearSelection();
     },
     invalidateModel,
