@@ -1,3 +1,4 @@
+import { createPlanningSelection } from "./xeokit/planning-selection.js";
 // SPDX-License-Identifier: AGPL-3.0-only
 import "./styles.css";
 import { readBootstrapConfiguration, createViewerBridge } from "./protocol-bridge/bridge.js";
@@ -118,7 +119,8 @@ async function bootstrap() {
       viewerBuild: String(import.meta.env.VITE_VIEWER_BUILD || "local-dev").padEnd(7, "0"),
       handlers: {
         model: {
-          open: withRuntime(({ appearance, model, spatial, tree }, descriptor) => {
+          open: withRuntime(({ appearance, model, spatial, tree, planningSelection }, descriptor) => {
+            planningSelection.reset();
             spatial.clearSpaceClip();
             return Promise.resolve(model.open(descriptor)).then((result) => {
               tree.syncModels(model.listTreeDescriptors());
@@ -126,13 +128,14 @@ async function bootstrap() {
               return result;
             });
           }),
-          add: withRuntime(({ appearance, model, spatial, tree }, descriptor) => Promise.resolve(model.add(descriptor)).then(async (result) => {
+          add: withRuntime(({ appearance, model, spatial, tree, planningSelection }, descriptor) => { planningSelection.reset(); return Promise.resolve(model.add(descriptor)).then(async (result) => {
             tree.syncModels(model.listTreeDescriptors());
             appearance.reapply();
             await spatial.applySpaceClipForModel();
             return result;
-          })),
-          replace: withRuntime(({ appearance, model, spatial, tree }, descriptor) => {
+          }); }),
+          replace: withRuntime(({ appearance, model, spatial, tree, planningSelection }, descriptor) => {
+            planningSelection.reset();
             spatial.clearSpaceClip();
             return Promise.resolve(model.replace(descriptor)).then((result) => {
               tree.syncModels(model.listTreeDescriptors());
@@ -140,7 +143,8 @@ async function bootstrap() {
               return result;
             });
           }),
-          remove: withRuntime(({ model, spatial, tree }, modelId) => {
+          remove: withRuntime(({ model, spatial, tree, planningSelection }, modelId) => {
+            planningSelection.reset();
             spatial.clearSpaceClipForModel(modelId);
             const result = model.remove(modelId);
             tree.syncModels(model.listTreeDescriptors());
@@ -189,6 +193,7 @@ async function bootstrap() {
           }),
         },
         selection: {
+          planning: withRuntime(({ planningSelection }, payload) => planningSelection.request(payload)),
           select: withRuntime(({ selection, identifiers }, tokens) => selection.select(identifiers.toObjectIds(tokens))),
           references: withRuntime(({ selectionReferences }, payload) => selectionReferences.request(payload)),
           mode: withRuntime(({ selection }, mode) => selection.setMode(mode)),
@@ -228,6 +233,7 @@ async function bootstrap() {
           )),
           reset: withRuntime(async ({ spatial, visibility, tree }) => {
             await tree.clearAxisRange();
+            planningSelection.reset();
             spatial.clearSpaceClip();
             return visibility.reset();
           }),
@@ -267,6 +273,7 @@ async function bootstrap() {
       },
     });
     const identifiers = createObjectIdentifierRegistry();
+    let planningSelection = null;
     let model = null;
     let objectProperties = null;
     let selection = null;
@@ -318,7 +325,7 @@ async function bootstrap() {
         bridge?.post("model.progress", { modelId, percent, phase, loadedBytes });
       },
       onSelectionChanged: (payload) => { void publishSelectionChanged(payload).catch(() => {}); },
-      onModelInvalidated: (modelId) => selection?.invalidateModel(modelId),
+      onModelInvalidated: (modelId) => { planningSelection?.reset(); selection?.invalidateModel(modelId); },
       onAuthorityChanged: () => {
         tree?.cancelZoneForAuthorityChange();
         selection?.clear({ authorityChange: true });
@@ -427,6 +434,7 @@ async function bootstrap() {
         resolveTechnicalPropertyAccess: (objectId) => model.technicalPropertyAccessFor(objectId),
       },
     );
+    planningSelection = createPlanningSelection({ model, viewer: runtime.viewer, selection });
     selectionReferences = createSelectionReferencePages({
       getObjectIds: () => tree?.isZoneBusy() ? [] : Array.from(runtime.viewer.scene.selectedObjectIds || []),
       getRevision: () => `${selection.getRevision()}:${tree?.getSelectionRevision() || 0}`,
@@ -470,6 +478,7 @@ async function bootstrap() {
       tree,
       identifiers,
       selectionReferences,
+      planningSelection,
       viewSession,
     };
     settleRuntime.resolve(resources);
@@ -560,6 +569,7 @@ async function bootstrap() {
 
     window.addEventListener("beforeunload", () => {
       bridge.destroy();
+      planningSelection.destroy();
       selectionReferences.destroy();
       selection.destroy();
       orbitPivot.destroy();

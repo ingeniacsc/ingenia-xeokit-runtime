@@ -10,7 +10,7 @@ import {
 } from "@ingenia/generic-bim-viewport-protocol";
 
 const CAPABILITIES = Object.freeze([
-  "lifecycle", "camera", "selection", "visibility", "appearance", "spatial",
+  "planning-selection", "lifecycle", "camera", "selection", "visibility", "appearance", "spatial",
   "snapshot", "measurement", "labels", "properties", "tree", "session", "reliability",
 ]);
 const READY_RETRY_INTERVAL_MS = 400;
@@ -34,6 +34,7 @@ const COMMAND_CAPABILITY = Object.freeze({
 });
 
 function capabilityForCommand(type) {
+  if (type === "selection.planning") return "planning-selection";
   const prefix = Object.keys(COMMAND_CAPABILITY).find((candidate) => type.startsWith(candidate));
   return prefix ? COMMAND_CAPABILITY[prefix] : null;
 }
@@ -181,6 +182,7 @@ export function createViewerBridge({ parentWindow, parentOrigin, sessionId, nonc
       case "camera.view": return handlers.camera.view(payload.view);
       case "camera.navigation": return handlers.camera.navigation(payload);
       case "camera.day-night": return handlers.appearance.dayNight(payload.mode);
+      case "selection.planning": return handlers.selection.planning(payload);
       case "selection.select": return handlers.selection.select(requireIdentifierList(payload));
       case "selection.clear": return handlers.selection.clear();
       case "selection.visible": return handlers.selection.visible(requireIdentifierList(payload));

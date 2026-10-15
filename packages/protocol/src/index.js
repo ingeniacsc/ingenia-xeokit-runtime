@@ -14,7 +14,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
   "model.progress", "model.ready", "model.failed", "model.revision",
   "camera.set", "camera.get", "camera.fit", "camera.view",
   "camera.navigation", "camera.day-night", "camera.changed", "navigation.changed",
-  "selection.references.request", "selection.references.result", "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
+  "selection.planning", "selection.references.request", "selection.references.result", "selection.select", "selection.clear", "selection.visible", "selection.match", "selection.marquee", "selection.mode", "selection.changed", "selection.context-menu",
   "object.picked", "object.hovered",
   "visibility.show", "visibility.hide", "visibility.isolate", "visibility.reset",
   "visibility.applied", "filter.apply", "filter.cancel", "filter.progress",
@@ -28,7 +28,7 @@ export const BIM_VIEWPORT_MESSAGE_TYPES = Object.freeze([
 
 const MESSAGE_TYPES = new Set(BIM_VIEWPORT_MESSAGE_TYPES);
 const HOST_TYPES = new Set([
-  "selection.references.request",
+  "selection.planning", "selection.references.request",
   "host.initialize", "request.cancel", "model.open", "model.add", "model.remove",
   "model.replace", "camera.set", "camera.get", "camera.fit", "camera.view",
   "camera.navigation", "camera.day-night", "selection.select", "selection.clear",
@@ -100,6 +100,23 @@ function isOpaqueIdentifier(value) {
 function isViewStateReference(value) {
   return typeof value === "string"
     && /^viewstate\.session\.[A-Za-z0-9._~-]{16,128}$/.test(value);
+}
+
+export function validatePlanningSelectionPayload(payload) {
+  const action = payload?.action;
+  const keys = ['action', 'operationId', 'modelVersionId', ...(action === 'begin' ? ['total'] : action === 'append' ? ['offset', 'globalIds'] : [])];
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!isPlainObject(payload) || !['begin', 'append', 'commit', 'cancel'].includes(action)
+      || Object.keys(payload).some((key) => !keys.includes(key))
+      || !uuid.test(payload.operationId || '') || !uuid.test(payload.modelVersionId || '')
+      || (action === 'begin' && (!Number.isInteger(payload.total) || payload.total < 1 || payload.total > 50000))
+      || (action === 'append' && (!Number.isInteger(payload.offset) || payload.offset < 0 || payload.offset >= 50000
+        || !Array.isArray(payload.globalIds) || payload.globalIds.length < 1 || payload.globalIds.length > 500
+        || payload.globalIds.some((id) => typeof id !== 'string' || !/^[0-3][0-9A-Za-z_$]{21}$/.test(id))
+        || new Set(payload.globalIds).size !== payload.globalIds.length))) {
+    return fail('INVALID_IDENTIFIER_LIST', 'Planning selection payload is invalid.');
+  }
+  return Object.freeze({ ok: true });
 }
 
 function validateSelectionReferences(type, payload) {
@@ -520,6 +537,10 @@ export function validateProtocolEnvelope(candidate, options = {}) {
         && !isOpaqueIdentifier(candidate.payload.modelVersionId)) {
       return fail("MALFORMED_MESSAGE", "Model attribution must be a non-empty opaque bounded identifier.");
     }
+  }
+  if (candidate.type === 'selection.planning') {
+    const planning = validatePlanningSelectionPayload(candidate.payload);
+    if (!planning.ok) return planning;
   }
   const exportPage = validateSelectionReferences(candidate.type, candidate.payload);
   if (!exportPage.ok) return exportPage;
